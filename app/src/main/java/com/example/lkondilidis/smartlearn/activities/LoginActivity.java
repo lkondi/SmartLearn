@@ -117,10 +117,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 , textInputEditTextPassword.getText().toString().trim())) {
 
 
-            Intent accountsIntent = new Intent(activity, UsersListActivity.class);
-            accountsIntent.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            Intent mainactivity = new Intent(activity, MainActivity.class);
+            mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
             emptyInputEditText();
-            startActivity(accountsIntent);
+            startActivity(mainactivity);
 
 
         } else {
