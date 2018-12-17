@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
@@ -85,7 +84,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
      *
      * @return list
      */
-    public List<User> getAllUser() {
+    public ArrayList<User> getAllUser() {
         // array of columns to fetch
         String[] columns = {
                 COLUMN_USER_ID,
@@ -96,7 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // sorting orders
         String sortOrder =
                 COLUMN_USER_NAME + " ASC";
-        List<User> userList = new ArrayList<User>();
+        ArrayList<User> userList = new ArrayList<>();
 
         SQLiteDatabase db = this.getReadableDatabase();
 
