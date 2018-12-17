@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -11,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.lkondilidis.smartlearn.R;
@@ -54,6 +57,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ListView myListView = findViewById(R.id.myListView);
         ItemAdapter ia = new ItemAdapter(this, userArrayList);
         myListView.setAdapter(ia);
+
+        myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+                //TODO: show Tutoractivity
+
+                Intent showDetail = new Intent(getApplicationContext(), DetailActivity.class);
+                showDetail.putExtra("de.lmu.sajko.ITEM.INDEX", i);
+                startActivity(showDetail);
+
+
+            }
+        });
     }
 
     @Override
@@ -81,7 +98,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
         switch (item.getItemId()){
-            case R.id.test1: return false; //TODO: create action for first navigation item
+            case R.id.test1:
+                return false; //TODO: create action for first navigation item
         }
         return false;
     }
