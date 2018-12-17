@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -79,9 +80,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("EMAIL");
 
         switch (item.getItemId()){
-            case R.id.test1: return false; //TODO: create action for first navigation item
+            case R.id.profile:
+            Intent profileactivity = new Intent(this, ProfileActivity.class);
+            profileactivity.putExtra("EMAIL", email);
+            startActivity(profileactivity);
         }
         return false;
     }

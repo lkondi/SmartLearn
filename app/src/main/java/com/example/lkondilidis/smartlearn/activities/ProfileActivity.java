@@ -16,9 +16,7 @@ import java.util.ArrayList;
 public class ProfileActivity extends AppCompatActivity {
 
     TextView textViewName,textViewEmail,textViewPassword;
-   // EditText et_name,et_email,et_userid;
     DatabaseHelper dataBaseHelper;
-    ArrayList UserArrayList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,9 +27,14 @@ public class ProfileActivity extends AppCompatActivity {
         initView();
     }
     public void initView(){
+
+        Intent intent = getIntent();
+        String email = intent.getStringExtra("EMAIL");
+
         textViewName= (TextView) findViewById(R.id.textViewName);
         textViewEmail = (TextView) findViewById(R.id.textViewEmail);
-       // tv_userid= (TextView) findViewById(R.id.tv_userid);
+
+        textViewEmail.setText(email);
 
     }
 }

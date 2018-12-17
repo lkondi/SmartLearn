@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -146,6 +147,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
             emptyInputEditText();
 
+            Intent mainactivity = new Intent(activity, MainActivity.class);
+            mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            emptyInputEditText();
+            startActivity(mainactivity);
 
         } else {
             // Snack Bar to show error message that record already exists
