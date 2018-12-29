@@ -12,6 +12,10 @@ public class User {
     private double rating;
     private String privateInfo;
 
+    public User(){
+
+    }
+
     public User(int id, String name, String email, String password, double rating, String privateInformation){
         this.id = id;
         this.name = name;
