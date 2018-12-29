@@ -19,6 +19,7 @@ import android.widget.ListView;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.ItemAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.services.*;
 
 import java.util.ArrayList;
 
@@ -49,14 +50,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //Test
-        ArrayList<User> userArrayList = new ArrayList<>(2);
+        ArrayList<User> userArrayList = new ArrayList<>();
         userArrayList.add(new User());
         userArrayList.add(new User());
         //TODO: create Database for useres
 
+        ServerTask serverTask = new ServerTask(userArrayList);
+        serverTask.execute();
+
+
+
         ListView myListView = findViewById(R.id.myListView);
         ItemAdapter ia = new ItemAdapter(this, userArrayList);
         myListView.setAdapter(ia);
+
+
+
 
         myListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -67,7 +76,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Intent showDetail = new Intent(getApplicationContext(), DetailActivity.class);
                 showDetail.putExtra("de.lmu.sajko.ITEM.INDEX", i);
                 startActivity(showDetail);
-
 
             }
         });
