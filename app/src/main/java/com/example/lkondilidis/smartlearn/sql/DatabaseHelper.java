@@ -80,6 +80,43 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     /**
+     * get current user
+     *
+     * @param email
+     */
+    public User getUser(String email) {
+
+        User userDetails = new User();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //specify the columns to be fetched
+        String[] columns = {
+                COLUMN_USER_ID,
+                COLUMN_USER_EMAIL,
+                COLUMN_USER_NAME,
+                COLUMN_USER_PASSWORD
+        };
+        //Select condition
+        String selection = COLUMN_USER_EMAIL + " = ?";
+        //Arguments for selection
+        String[] selectionArgs = {String.valueOf(email)};
+
+
+        Cursor cursor = db.query(TABLE_USER, columns, selection,
+                selectionArgs, null, null, null);
+        if (null != cursor) {
+            cursor.moveToFirst();
+            userDetails.setId(cursor.getInt(0));
+            userDetails.setEmail(cursor.getString(1));
+            userDetails.setName(cursor.getString(2));
+            userDetails.setPassword(cursor.getString(3));
+
+        }
+        db.close();
+        return userDetails;
+
+    }
+
+    /**
      * fetch all user and return the list of user records
      *
      * @return list

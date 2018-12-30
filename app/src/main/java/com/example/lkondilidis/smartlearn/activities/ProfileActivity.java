@@ -41,7 +41,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         textViewEmail.setText(email);
 
-
+        textViewName.setText(dataBaseHelper.getUser(email).getName());
 
 
     }
