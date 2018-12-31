@@ -1,29 +1,23 @@
 package com.example.lkondilidis.smartlearn.activities;
 
-import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.view.View;
-import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.helpers.InputValidation;
-import com.example.lkondilidis.smartlearn.sql.DatabaseHelper;
-import com.example.lkondilidis.smartlearn.model.User;
 
-import java.util.ArrayList;
+import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
 
     TextView textViewName,textViewEmail,textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewBewertungen;
-    DatabaseHelper dataBaseHelper;
+    SQLiteDBHelper dataBaseHelper;
 
     private AppCompatButton appCompatButtonSubmit;
 
@@ -40,7 +34,7 @@ public class ProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
-        dataBaseHelper = new DatabaseHelper(this);
+        dataBaseHelper = new SQLiteDBHelper(this);
 
 
         textViewName= (TextView) findViewById(R.id.name);
@@ -54,9 +48,9 @@ public class ProfileActivity extends AppCompatActivity {
 
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        dataBaseHelper = new DatabaseHelper(activity);
+        dataBaseHelper = new SQLiteDBHelper(activity);
         textViewEmail.setText(emailFromIntent);
-        textViewName.setText(dataBaseHelper.getUser(emailFromIntent).getName());
+        textViewName.setText(dataBaseHelper.getUserEmail(emailFromIntent).getName());
 
         appCompatButtonSubmit = (AppCompatButton) findViewById(R.id.appCompatButtonSubmit);
         appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
@@ -75,7 +69,7 @@ public class ProfileActivity extends AppCompatActivity {
             if (!STRING_EMPTY.equals(textInputEditTextEmail.getText().toString()) &&
                     !STRING_EMPTY.equals(textInputEditTextPassword.getText().toString())) {
 
-                User userDetails = dataBaseHelper.getUser(emailFromIntent);
+                User userDetails = dataBaseHelper.getUserEmail(emailFromIntent);
 
                 userDetails.setEmail(textInputEditTextEmail.getText().toString());
                 userDetails.setPassword(textInputEditTextPassword.getText().toString());

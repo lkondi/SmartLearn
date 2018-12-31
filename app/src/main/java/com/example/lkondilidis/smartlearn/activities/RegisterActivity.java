@@ -15,7 +15,7 @@ import android.view.View;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.sql.DatabaseHelper;
+import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatTextView appCompatTextViewLoginLink;
 
     private InputValidation inputValidation;
-    private DatabaseHelper databaseHelper;
+    private SQLiteDBHelper databaseHelper;
     private User user;
 
     //TODO: most of this code should be on the server side. i.e. Registering user and password, initialising the database
@@ -89,7 +89,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void initObjects() {
         inputValidation = new InputValidation(activity);
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new SQLiteDBHelper(activity);
         user = new User();
 
     }
