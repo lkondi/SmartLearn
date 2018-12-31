@@ -25,6 +25,11 @@
     <string name="profile">My Profile</string>
     <string name="path">http://192.168.100.149:8080/</string>
     <string name="submit">Submit</string>
-    <string name="nickname">Set your nichname</string>
+    <string name="nickname">Wähle deinen Spitznamen</string>
+    <string name="studies">Wähle deinen Studiengang</string>
+    <string name="subject">Wähle deine Fächer</string>
+    <string name="plan">Gib deinen Stundenplan ein</string>
+    <string name="ratings">Bewertung eingeben</string>
+
 
 </resources>

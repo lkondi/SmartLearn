@@ -23,20 +23,13 @@ import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
 
-    TextView textViewName,textViewEmail,textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewBewertungen;
+    AppCompatTextView textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
+    AppCompatEditText editTextNickname, editTextStudies, editTextSubject, editTextPlan, editTextRatings;
     SQLiteDBHelper dataBaseHelper;
+    TextView textViewName, textViewEmail;
 
     private AppCompatButton appCompatButtonSubmit;
     private ImageButton editButton;
-
-    private TextInputLayout textInputLayoutEmail;
-    private TextInputLayout textInputLayoutPassword;
-
-    private TextInputEditText textInputEditTextEmail;
-    private TextInputEditText textInputEditTextPassword;
-
-    AppCompatTextView nicknameTextView;
-    AppCompatEditText nicknameEditText;
 
     private static String STRING_EMPTY = "";
 
@@ -57,22 +50,57 @@ public class ProfileActivity extends AppCompatActivity {
         textViewName= (TextView) findViewById(R.id.name);
         textViewEmail = (TextView) findViewById(R.id.email);
 
-        nicknameTextView = (AppCompatTextView) findViewById(R.id.nicknametext);
-        nicknameEditText = (AppCompatEditText) findViewById(R.id.nicknameedit);
-        nicknameEditText.setVisibility(View.GONE);
-
-        textInputLayoutEmail = (TextInputLayout) findViewById(R.id.textInputLayoutEmail);
-        textInputLayoutPassword = (TextInputLayout) findViewById(R.id.textInputLayoutPassword);
-
-        textInputEditTextEmail = (TextInputEditText) findViewById(R.id.textInputEditTextEmail);
-        textInputEditTextPassword = (TextInputEditText) findViewById(R.id.textInputEditTextPassword);
+        //nickname
+        textViewNickname = (AppCompatTextView) findViewById(R.id.nicknametext);
+        editTextNickname = (AppCompatEditText) findViewById(R.id.nicknameedit);
+        editTextNickname.setVisibility(View.GONE);
+        //studies
+        textViewStudies = (AppCompatTextView) findViewById(R.id.studiestext);
+        editTextStudies = (AppCompatEditText) findViewById(R.id.studiesedit);
+        editTextStudies.setVisibility(View.GONE);
+        //subject
+        textViewSubject = (AppCompatTextView) findViewById(R.id.subjecttext);
+        editTextSubject = (AppCompatEditText) findViewById(R.id.subjectedit);
+        editTextSubject.setVisibility(View.GONE);
+        //plan
+        textViewPlan = (AppCompatTextView) findViewById(R.id.plantext);
+        editTextPlan = (AppCompatEditText) findViewById(R.id.planedit);
+        editTextPlan.setVisibility(View.GONE);
+        //ratings
+        textViewRatings = (AppCompatTextView) findViewById(R.id.ratingstext);
+        editTextRatings = (AppCompatEditText) findViewById(R.id.ratingsedit);
+        editTextRatings.setVisibility(View.GONE);
 
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
         dataBaseHelper = new SQLiteDBHelper(activity);
+
+        //current User
+        User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+
+        //set Values
         textViewEmail.setText(emailFromIntent);
         textViewName.setText(dataBaseHelper.getUserEmail(emailFromIntent).getName());
 
+        if (!STRING_EMPTY.equals(currentuser.getNickname())) {
+            textViewNickname.setText(currentuser.getNickname());
+        }
+        if (!STRING_EMPTY.equals(currentuser.getStudies())) {
+            textViewStudies.setText(currentuser.getStudies());
+        }
+        if (!STRING_EMPTY.equals(currentuser.getSubject())) {
+            textViewSubject.setText(currentuser.getSubject());
+        }
+        if (!STRING_EMPTY.equals(currentuser.getPlan())) {
+            textViewPlan.setText(currentuser.getPlan());
+        }
+        else {
+            Toast.makeText(ProfileActivity.this, "Please fill you personal data",
+                    Toast.LENGTH_LONG).show();
+        }
+
+
+        //buttons
         editButton = (ImageButton) findViewById(R.id.edit);
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -111,23 +139,28 @@ public class ProfileActivity extends AppCompatActivity {
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
 
-            if (!STRING_EMPTY.equals(textInputEditTextEmail.getText().toString()) &&
-                    !STRING_EMPTY.equals(textInputEditTextPassword.getText().toString())
-                    && !STRING_EMPTY.equals(nicknameEditText.getText().toString())) {
+            if (!STRING_EMPTY.equals(editTextNickname.getText().toString()) &&
+                    !STRING_EMPTY.equals(editTextStudies.getText().toString())
+                    && !STRING_EMPTY.equals(editTextSubject.getText().toString())
+                    && !STRING_EMPTY.equals(editTextPlan.getText().toString())) {
 
                 User userDetails = dataBaseHelper.getUserEmail(emailFromIntent);
 
-                userDetails.setEmail(textInputEditTextEmail.getText().toString());
-                userDetails.setPassword(textInputEditTextPassword.getText().toString());
-                userDetails.setNickname(nicknameEditText.getText().toString());
+                userDetails.setNickname(editTextNickname.getText().toString());
+                userDetails.setStudies(editTextStudies.getText().toString());
+                userDetails.setSubject(editTextSubject.getText().toString());
+                userDetails.setPlan(editTextPlan.getText().toString());
+                //userDetails.setRatings(Integer.parseInt(editTextRatings.getText().toString()));
 
                 dataBaseHelper.updateUser(userDetails);
 
+                textViewNickname.setText(userDetails.getNickname());
+                textViewStudies.setText(userDetails.getStudies());
+                textViewSubject.setText(userDetails.getSubject());
+                textViewPlan.setText(userDetails.getPlan());
+                //textViewRatings.setText(userDetails.getRatings());
+
                 submitClicked();
-
-                textViewEmail.setText(userDetails.getEmail());
-                nicknameTextView.setText(userDetails.getNickname());
-
                 Toast.makeText(ProfileActivity.this, "EDITED!",
                         Toast.LENGTH_LONG).show();
 
@@ -143,15 +176,30 @@ public class ProfileActivity extends AppCompatActivity {
      * empty all input edit text
      */
     private void submitClicked() {
-        textInputEditTextEmail.setText(null);
-        textInputEditTextPassword.setText(null);
-        nicknameEditText.setVisibility(View.GONE);
-        nicknameTextView.setVisibility(View.VISIBLE);
+
+        textViewNickname.setVisibility(View.VISIBLE);
+        editTextNickname.setVisibility(View.GONE);
+        textViewStudies.setVisibility(View.VISIBLE);
+        editTextStudies.setVisibility(View.GONE);
+        textViewSubject.setVisibility(View.VISIBLE);
+        editTextSubject.setVisibility(View.GONE);
+        textViewPlan.setVisibility(View.VISIBLE);
+        editTextPlan.setVisibility(View.GONE);
+        textViewRatings.setVisibility(View.VISIBLE);
+        editTextRatings.setVisibility(View.GONE);
     }
 
     public void editClicked() {
-       nicknameEditText.setVisibility(View.VISIBLE);
-       nicknameTextView.setVisibility(View.GONE);
+        textViewNickname.setVisibility(View.GONE);
+        editTextNickname.setVisibility(View.VISIBLE);
+        textViewStudies.setVisibility(View.GONE);
+        editTextStudies.setVisibility(View.VISIBLE);
+        textViewSubject.setVisibility(View.GONE);
+        editTextSubject.setVisibility(View.VISIBLE);
+        textViewPlan.setVisibility(View.GONE);
+        editTextPlan.setVisibility(View.VISIBLE);
+        textViewRatings.setVisibility(View.GONE);
+        editTextRatings.setVisibility(View.VISIBLE);
     }
 
 
