@@ -71,17 +71,6 @@
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/email"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:text="Set your nickname"
-                android:textColor="#fff"
-                android:textSize="16sp" />
-
             <TextView
                 android:id="@+id/email"
                 android:layout_width="wrap_content"
@@ -92,6 +81,31 @@
                 android:text="(lydia.kondylidis@gmail.com)"
                 android:textColor="#fff"
                 android:textSize="18sp" />
+
+                <android.support.v7.widget.AppCompatTextView
+                    android:id="@+id/nicknametext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:textColor="#fff"
+                    android:textSize="16sp"
+                     />
+
+                <android.support.v7.widget.AppCompatEditText
+                    android:id="@+id/nicknameedit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="@string/nickname"
+                    android:textColor="#fff"
+                    android:textSize="16sp"
+                     />
 
         </RelativeLayout>
 

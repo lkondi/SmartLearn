@@ -106,6 +106,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.appCompatButtonRegister:
                 postDataToSQLite();
+                // Navigate to MainActivity
+                Intent mainactivity = new Intent(activity, MainActivity.class);
+                mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+                emptyInputEditText();
+                startActivity(mainactivity);
                 break;
 
             case R.id.appCompatTextViewLoginLink:
