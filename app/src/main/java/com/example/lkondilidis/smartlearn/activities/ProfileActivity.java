@@ -13,20 +13,27 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
-import android.widget.ViewSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
+//TODO: edit profile image
+
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
+    private static final int SELECT_PICTURE = 0;
 
-    AppCompatTextView textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
-    AppCompatEditText editTextNickname, editTextStudies, editTextSubject, editTextPlan, editTextRatings;
+    TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
+    EditText editTextNickname, editTextStudies, editTextSubject, editTextPlan, editTextRatings;
     SQLiteDBHelper dataBaseHelper;
-    TextView textViewName, textViewEmail;
+
+    ImageView imageView;
 
     private AppCompatButton appCompatButtonSubmit;
     private ImageButton editButton;
@@ -47,30 +54,38 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void initViews() {
 
+        LinearLayout displayArea = (LinearLayout) findViewById(R.id.displayArea);
+        displayArea.setVisibility(LinearLayout.VISIBLE);
+
+        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
+        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
+        displayNicknameArea.setVisibility(LinearLayout.VISIBLE);
+        editNicknameArea.setVisibility(LinearLayout.GONE);
+
+        LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
+        editArea.setVisibility(LinearLayout.GONE);
+
+
         textViewName= (TextView) findViewById(R.id.name);
         textViewEmail = (TextView) findViewById(R.id.email);
 
         //nickname
-        textViewNickname = (AppCompatTextView) findViewById(R.id.nicknametext);
-        editTextNickname = (AppCompatEditText) findViewById(R.id.nicknameedit);
-        editTextNickname.setVisibility(View.GONE);
+        textViewNickname = (TextView) findViewById(R.id.nicknametext);
+        editTextNickname = (EditText) findViewById(R.id.nicknameedit);
         //studies
-        textViewStudies = (AppCompatTextView) findViewById(R.id.studiestext);
-        editTextStudies = (AppCompatEditText) findViewById(R.id.studiesedit);
-        editTextStudies.setVisibility(View.GONE);
+        textViewStudies = (TextView) findViewById(R.id.studiestext);
+        editTextStudies = (EditText) findViewById(R.id.studiesedit);
         //subject
-        textViewSubject = (AppCompatTextView) findViewById(R.id.subjecttext);
-        editTextSubject = (AppCompatEditText) findViewById(R.id.subjectedit);
-        editTextSubject.setVisibility(View.GONE);
+        textViewSubject = (TextView) findViewById(R.id.subjecttext);
+        editTextSubject = (EditText) findViewById(R.id.subjectedit);
         //plan
-        textViewPlan = (AppCompatTextView) findViewById(R.id.plantext);
-        editTextPlan = (AppCompatEditText) findViewById(R.id.planedit);
-        editTextPlan.setVisibility(View.GONE);
+        textViewPlan = (TextView) findViewById(R.id.plantext);
+        editTextPlan = (EditText) findViewById(R.id.planedit);
         //ratings
-        textViewRatings = (AppCompatTextView) findViewById(R.id.ratingstext);
-        editTextRatings = (AppCompatEditText) findViewById(R.id.ratingsedit);
-        editTextRatings.setVisibility(View.GONE);
+        textViewRatings = (TextView) findViewById(R.id.ratingstext);
+        editTextRatings = (EditText) findViewById(R.id.ratingsedit);
 
+        imageView = (CircleImageView) findViewById(R.id.profile);
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
         dataBaseHelper = new SQLiteDBHelper(activity);
@@ -108,7 +123,7 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-        appCompatButtonSubmit = (AppCompatButton) findViewById(R.id.appCompatButtonSubmit);
+        appCompatButtonSubmit = (AppCompatButton) findViewById(R.id.btnSubmit);
         appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updateUser();
@@ -177,30 +192,31 @@ public class ProfileActivity extends AppCompatActivity {
      */
     private void submitClicked() {
 
-        textViewNickname.setVisibility(View.VISIBLE);
-        editTextNickname.setVisibility(View.GONE);
-        textViewStudies.setVisibility(View.VISIBLE);
-        editTextStudies.setVisibility(View.GONE);
-        textViewSubject.setVisibility(View.VISIBLE);
-        editTextSubject.setVisibility(View.GONE);
-        textViewPlan.setVisibility(View.VISIBLE);
-        editTextPlan.setVisibility(View.GONE);
-        textViewRatings.setVisibility(View.VISIBLE);
-        editTextRatings.setVisibility(View.GONE);
+        LinearLayout displayArea = (LinearLayout) findViewById(R.id.displayArea);
+        displayArea.setVisibility(LinearLayout.VISIBLE);
+
+        LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
+        editArea.setVisibility(LinearLayout.GONE);
+
+        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
+        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
+        displayNicknameArea.setVisibility(LinearLayout.VISIBLE);
+        editNicknameArea.setVisibility(LinearLayout.GONE);
+
     }
 
     public void editClicked() {
-        textViewNickname.setVisibility(View.GONE);
-        editTextNickname.setVisibility(View.VISIBLE);
-        textViewStudies.setVisibility(View.GONE);
-        editTextStudies.setVisibility(View.VISIBLE);
-        textViewSubject.setVisibility(View.GONE);
-        editTextSubject.setVisibility(View.VISIBLE);
-        textViewPlan.setVisibility(View.GONE);
-        editTextPlan.setVisibility(View.VISIBLE);
-        textViewRatings.setVisibility(View.GONE);
-        editTextRatings.setVisibility(View.VISIBLE);
-    }
+        LinearLayout displayArea = (LinearLayout) findViewById(R.id.displayArea);
+        displayArea.setVisibility(LinearLayout.GONE);
 
+        LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
+        editArea.setVisibility(LinearLayout.VISIBLE);
+
+        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
+        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
+        displayNicknameArea.setVisibility(LinearLayout.GONE);
+        editNicknameArea.setVisibility(LinearLayout.VISIBLE);
+
+    }
 
 }

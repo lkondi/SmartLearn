@@ -81,35 +81,56 @@
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
-                <android.support.v7.widget.AppCompatTextView
+            <LinearLayout
+                android:id="@+id/nicknamelayoutdisplay"
+                android:text="@string/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:layout_below="@+id/email">
+
+                <TextView
                     android:id="@+id/nicknametext"
                     android:text="@string/nickname"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_below="@+id/email"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:textColor="#fff"
-                    android:textSize="16sp"
-                     />
+                    android:layout_weight="0.75"
+                    android:paddingLeft="60dp"
+                    android:paddingTop="10dp"
+                    android:ems="10" />
 
-                <android.support.v7.widget.AppCompatEditText
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/nicknamelayoutedit"
+                android:text="@string/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:layout_below="@+id/email">
+
+                <EditText
                     android:id="@+id/nicknameedit"
-                    android:layout_below="@+id/email"
-                    android:layout_centerHorizontal="true"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_width="200dp"
+                    android:layout_weight="0.75"
                     android:textColor="#fff"
-                    android:textSize="16sp"
-                     />
+                    android:ems="10" />
+
+            </LinearLayout>
+
 
         </RelativeLayout>
 
 
         <android.support.constraint.ConstraintLayout
+            android:id="@+id/details_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_below="@+id/profile_layout"
@@ -120,155 +141,222 @@
             android:paddingBottom="10dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp"
-
             >
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/studies"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:text="Studiengang: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:id="@+id/displayArea"
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:orientation="vertical">
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/studiestext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:text="@string/studies"
-                app:layout_constraintLeft_toRightOf="@id/studies"
-                app:layout_constraintTop_toTopOf="parent" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/studiesedit"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:layout_marginLeft="5dp"
-                android:clickable="true"
-                app:layout_constraintLeft_toRightOf="@+id/studies"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Studiengang:" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/subject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:clickable="true"
-                android:text="Fach/Fächer: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/studies" />
+                    <TextView
+                        android:id="@+id/studiestext"
+                        android:text="@string/studies"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/subjecttext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:text="@string/subject"
-                app:layout_constraintLeft_toRightOf="@+id/subject"
-                app:layout_constraintTop_toBottomOf="@+id/studies" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/subjectedit"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:clickable="true"
-                android:textColor="#fff"
-                app:layout_constraintLeft_toRightOf="@+id/subject"
-                app:layout_constraintTop_toBottomOf="@+id/studiesedit" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Fach/Fächer:" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/plan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:clickable="true"
-                android:text="Stundenplan: "
-                android:textStyle="bold"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/subject" />
+                    <TextView
+                        android:text="@string/subject"
+                        android:id="@+id/subjecttext"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/plantext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:text="@string/plan"
-                app:layout_constraintLeft_toRightOf="@+id/plan"
-                app:layout_constraintTop_toBottomOf="@+id/subject" />
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/planedit"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:layout_marginLeft="5dp"
-                android:clickable="true"
-                app:layout_constraintLeft_toRightOf="@+id/plan"
-                app:layout_constraintTop_toBottomOf="@+id/subjectedit" />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Stundenplan:" />
+
+                    <TextView
+                        android:id="@+id/plantext"
+                        android:text="@string/plan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.25"
+                        android:text="Bewertungen:" />
 
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/ratings"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:text="Bewertungen: "
-                android:textStyle="bold"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                app:layout_constraintTop_toBottomOf="@+id/plan"
-                app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:id="@+id/ratingstext"
+                        android:text="@string/ratings"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10"
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/ratingstext"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingLeft="15dp"
-                android:paddingTop="25dp"
-                android:textSize="15sp"
-                android:text="@string/ratings"
-                app:layout_constraintTop_toBottomOf="@+id/plan"
-                app:layout_constraintLeft_toRightOf="@+id/ratings" />
+                        />
+                </LinearLayout>
+            </LinearLayout>
 
-            <android.support.v7.widget.AppCompatEditText
-                android:id="@+id/ratingsedit"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:textColor="#fff"
-                android:layout_marginLeft="5dp"
-                android:clickable="true"
-                app:layout_constraintTop_toBottomOf="@+id/planedit"
-                app:layout_constraintLeft_toRightOf="@+id/ratings" />
-
-            <android.support.v7.widget.AppCompatButton
-                android:id="@+id/appCompatButtonSubmit"
-                app:layout_constraintTop_toBottomOf="@+id/ratings"
+            <LinearLayout
+                android:id="@+id/editArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:background="@color/colorTextHint"
-                android:text="@string/submit" />
 
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Studiengang:" />
+
+                    <EditText
+                        android:id="@+id/studiesedit"
+                        android:textColor="#fff"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Fach/Fächer" />
+
+                    <EditText
+                        android:id="@+id/subjectedit"
+                        android:textColor="#fff"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.25"
+                        android:text="Stundenplan:" />
+
+                    <EditText
+                        android:id="@+id/planedit"
+                        android:textColor="#fff"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:paddingLeft="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.25"
+
+                        android:text="Bewertungen:" />
+
+
+                    <EditText
+                        android:id="@+id/ratingsedit"
+                        android:textColor="#fff"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/details_layout"
+                android:layout_marginLeft="5dp"
+                android:background="@color/colorBackground"
+                android:elevation="4dp"
+                android:orientation="vertical"
+                android:paddingTop="15dp"
+                android:paddingBottom="10dp"
+                android:paddingRight="5dp"
+                android:paddingLeft="5dp"
+                >
+
+                <android.support.v7.widget.AppCompatButton
+                    android:id="@+id/btnSubmit"
+                    android:layout_width="match_parent"
+                    android:background="@color/colorPrimary"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.20"
+                    android:text="@string/submit" />
         </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </ScrollView>
