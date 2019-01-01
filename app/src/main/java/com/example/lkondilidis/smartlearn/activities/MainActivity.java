@@ -83,7 +83,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         databaseHelper = new SQLiteDBHelper(activity);
         //current User
         currentuser = databaseHelper.getUserEmail(emailFromIntent);
-        tutorAdapter.clear();
         final List<User> users = databaseHelper.getAllUser();
         tutorAdapter.clear();
         // Load model objects into the adapter
