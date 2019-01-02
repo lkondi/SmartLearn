@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
@@ -70,11 +71,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void fetchUsers() {
         databaseHelper = new SQLiteDBHelper(activity);
-        final List<User> users = databaseHelper.getAllUser();
+        final List<User> users = databaseHelper.getAllTutors();
         userAdapter.clear();
         // Load model objects into the adapter
         for (User user : users) {
-            userAdapter.add(user); // add book through the adapter
+                userAdapter.add(user);
         }
     }
 

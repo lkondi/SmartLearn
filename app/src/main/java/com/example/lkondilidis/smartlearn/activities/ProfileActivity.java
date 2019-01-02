@@ -93,12 +93,16 @@ public class ProfileActivity extends AppCompatActivity {
         //current User
         User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
 
+        //checkbox
+        tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
+
         //set Values
         textViewEmail.setText(emailFromIntent);
         textViewName.setText(dataBaseHelper.getUserEmail(emailFromIntent).getName());
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
+            tutorcheck.setChecked(true);
         }
         if (!STRING_EMPTY.equals(currentuser.getStudies())) {
             textViewStudies.setText(currentuser.getStudies());
@@ -114,9 +118,6 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
 
-
-        //checkbox
-        tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
         tutorcheck.setOnClickListener(new View.OnClickListener() {
 
             @Override
