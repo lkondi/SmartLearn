@@ -1,13 +1,10 @@
 package com.example.lkondilidis.smartlearn.activities;
 
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.CursorAdapter;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,15 +14,10 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.support.v7.widget.SearchView;
 
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.adapters.ItemAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.services.*;

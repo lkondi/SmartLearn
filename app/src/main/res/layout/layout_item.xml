@@ -7,6 +7,7 @@
     app:cardElevation="0dp"
     android:layout_margin="0dp"
     app:cardBackgroundColor="@color/colorBackground"
+    android:id="@+id/parentLayout"
     >
     
     <LinearLayout

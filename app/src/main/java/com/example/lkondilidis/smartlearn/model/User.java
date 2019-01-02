@@ -137,5 +137,8 @@ public class User implements Serializable {
         return  jsonObject;
     }
 
+    public String getPrivateInfo() {
+        return "";
+    }
 }
 
