@@ -1,10 +1,12 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.content.Intent;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
@@ -26,6 +28,9 @@ import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 //TODO: edit profile image
@@ -41,6 +46,7 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView imageView;
 
     private AppCompatButton appCompatButtonSubmit;
+    private Button buttonLogOut;
     private ImageButton editButton;
 
     private static String STRING_EMPTY = "";
@@ -87,11 +93,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = (CircleImageView) findViewById(R.id.profile);
 
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        final String emailFromIntent = getIntent().getStringExtra("EMAIL");
         dataBaseHelper = new SQLiteDBHelper(activity);
 
         //current User
-        User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+        final User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
 
         //checkbox
         tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
@@ -102,7 +108,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
-            tutorcheck.setChecked(true);
+
+            if (currentuser.getNickname() == "Tutor") {
+                tutorcheck.setChecked(true);
+            }
+            else {
+                tutorcheck.setChecked(false);
+            }
         }
         if (!STRING_EMPTY.equals(currentuser.getStudies())) {
             textViewStudies.setText(currentuser.getStudies());
@@ -139,6 +151,17 @@ public class ProfileActivity extends AppCompatActivity {
         appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updateUser();
+            }
+        });
+
+        buttonLogOut = (Button) findViewById(R.id.btnLogout);
+        buttonLogOut.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+               Toast.makeText(ProfileActivity.this, "You are logged out!",
+                        Toast.LENGTH_LONG).show();
+               //start login activity
+                Intent loginactivity = new Intent(activity, LoginActivity.class);
+                startActivity(loginactivity);
             }
         });
 
@@ -245,7 +268,6 @@ public class ProfileActivity extends AppCompatActivity {
         editArea.setVisibility(LinearLayout.GONE);
 
 
-
     }
 
     public void editClicked() {
@@ -257,5 +279,4 @@ public class ProfileActivity extends AppCompatActivity {
 
 
     }
-
 }

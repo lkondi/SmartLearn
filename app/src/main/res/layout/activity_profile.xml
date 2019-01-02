@@ -12,6 +12,17 @@
         android:id="@+id/layout"
         android:background="@color/colorBackground">
 
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="wrap_content"
+            android:background="@color/colorPrimary"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft = "300dp"
+            android:layout_weight="0.20"
+            android:text="Log Out"
+            />
+
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
@@ -54,6 +65,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginRight="16dp"
                 android:text="Tutor"
+                android:checked="false"
                 android:textColor="@color/colorPrimary"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
@@ -335,6 +347,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text="@string/submit" />
+
         </android.support.constraint.ConstraintLayout>
     </RelativeLayout>
 </ScrollView>

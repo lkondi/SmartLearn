@@ -243,6 +243,13 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.close();
     }
 
+    public void deleteUserEmail(String email) {
+        String userEmails[] = {String.valueOf(email)};
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, KEY_USER_EMAIL + " = ?", userEmails);
+        db.close();
+    }
+
     /**
      * check user exist or not
      *
