@@ -5,11 +5,16 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.CompoundButton;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatEditText;
 import android.support.v7.widget.AppCompatTextView;
+import android.util.Log;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.Toast;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -30,7 +35,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 0;
 
     TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
-    EditText editTextNickname, editTextStudies, editTextSubject, editTextPlan, editTextRatings;
+    EditText editTextStudies, editTextSubject, editTextPlan, editTextRatings;
     SQLiteDBHelper dataBaseHelper;
 
     ImageView imageView;
@@ -39,6 +44,8 @@ public class ProfileActivity extends AppCompatActivity {
     private ImageButton editButton;
 
     private static String STRING_EMPTY = "";
+
+    private CheckBox tutorcheck;
 
 
     @Override
@@ -57,21 +64,14 @@ public class ProfileActivity extends AppCompatActivity {
         LinearLayout displayArea = (LinearLayout) findViewById(R.id.displayArea);
         displayArea.setVisibility(LinearLayout.VISIBLE);
 
-        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
-        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
-        displayNicknameArea.setVisibility(LinearLayout.VISIBLE);
-        editNicknameArea.setVisibility(LinearLayout.GONE);
-
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.GONE);
-
 
         textViewName= (TextView) findViewById(R.id.name);
         textViewEmail = (TextView) findViewById(R.id.email);
 
         //nickname
         textViewNickname = (TextView) findViewById(R.id.nicknametext);
-        editTextNickname = (EditText) findViewById(R.id.nicknameedit);
         //studies
         textViewStudies = (TextView) findViewById(R.id.studiestext);
         editTextStudies = (EditText) findViewById(R.id.studiesedit);
@@ -115,7 +115,18 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
 
-        //buttons
+        //checkbox
+        tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
+        tutorcheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                isTutor();
+            }
+        });
+
+
+    //buttons
         editButton = (ImageButton) findViewById(R.id.edit);
         editButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -143,6 +154,11 @@ public class ProfileActivity extends AppCompatActivity {
                 editClicked();
             }
         });
+        tutorcheck.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                isTutor();
+            }
+        });
     }
 
     private void initObjects() {
@@ -150,26 +166,55 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
+    private void isTutor() {
+        if (((CheckBox) tutorcheck).isChecked()) {
+
+            String emailFromIntent = getIntent().getStringExtra("EMAIL");
+            dataBaseHelper = new SQLiteDBHelper(activity);
+
+            //current User
+            User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+            currentuser.setNickname("Tutor");
+            dataBaseHelper.updateUser(currentuser);
+            textViewNickname.setText(currentuser.getNickname());
+
+            Toast.makeText(ProfileActivity.this, "You are a tutor!",
+                    Toast.LENGTH_LONG).show();
+        }
+        else {
+
+            String emailFromIntent = getIntent().getStringExtra("EMAIL");
+            dataBaseHelper = new SQLiteDBHelper(activity);
+
+            //current User
+            User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+            currentuser.setNickname("Student");
+            dataBaseHelper.updateUser(currentuser);
+            textViewNickname.setText(currentuser.getNickname());
+
+
+            Toast.makeText(ProfileActivity.this, "You are a student!",
+                    Toast.LENGTH_LONG).show();
+        }
+    }
+
+
     private void updateUser() {
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
 
-            if (!STRING_EMPTY.equals(editTextNickname.getText().toString()) &&
-                    !STRING_EMPTY.equals(editTextStudies.getText().toString())
+            if (!STRING_EMPTY.equals(editTextStudies.getText().toString())
                     && !STRING_EMPTY.equals(editTextSubject.getText().toString())
                     && !STRING_EMPTY.equals(editTextPlan.getText().toString())) {
 
                 User userDetails = dataBaseHelper.getUserEmail(emailFromIntent);
 
-                userDetails.setNickname(editTextNickname.getText().toString());
                 userDetails.setStudies(editTextStudies.getText().toString());
                 userDetails.setSubject(editTextSubject.getText().toString());
                 userDetails.setPlan(editTextPlan.getText().toString());
                 //userDetails.setRatings(Integer.parseInt(editTextRatings.getText().toString()));
 
                 dataBaseHelper.updateUser(userDetails);
-
-                textViewNickname.setText(userDetails.getNickname());
                 textViewStudies.setText(userDetails.getStudies());
                 textViewSubject.setText(userDetails.getSubject());
                 textViewPlan.setText(userDetails.getPlan());
@@ -198,10 +243,7 @@ public class ProfileActivity extends AppCompatActivity {
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.GONE);
 
-        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
-        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
-        displayNicknameArea.setVisibility(LinearLayout.VISIBLE);
-        editNicknameArea.setVisibility(LinearLayout.GONE);
+
 
     }
 
@@ -212,10 +254,6 @@ public class ProfileActivity extends AppCompatActivity {
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.VISIBLE);
 
-        LinearLayout displayNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutdisplay);
-        LinearLayout editNicknameArea = (LinearLayout) findViewById(R.id.nicknamelayoutedit);
-        displayNicknameArea.setVisibility(LinearLayout.GONE);
-        editNicknameArea.setVisibility(LinearLayout.VISIBLE);
 
     }
 

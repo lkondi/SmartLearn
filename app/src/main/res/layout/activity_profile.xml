@@ -46,6 +46,17 @@
             android:background="@color/colorBackground"
             >
 
+            <CheckBox
+                android:id="@+id/tutorcheck"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:text="Tutor"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
 
             <ImageButton
                 android:id="@+id/edit"
@@ -81,49 +92,16 @@
                 android:textColor="#fff"
                 android:textSize="18sp" />
 
-            <LinearLayout
-                android:id="@+id/nicknamelayoutdisplay"
-                android:text="@string/nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textColor="#fff"
-                android:textSize="16sp"
-                android:layout_below="@+id/email">
-
                 <TextView
                     android:id="@+id/nicknametext"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/email"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
                     android:text="@string/nickname"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
-                    android:paddingLeft="60dp"
-                    android:paddingTop="10dp"
-                    android:ems="10" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/nicknamelayoutedit"
-                android:text="@string/nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="10dp"
-                android:textColor="#fff"
-                android:textSize="16sp"
-                android:layout_below="@+id/email">
-
-                <EditText
-                    android:id="@+id/nicknameedit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="0.75"
                     android:textColor="#fff"
-                    android:ems="10" />
-
-            </LinearLayout>
+                    android:textSize="16sp" />
 
 
         </RelativeLayout>

@@ -4,7 +4,6 @@ import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 public class User implements Serializable {
 
