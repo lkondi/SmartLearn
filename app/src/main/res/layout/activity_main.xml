@@ -29,16 +29,16 @@
         </android.support.design.widget.AppBarLayout>
 
         <!-- TODO: create search bar -->
-        <EditText
-            android:id="@+id/editText_search"
-            android:layout_width="wrap_content"
+
+        <android.support.v7.widget.SearchView
+            android:id="@+id/searchView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:ems="10"
-            android:inputType="textPersonName"
-            android:text="Name"
-            android:textColor="@android:color/white"
-            />
+            android:queryHint="@string/search_hint"
+            app:iconifiedByDefault="false"
+            android:outlineSpotShadowColor="@color/colorText"
+            android:outlineAmbientShadowColor="@color/colorText"
+            android:paddingHorizontal="20dp"></android.support.v7.widget.SearchView>
 
         <include
             layout="@layout/content_main"

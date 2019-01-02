@@ -24,6 +24,8 @@
     <string name="close">close</string>
     <string name="profile">My Profile</string>
     <string name="path">http://192.168.100.149:8080/</string>
+    <string name="search_hint">Search for a lecture</string>
+
     <string name="submit">Submit</string>
     <string name="nickname">Student</string>
     <string name="studies">Wähle deinen Studiengang</string>
