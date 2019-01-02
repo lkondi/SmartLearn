@@ -27,6 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     private User user;
     private SQLiteDBHelper dataBaseHelper;
     private static String STRING_EMPTY = "";
+    int idFromIntent = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +43,13 @@ public class DetailActivity extends AppCompatActivity {
         userPlan = (TextView) findViewById(R.id.userPlan);
         userRatings = (TextView) findViewById(R.id.userRatings);
 
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        User selecteduser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        //idFromIntent = getIntent().getIntExtra("SELECTEDUSER", idFromIntent);
         dataBaseHelper = new SQLiteDBHelper(activity);
 
-        //current User
-        User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
-        loadUser(currentuser);
+        //selected User
+        //User selecteduser = dataBaseHelper.getUser(idFromIntent);
+        loadUser(selecteduser);
 
     }
 

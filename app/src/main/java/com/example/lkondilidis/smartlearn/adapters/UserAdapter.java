@@ -13,7 +13,7 @@ import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.ArrayList;
 
-public class TutorAdapter extends ArrayAdapter<User> {
+public class UserAdapter extends ArrayAdapter<User> {
 
     private static class ViewHolder {
         public ImageView ivUser;
@@ -21,16 +21,16 @@ public class TutorAdapter extends ArrayAdapter<User> {
         public TextView userInfo;
     }
 
-    public TutorAdapter(Context context, ArrayList<User> tutors) {
+    public UserAdapter(Context context, ArrayList<User> tutors) {
         super(context, 0, tutors);
     }
 
-    // Translates a particular `Tutor` given a position
+    // Translates a particular `User` given a position
     // into a relevant row within an AdapterView
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         // Get the data item for this position
-        final User tutor = getItem(position);
+        final User user = getItem(position);
         // Check if an existing view is being reused, otherwise inflate the view
         ViewHolder viewHolder; // view lookup cache stored in tag
         if (convertView == null) {
@@ -45,8 +45,8 @@ public class TutorAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         // Populate the data into the template view using the data object
-        viewHolder.userName.setText(tutor.getName());
-        viewHolder.userInfo.setText(tutor.getSubject());
+        viewHolder.userName.setText(user.getName());
+        viewHolder.userInfo.setText(user.getSubject());
 
         // Return the completed view to render on screen
         return convertView;

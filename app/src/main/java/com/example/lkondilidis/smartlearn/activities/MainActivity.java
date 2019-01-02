@@ -1,7 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -18,8 +17,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.adapters.ItemAdapter;
-import com.example.lkondilidis.smartlearn.adapters.TutorAdapter;
+import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.services.*;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
@@ -29,10 +27,11 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
     private final AppCompatActivity activity = MainActivity.this;
+    public static final String USER_DETAIL_KEY = "selecteduser";
     ActionBarDrawerToggle mToggle;
     DrawerLayout drawerLayout;
-    ListView tutorslv;
-    TutorAdapter tutorAdapter;
+    ListView userslv;
+    UserAdapter userAdapter;
     User currentuser;
     SQLiteDBHelper databaseHelper;
 
@@ -56,47 +55,35 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        //Test
-        //ArrayList<User> userArrayList = new ArrayList<>();
-       // userArrayList.add(new User());
-       // userArrayList.add(new User());
-
-       // ListView myListView = findViewById(R.id.myListView);
-       // ItemAdapter ia = new ItemAdapter(this, userArrayList);
-      //  myListView.setAdapter(ia);
-
-        tutorslv = (ListView) findViewById(R.id.myListView);
-        ArrayList<User> atutors = new ArrayList<User>();
+        userslv = (ListView) findViewById(R.id.lvusers);
+        ArrayList<User> ausers = new ArrayList<User>();
         // initialize the adapter
-        tutorAdapter = new TutorAdapter(this, atutors);
+        userAdapter = new UserAdapter(this, ausers);
         // attach the adapter to the ListView
-        tutorslv.setAdapter(tutorAdapter);
-        tutorSelectedListener();
-        fetchTutors();
+        userslv.setAdapter(userAdapter);
+        fetchUsers();
+        userSelectedListener();
 
-        ServerTask serverTask = new ServerTask(atutors);
+        ServerTask serverTask = new ServerTask(ausers);
         serverTask.execute();
     }
 
-    private void fetchTutors() {
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+    private void fetchUsers() {
         databaseHelper = new SQLiteDBHelper(activity);
-        //current User
-        currentuser = databaseHelper.getUserEmail(emailFromIntent);
         final List<User> users = databaseHelper.getAllUser();
-        tutorAdapter.clear();
+        userAdapter.clear();
         // Load model objects into the adapter
         for (User user : users) {
-            tutorAdapter.add(user); // add book through the adapter
+            userAdapter.add(user); // add book through the adapter
         }
     }
 
-    public void tutorSelectedListener() {
-        tutorslv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    public void userSelectedListener() {
+        userslv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent showDetail = new Intent(MainActivity.this, DetailActivity.class);
-                showDetail.putExtra("EMAIL", tutorAdapter.getItem(position).getEmail());
+                showDetail.putExtra(USER_DETAIL_KEY, userAdapter.getItem(position));
                 startActivity(showDetail);
             }
         });

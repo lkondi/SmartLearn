@@ -3,7 +3,10 @@ package com.example.lkondilidis.smartlearn.model;
 import org.json.JSONObject;
 import org.json.JSONException;
 
-public class User {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class User implements Serializable {
 
     private int id;
     private String name;
