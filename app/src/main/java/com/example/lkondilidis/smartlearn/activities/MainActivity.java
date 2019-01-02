@@ -6,25 +6,29 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
+import android.view.View;
 import android.support.v7.widget.SearchView;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.ArrayAdapter;
+import android.support.v4.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.services.*;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnSuggestionListener {
 
@@ -32,14 +36,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public static final String USER_DETAIL_KEY = "selecteduser";
     ActionBarDrawerToggle mToggle;
     DrawerLayout drawerLayout;
-    SearchView searchView;
-    RecyclerView recyclerView;
-    RecyclerView.LayoutManager layoutManager;
-    SearchAdapter searchAdapter;
-
-    ArrayList<User> userArrayList;
+    ListView userslv;
+    UserAdapter userAdapter;
+    User currentuser;
     SQLiteDBHelper databaseHelper;
 
+
+    SearchAdapter searchAdapter;
+    SearchView searchView;
+
+    ArrayList<User> userArrayList;
     ArrayAdapter<String> arrayAdapter;
     String[] lectures = {"Analysis", "MSP", "Datenbanksysteme"};
 
@@ -63,32 +69,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-
-        //Test
-        userArrayList = new ArrayList<>();
-        //userArrayList.add(new User(1, "Wanja", "example@lmu.de", null, 0, "sadsasfasgasasas"));
-        //userArrayList.add(new User(2, "Lydia", "example2@lmu.de", null, 0, "!!!!!!!!!!!!!"));
-        //TODO: create Database for useres
-
-        //!!!!!!
-        //connect to server
-        ServerTask serverTask = new ServerTask(userArrayList);
-        serverTask.execute();
-
-
-
-        //arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, lectures);
-
-
-        //recyclerView
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_search);
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, userArrayList);
-        recyclerView.setAdapter(searchAdapter);
+        // initialize the adapter
+        // attach the adapter to the ListView
+        userslv = (ListView) findViewById(R.id.lvusers);
+        ArrayList<User> ausers = new ArrayList<User>();
+        userAdapter = new UserAdapter(this, ausers);
+        userslv.setAdapter(userAdapter);
         fetchUsers();
-
+        userSelectedListener();
 
 
 
@@ -112,14 +100,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 return false;
             }
         });
+
+        ServerTask serverTask = new ServerTask(ausers);
+        serverTask.execute();
     }
 
     private void fetchUsers() {
         databaseHelper = new SQLiteDBHelper(activity);
-        userArrayList.addAll(databaseHelper.getAllTutors());
-        searchAdapter.notifyDataSetChanged();
+        final List<User> users = databaseHelper.getAllTutors();
+        userAdapter.clear();
+        for (User user : users) {
+            userAdapter.add(user);
+        }
     }
 
+    public void userSelectedListener() {
+        userslv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent showDetail = new Intent(MainActivity.this, DetailActivity.class);
+                showDetail.putExtra(USER_DETAIL_KEY, userAdapter.getItem(position));
+                startActivity(showDetail);
+            }
+        });
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -150,9 +154,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.profile:
-            Intent profileactivity = new Intent(this, ProfileActivity.class);
-            profileactivity.putExtra("EMAIL", email);
-            startActivity(profileactivity);
+                Intent profileactivity = new Intent(this, ProfileActivity.class);
+                profileactivity.putExtra("EMAIL", email);
+                startActivity(profileactivity);
+                break;
+            case R.id.logout:
+                Toast.makeText(MainActivity.this, "You are logged out!",
+                        Toast.LENGTH_LONG).show();
+                Intent loginactivity = new Intent(activity, LoginActivity.class);
+                startActivity(loginactivity);
+                break;
         }
         return false;
     }
