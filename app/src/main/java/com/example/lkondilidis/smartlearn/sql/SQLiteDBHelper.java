@@ -152,6 +152,45 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return tutorDetailsList;
     }
 
+    public List getAllTutorsForLecture(String lecture) {
+        String tutor = "Tutor";
+        List tutorDetailsList = new ArrayList();
+
+        SQLiteDatabase db = this.getReadableDatabase();
+        //specify the columns to be fetched
+        String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATING};
+        //Select condition
+        String selection = KEY_USER_NICKNAME + " = ?";
+        //Arguments for selection
+        String[] selectionArgs = {String.valueOf(tutor), String.valueOf(lecture)};
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection,
+                selectionArgs, null, null, null);
+
+        //if TABLE has rows
+        if (cursor.moveToFirst()) {
+            //Loop through the table rows
+            do {
+                User tutorDetails = new User();
+                tutorDetails.setId(cursor.getInt(0));
+                tutorDetails.setName(cursor.getString(1));
+                tutorDetails.setEmail(cursor.getString(2));
+                tutorDetails.setPassword(cursor.getString(3));
+                tutorDetails.setNickname(cursor.getString(4));
+                tutorDetails.setStudies(cursor.getString(5));
+                tutorDetails.setSubject(cursor.getString(6));
+                tutorDetails.setPlan(cursor.getString(7));
+                tutorDetails.setRatings(cursor.getInt(8));
+
+                //Add movie details to list
+                tutorDetailsList.add(tutorDetails);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return tutorDetailsList;
+    }
+
 
     public User getUserEmail(String email) {
 

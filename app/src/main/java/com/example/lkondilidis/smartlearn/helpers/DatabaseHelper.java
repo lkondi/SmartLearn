@@ -1,4 +1,4 @@
-package com.example.lkondilidis.smartlearn.sql;
+package com.example.lkondilidis.smartlearn.helpers;
 
 import android.content.ContentValues;
 import android.content.Context;
