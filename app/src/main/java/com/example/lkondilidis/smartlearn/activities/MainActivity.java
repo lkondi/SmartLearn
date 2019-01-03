@@ -30,6 +30,7 @@ import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
 
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
             public boolean onQueryTextChange(String s) {
                 System.out.println("changed");
                 //if(myList.getVisibility() == View.GONE) {
-                    //myList.setVisibility(View.VISIBLE);
+                //myList.setVisibility(View.VISIBLE);
                 //}
                 load(s);
                 return false;
@@ -199,9 +200,14 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         //myList.setVisibility(View.GONE);
         String selectedLectureName = lectures2.get(i);
 
-        ArrayList<User> arrayList = new ArrayList<>();
-        arrayList.add(new User());
-        searchAdapter = new SearchAdapter(this, arrayList);
+        List<User> tutorList = new ArrayList<>();
+        tutorList =  databaseHelper.getAllTutors();
+
+        for (User user : tutorList) {
+            if(user.getSubject() == selectedLectureName);
+        }
+
+        searchAdapter = new SearchAdapter(this, tutorList);
         recyclerView.setAdapter(searchAdapter);
 
         //userArrayList.remove(userArrayList.size()-1);
