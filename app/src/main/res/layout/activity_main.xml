@@ -38,7 +38,8 @@
             app:iconifiedByDefault="false"
             android:outlineSpotShadowColor="@color/colorText"
             android:outlineAmbientShadowColor="@color/colorText"
-            android:paddingHorizontal="20dp"></android.support.v7.widget.SearchView>
+            android:paddingHorizontal="20dp">
+        </android.support.v7.widget.SearchView>
 
         <include
             layout="@layout/content_main"

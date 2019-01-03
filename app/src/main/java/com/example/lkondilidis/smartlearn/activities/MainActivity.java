@@ -198,9 +198,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         switch (item.getItemId()){
             case R.id.profile:
-            Intent profileactivity = new Intent(this, ProfileActivity.class);
-            profileactivity.putExtra("EMAIL", email);
-            startActivity(profileactivity);
+                Intent profileactivity = new Intent(this, ProfileActivity.class);
+                profileactivity.putExtra("EMAIL", email);
+                startActivity(profileactivity);
+                break;
+            case R.id.logout:
+                Toast.makeText(MainActivity.this, "You are logged out!",
+                        Toast.LENGTH_LONG).show();
+                Intent loginactivity = new Intent(activity, LoginActivity.class);
+                startActivity(loginactivity);
+                break;
         }
         return false;
     }

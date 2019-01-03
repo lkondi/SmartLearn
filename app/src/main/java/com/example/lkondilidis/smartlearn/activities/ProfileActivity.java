@@ -46,7 +46,6 @@ public class ProfileActivity extends AppCompatActivity {
     ImageView imageView;
 
     private AppCompatButton appCompatButtonSubmit;
-    private Button buttonLogOut;
     private ImageButton editButton;
 
     private static String STRING_EMPTY = "";
@@ -151,17 +150,6 @@ public class ProfileActivity extends AppCompatActivity {
         appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 updateUser();
-            }
-        });
-
-        buttonLogOut = (Button) findViewById(R.id.btnLogout);
-        buttonLogOut.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-               Toast.makeText(ProfileActivity.this, "You are logged out!",
-                        Toast.LENGTH_LONG).show();
-               //start login activity
-                Intent loginactivity = new Intent(activity, LoginActivity.class);
-                startActivity(loginactivity);
             }
         });
 
