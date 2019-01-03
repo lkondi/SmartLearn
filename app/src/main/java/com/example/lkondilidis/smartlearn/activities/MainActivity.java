@@ -18,14 +18,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
-import android.view.View;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.services.*;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 import java.util.ArrayList;
