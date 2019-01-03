@@ -31,12 +31,6 @@
         <activity
             android:name=".activities.RegisterActivity"
             android:screenOrientation="portrait" />
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-
-        </intent-filter>
         <activity
             android:name=".activities.ProfileActivity"
             android:screenOrientation="portrait" />
