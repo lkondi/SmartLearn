@@ -2,6 +2,10 @@ package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,6 +22,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
@@ -37,10 +42,24 @@ public class DetailActivity extends AppCompatActivity {
     private static String STRING_EMPTY = "";
     int idFromIntent = 0;
 
+    private DrawerLayout drawerLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        //Drawer
+        drawerLayout = findViewById(R.id.drawer_detail);
+        NavigationView navigationView = findViewById(R.id.navigation_view_detail);
+        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
+
+
+        //Toolbar
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+
         // Fetch views
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
         userName = (TextView) findViewById(R.id.userName);
@@ -100,11 +119,14 @@ public class DetailActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        if (id == R.id.action_share) {
-            setShareIntent();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+            case R.id.action_share:
+                setShareIntent();
+                return true;
         }
         return super.onOptionsItemSelected(item);
     }

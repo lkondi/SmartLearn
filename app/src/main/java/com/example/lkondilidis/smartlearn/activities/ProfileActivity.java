@@ -1,11 +1,17 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.support.v7.widget.AppCompatButton;
@@ -24,6 +30,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
@@ -52,11 +59,24 @@ public class ProfileActivity extends AppCompatActivity {
 
     private CheckBox tutorcheck;
 
+    private DrawerLayout drawerLayout;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+
+        //Drawer
+        drawerLayout = findViewById(R.id.drawer_profile);
+        NavigationView navigationView = findViewById(R.id.navigation_view_profile);
+        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
+
+
+        //Toolbar
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         initViews();
         initListeners();
@@ -266,5 +286,16 @@ public class ProfileActivity extends AppCompatActivity {
         editArea.setVisibility(LinearLayout.VISIBLE);
 
 
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

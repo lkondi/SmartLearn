@@ -24,17 +24,17 @@ import android.widget.Toast;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
+import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, SearchView.OnSuggestionListener {
+public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
 
     private final AppCompatActivity activity = MainActivity.this;
     public static final String USER_DETAIL_KEY = "selecteduser";
-    ActionBarDrawerToggle mToggle;
     DrawerLayout drawerLayout;
     SearchView searchView;
     RecyclerView recyclerView;
@@ -56,10 +56,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Drawer
         drawerLayout = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.navigation_view);
-        mToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.open, R.string.close);
-        navigationView.setNavigationItemSelectedListener(this);
-        drawerLayout.addDrawerListener(mToggle);
-        mToggle.syncState();
+        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
+
 
         //Toolbar
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -188,27 +186,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        Intent intent = getIntent();
-        String email = intent.getStringExtra("EMAIL");
-
-        switch (item.getItemId()){
-            case R.id.profile:
-                Intent profileactivity = new Intent(this, ProfileActivity.class);
-                profileactivity.putExtra("EMAIL", email);
-                startActivity(profileactivity);
-                break;
-            case R.id.logout:
-                Toast.makeText(MainActivity.this, "You are logged out!",
-                        Toast.LENGTH_LONG).show();
-                Intent loginactivity = new Intent(activity, LoginActivity.class);
-                startActivity(loginactivity);
-                break;
-        }
-        return false;
     }
 
     @Override
