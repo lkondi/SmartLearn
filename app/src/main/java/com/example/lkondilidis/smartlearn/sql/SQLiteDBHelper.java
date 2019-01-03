@@ -161,7 +161,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
                 KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATING};
         //Select condition
-        String selection = KEY_USER_NICKNAME + " = ?";
+        String selection = KEY_USER_NICKNAME + " = ?" + KEY_STUDIES + " = ?" ;
         //Arguments for selection
         String[] selectionArgs = {String.valueOf(tutor), String.valueOf(lecture)};
 
