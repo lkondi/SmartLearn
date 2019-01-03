@@ -8,10 +8,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.model.User;
-
 import java.util.ArrayList;
+import java.util.Locale;
+
+import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.activities.MainActivity;
+import com.example.lkondilidis.smartlearn.model.User;
 
 public class UserAdapter extends ArrayAdapter<User> {
 
@@ -51,5 +53,6 @@ public class UserAdapter extends ArrayAdapter<User> {
         // Return the completed view to render on screen
         return convertView;
     }
+    
 }
 

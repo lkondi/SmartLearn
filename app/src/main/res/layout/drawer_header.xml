@@ -4,5 +4,4 @@
     android:layout_height="160dp"
     android:theme="@style/AppTheme.NoActionBar"
     android:background="@drawable/ic_launcher_background">
-
 </LinearLayout>
