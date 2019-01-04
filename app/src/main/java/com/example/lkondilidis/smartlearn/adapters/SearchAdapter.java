@@ -13,22 +13,21 @@ import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
-import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.List;
 
 class SearchViewHolder extends RecyclerView.ViewHolder{
 
-    TextView name, email, descrition;
+    TextView name, subject, descrition;
     CardView parentLayout;
 
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
-        name = itemView.findViewById(R.id.textView_username);
-        email = itemView.findViewById(R.id.textView_email);
-        descrition = itemView.findViewById(R.id.textView_description);
+        name = itemView.findViewById(R.id.textView_name);
+        subject = itemView.findViewById(R.id.textView_subject);
+       // descrition = itemView.findViewById(R.id.textView_description);
         parentLayout = itemView.findViewById(R.id.parentLayout);
     }
 }
@@ -48,15 +47,15 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
     @Override
     public SearchViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         LayoutInflater layoutInflater = LayoutInflater.from(viewGroup.getContext());
-        View itemView = layoutInflater.inflate(R.layout.layout_item, viewGroup, false);
+        View itemView = layoutInflater.inflate(R.layout.main_layout_item, viewGroup, false);
         return new SearchViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, final int i) {
         searchViewHolder.name.setText(users.get(i).getName());
-        searchViewHolder.email.setText(users.get(i).getEmail());
-        searchViewHolder.descrition.setText(users.get(i).getPrivateInfo());
+        searchViewHolder.subject.setText(users.get(i).getSubject());
+//        searchViewHolder.descrition.setText(users.get(i).getPrivateInfo());
 
         searchViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
