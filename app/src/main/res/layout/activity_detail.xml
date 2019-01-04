@@ -95,6 +95,49 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:textSize="14sp" />
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginLeft="60dp">
+                <RadioButton android:id="@+id/radio_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="1" />
+                <RadioButton android:id="@+id/radio_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="2" />
+                <RadioButton android:id="@+id/radio_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="3" />
+                <RadioButton android:id="@+id/radio_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="4" />
+                <RadioButton android:id="@+id/radio_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/colorText"
+                    android:text="5" />
+            </RadioGroup>
+
+            <Button
+                android:id="@+id/btnRating"
+                android:layout_width="match_parent"
+                android:background="@color/colorPrimary"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="10dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.20"
+                android:text="@string/ratings" />
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

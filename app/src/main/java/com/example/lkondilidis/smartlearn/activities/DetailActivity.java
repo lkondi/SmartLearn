@@ -9,7 +9,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Bitmap;
@@ -17,10 +20,12 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.widget.RadioButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -41,6 +46,15 @@ public class DetailActivity extends AppCompatActivity {
     private SQLiteDBHelper dataBaseHelper;
     private static String STRING_EMPTY = "";
     int idFromIntent = 0;
+    Button btnRating;
+
+    //RadioButtons
+    RadioButton radio_1;
+    RadioButton radio_2;
+    RadioButton radio_3;
+    RadioButton radio_4;
+    RadioButton radio_5;
+    RadioGroup radiogroup;
 
     private DrawerLayout drawerLayout;
 
@@ -48,6 +62,22 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        //Radio Buttons
+        radio_1 = findViewById(R.id.radio_1);
+        radio_2 = findViewById(R.id.radio_2);
+        radio_3 = findViewById(R.id.radio_3);
+        radio_4 = findViewById(R.id.radio_4);
+        radio_5 = findViewById(R.id.radio_5);
+
+
+        //Button
+        btnRating = findViewById(R.id.btnRating);
+        btnRating.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                giveRating();
+            }
+        });
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer_detail);
@@ -174,5 +204,37 @@ public class DetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bmpUri;
+    }
+
+    public void giveRating() {
+        int rating = 0;
+
+        if(radio_1.isChecked()) {
+           rating = 1;
+        }
+        if(radio_2.isChecked()) {
+            rating = 2;
+        }
+        if(radio_3.isChecked()) {
+            rating = 3;
+        }
+        if(radio_4.isChecked()) {
+            rating = 4;
+        }
+        if(radio_5.isChecked()) {
+            rating = 5;
+        }
+
+        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        dataBaseHelper = new SQLiteDBHelper(activity);
+
+        //current User
+        User currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        currentuser.setRatings(rating);
+        dataBaseHelper.updateUser(currentuser);
+        userRatings.setText(String.valueOf(rating));
+
+        Toast.makeText(DetailActivity.this, "Thanks for your rating!",
+                Toast.LENGTH_LONG).show();
     }
 }
