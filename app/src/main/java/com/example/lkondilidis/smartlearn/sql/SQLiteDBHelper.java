@@ -152,7 +152,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return tutorDetailsList;
     }
 
-    public List getAllTutorsForLecture(String lecture) {
+    public List getAllTutorsSubject(String subject) {
         String tutor = "Tutor";
         List tutorDetailsList = new ArrayList();
 
@@ -161,12 +161,12 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
                 KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATING};
         //Select condition
-        String selection = KEY_USER_NICKNAME + " = ?" + KEY_STUDIES + " = ?" ;
+        String selection = KEY_USER_NICKNAME + " = ?";
         //Arguments for selection
-        String[] selectionArgs = {String.valueOf(tutor), String.valueOf(lecture)};
+        String[] selectionArgs = {String.valueOf(tutor)};
 
-        Cursor cursor = db.query(TABLE_NAME, columns, selection,
-                selectionArgs, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, columns, KEY_USER_NICKNAME + " = ?" + " AND " + KEY_SUBJECT + "= ?",
+                new String[] {tutor, subject}, null, null, null);
 
         //if TABLE has rows
         if (cursor.moveToFirst()) {
@@ -190,7 +190,6 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.close();
         return tutorDetailsList;
     }
-
 
     public User getUserEmail(String email) {
 

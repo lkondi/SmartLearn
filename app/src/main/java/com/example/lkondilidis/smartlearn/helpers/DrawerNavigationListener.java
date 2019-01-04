@@ -29,6 +29,7 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
         switch (item.getItemId()){
             case R.id.drawer_home:
                 Intent mainactivity = new Intent(context, MainActivity.class);
+                mainactivity.putExtra("EMAIL", email);
                 context.startActivity(mainactivity);
                 break;
             case R.id.profile:

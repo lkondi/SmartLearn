@@ -1,6 +1,7 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.app.SearchManager;
+import android.app.UiAutomation;
 import android.content.Context;
 import android.content.Intent;
 import android.database.MatrixCursor;
@@ -85,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         recyclerView.setHasFixedSize(true);
         searchAdapter = new SearchAdapter(this, userArrayList);
         recyclerView.setAdapter(searchAdapter);
-        fetchUsers();
+        smartfetchUsers();
 
 
         //searchView
@@ -142,6 +143,24 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     private void fetchUsers() {
         databaseHelper = new SQLiteDBHelper(activity);
         userArrayList.addAll(databaseHelper.getAllTutors());
+        searchAdapter.notifyDataSetChanged();
+    }
+
+    private void smartfetchUsers() {
+        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        databaseHelper = new SQLiteDBHelper(activity);
+        User currentuser = databaseHelper.getUserEmail(emailFromIntent);
+
+        //User Details
+        String studies = currentuser.getStudies();
+        String subject = currentuser.getSubject();
+        String plan = currentuser.getPlan();
+
+        ArrayList<User> smartArrayList = new ArrayList<>();
+
+
+
+        userArrayList.addAll(databaseHelper.getAllTutorsSubject(subject));
         searchAdapter.notifyDataSetChanged();
     }
 

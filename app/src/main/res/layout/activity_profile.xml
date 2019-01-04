@@ -179,28 +179,6 @@
                         android:layout_weight="0.75"
                         android:ems="10" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:padding="10sp">
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.25"
-                        android:text="Stundenplan:" />
-
-                    <TextView
-                        android:id="@+id/plantext"
-                        android:text="@string/plan"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="0.75"
-                        android:ems="10" />
-                </LinearLayout>
-
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
@@ -222,16 +200,40 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
                         android:ems="10"
-
                         />
                 </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:padding="10sp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="0.25"
+                        android:text="Verfürgbarkeit:" />
+
+
+                    <TextView
+                        android:id="@+id/plantext"
+                        android:text="@string/plan"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="0.75"
+                        android:ems="10"
+                        />
+                </LinearLayout>
+
+
             </LinearLayout>
 
             <LinearLayout
                 android:id="@+id/editArea"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -280,48 +282,56 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:paddingLeft="10sp">
+                    android:padding="10sp">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.25"
-                        android:text="Stundenplan:" />
+                        android:text="Verfürgbarkeit:" />
 
-                    <EditText
-                        android:id="@+id/planedit"
-                        android:textColor="#fff"
-                        android:layout_width="0dp"
+                    <CheckBox android:id="@+id/checkbox_mo"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.75"
-                        android:ems="10" />
+                        android:text="Montag"
+                        android:textColor="@color/colorText" />
+                    <CheckBox android:id="@+id/checkbox_di"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Dienstag"
+                        android:textColor="@color/colorText" />
+                    <CheckBox android:id="@+id/checkbox_mi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Mittwoch"
+                        android:textColor="@color/colorText" />
                 </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
+                <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:orientation="horizontal"
-                    android:paddingLeft="10sp">
-
-                    <TextView
-                        android:layout_width="0dp"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent">
+                    <CheckBox android:id="@+id/checkbox_do"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_weight="0.25"
-
-                        android:text="Bewertungen:" />
-
-
-                    <EditText
-                        android:id="@+id/ratingsedit"
-                        android:textColor="#fff"
-                        android:layout_width="0dp"
+                        android:text="Donnerstag"
+                        android:textColor="@color/colorText" />
+                    <CheckBox android:id="@+id/checkbox_fr"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.75"
-                        android:ems="10"
-
-                        />
+                        android:text="Freitag"
+                        android:textColor="@color/colorText" />
+                    <CheckBox android:id="@+id/checkbox_sa"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Samstag"
+                        android:textColor="@color/colorText" />
+                    <CheckBox android:id="@+id/checkbox_so"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Sonntag"
+                        android:textColor="@color/colorText" />
                 </LinearLayout>
+
             </LinearLayout>
         </android.support.constraint.ConstraintLayout>
 
