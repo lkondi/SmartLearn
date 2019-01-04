@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
 
 
-        userArrayList.addAll(databaseHelper.getAllTutorsSubject(subject));
+        userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject, plan));
         searchAdapter.notifyDataSetChanged();
     }
 

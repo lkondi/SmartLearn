@@ -19,7 +19,7 @@ import java.util.List;
 
 class SearchViewHolder extends RecyclerView.ViewHolder{
 
-    TextView name, subject, descrition;
+    TextView name, subject, plan;
     CardView parentLayout;
 
 
@@ -27,6 +27,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
         super(itemView);
         name = itemView.findViewById(R.id.textView_name);
         subject = itemView.findViewById(R.id.textView_subject);
+        plan = itemView.findViewById(R.id.textView_plan);
        // descrition = itemView.findViewById(R.id.textView_description);
         parentLayout = itemView.findViewById(R.id.parentLayout);
     }
@@ -55,6 +56,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, final int i) {
         searchViewHolder.name.setText(users.get(i).getName());
         searchViewHolder.subject.setText(users.get(i).getSubject());
+        searchViewHolder.plan.setText(users.get(i).getPlan());
 //        searchViewHolder.descrition.setText(users.get(i).getPrivateInfo());
 
         searchViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {

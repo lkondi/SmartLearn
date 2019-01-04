@@ -276,7 +276,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ArrayList<String> plans = onCheckboxClicked();
 
-        String SEPARATOR = ",";
+        String SEPARATOR = ", ";
         StringBuilder planBuilder = new StringBuilder();
 
         for(String plan : plans){
