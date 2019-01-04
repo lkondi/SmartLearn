@@ -47,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     private static final int SELECT_PICTURE = 0;
 
     TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
-    EditText editTextStudies, editTextSubject, editTextPlan, editTextRatings;
+    EditText editTextStudies, editTextSubject, editTextRatings;
     SQLiteDBHelper dataBaseHelper;
 
     ImageView imageView;
@@ -57,7 +57,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private static String STRING_EMPTY = "";
 
-    private CheckBox tutorcheck;
+    private CheckBox tutorcheck, mocheck, dicheck, micheck, docheck, frcheck, sacheck, socheck;
+    ArrayList<String> plan;
 
     private DrawerLayout drawerLayout;
 
@@ -79,7 +80,6 @@ public class ProfileActivity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         initViews();
-        initListeners();
         initObjects();
 
     }
@@ -105,10 +105,9 @@ public class ProfileActivity extends AppCompatActivity {
         editTextSubject = (EditText) findViewById(R.id.subjectedit);
         //plan
         textViewPlan = (TextView) findViewById(R.id.plantext);
-        editTextPlan = (EditText) findViewById(R.id.planedit);
+
         //ratings
         textViewRatings = (TextView) findViewById(R.id.ratingstext);
-        editTextRatings = (EditText) findViewById(R.id.ratingsedit);
 
         imageView = (CircleImageView) findViewById(R.id.profile);
 
@@ -120,6 +119,13 @@ public class ProfileActivity extends AppCompatActivity {
 
         //checkbox
         tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
+        mocheck = (CheckBox) findViewById(R.id.checkbox_mo);
+        dicheck = (CheckBox) findViewById(R.id.checkbox_di);
+        micheck = (CheckBox) findViewById(R.id.checkbox_mi);
+        docheck = (CheckBox) findViewById(R.id.checkbox_do);
+        frcheck = (CheckBox) findViewById(R.id.checkbox_fr);
+        sacheck = (CheckBox) findViewById(R.id.checkbox_sa);
+        socheck = (CheckBox) findViewById(R.id.checkbox_so);
 
         //set Values
         textViewEmail.setText(emailFromIntent);
@@ -157,6 +163,57 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
+        mocheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        dicheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        micheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        docheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        frcheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        sacheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+        socheck.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                onCheckboxClicked();
+            }
+        });
+
+
 
     //buttons
         editButton = (ImageButton) findViewById(R.id.edit);
@@ -173,24 +230,6 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void initListeners() {
-        appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                updateUser();
-            }
-        });
-        editButton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                editClicked();
-            }
-        });
-        tutorcheck.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                isTutor();
-            }
-        });
     }
 
     private void initObjects() {
@@ -235,15 +274,32 @@ public class ProfileActivity extends AppCompatActivity {
 
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
 
+        ArrayList<String> plans = onCheckboxClicked();
+
+        String SEPARATOR = ",";
+        StringBuilder planBuilder = new StringBuilder();
+
+        for(String plan : plans){
+            planBuilder.append(plans);
+            planBuilder.append(SEPARATOR);
+        }
+        String planfinal = planBuilder.toString();
+        System.out.println(planfinal);
+        //Remove last comma
+        planfinal = planfinal.substring(0, planfinal.length() - SEPARATOR.length());
+
+        System.out.println(planfinal);
+
             if (!STRING_EMPTY.equals(editTextStudies.getText().toString())
                     && !STRING_EMPTY.equals(editTextSubject.getText().toString())
-                    && !STRING_EMPTY.equals(editTextPlan.getText().toString())) {
+                    && !STRING_EMPTY.equals(planfinal)) {
+
 
                 User userDetails = dataBaseHelper.getUserEmail(emailFromIntent);
 
                 userDetails.setStudies(editTextStudies.getText().toString());
                 userDetails.setSubject(editTextSubject.getText().toString());
-                userDetails.setPlan(editTextPlan.getText().toString());
+                userDetails.setPlan(planfinal);
                 //userDetails.setRatings(Integer.parseInt(editTextRatings.getText().toString()));
 
                 dataBaseHelper.updateUser(userDetails);
@@ -286,6 +342,34 @@ public class ProfileActivity extends AppCompatActivity {
         editArea.setVisibility(LinearLayout.VISIBLE);
 
 
+    }
+
+    public ArrayList<String> onCheckboxClicked() {
+        plan = new ArrayList<>();
+
+        if(mocheck.isChecked()) {
+            plan.add("Montag");
+        }
+        if(dicheck.isChecked()) {
+            plan.add("Dienstag");
+        }
+        if(micheck.isChecked()) {
+            plan.add("Mittwoch");
+        }
+        if(docheck.isChecked()) {
+            plan.add("Donnerstag");
+        }
+        if(frcheck.isChecked()) {
+            plan.add("Freitag");
+        }
+        if(sacheck.isChecked()) {
+            plan.add("Samstag");
+        }
+        if(socheck.isChecked()) {
+            plan.add("Sonntag");
+        }
+
+        return plan;
     }
 
 
