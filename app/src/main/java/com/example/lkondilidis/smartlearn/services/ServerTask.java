@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.services;
 
+import android.content.Context;
 import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -21,9 +22,11 @@ import static android.content.ContentValues.TAG;
 public class ServerTask extends AsyncTask<Void, Void, User>
 {
     ArrayList<User> users;
+    Context context;
 
-    public ServerTask(ArrayList<User> users){
+    public ServerTask(ArrayList<User> users, Context context){
         this.users = users;
+        this.context = context;
     }
 
     @Override
@@ -47,7 +50,7 @@ public class ServerTask extends AsyncTask<Void, Void, User>
 
         StringBuffer response = null;
         try {
-            String path = Resources.getSystem().getString(R.string.path);
+            String path = context.getString(R.string.path);
             URL url = new URL(path);
             Log.d(TAG, "ServerData: " + path);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -80,6 +83,7 @@ public class ServerTask extends AsyncTask<Void, Void, User>
         //Call ServerData() method to call webservice and store result in response
         //  response = service.ServerData(path, postDataParams);
         Log.d(TAG, "data:" + responseText);
+        System.out.println("Impotant");
         try {
 
                 JSONObject jsonobject = new JSONObject(responseText);
