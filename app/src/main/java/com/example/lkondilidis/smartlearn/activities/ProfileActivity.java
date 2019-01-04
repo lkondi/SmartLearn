@@ -280,7 +280,7 @@ public class ProfileActivity extends AppCompatActivity {
         StringBuilder planBuilder = new StringBuilder();
 
         for(String plan : plans){
-            planBuilder.append(plans);
+            planBuilder.append(plan);
             planBuilder.append(SEPARATOR);
         }
         String planfinal = planBuilder.toString();
