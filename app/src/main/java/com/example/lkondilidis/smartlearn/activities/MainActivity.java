@@ -140,6 +140,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     }
 
+    private void fetchUsers() {
+        databaseHelper = new SQLiteDBHelper(activity);
+        userArrayList.addAll(databaseHelper.getAllTutors());
+        searchAdapter.notifyDataSetChanged();
+    }
 
     private void smartfetchUsers() {
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
