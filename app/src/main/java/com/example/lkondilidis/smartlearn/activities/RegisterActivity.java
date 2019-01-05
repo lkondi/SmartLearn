@@ -106,6 +106,12 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
             case R.id.appCompatButtonRegister:
                 postDataToSQLite();
+
+                Intent profileactivity = new Intent(activity, ProfileActivity.class);
+                profileactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+                profileactivity.setAction("register");
+                emptyInputEditText();
+                startActivity(profileactivity);
                 break;
 
             case R.id.appCompatTextViewLoginLink:
@@ -147,10 +153,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
             emptyInputEditText();
 
-            Intent mainactivity = new Intent(activity, MainActivity.class);
-            mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-            emptyInputEditText();
-            startActivity(mainactivity);
+            //Intent mainactivity = new Intent(activity, MainActivity.class);
+            //mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+            //emptyInputEditText();
+            //startActivity(mainactivity);
+
 
         } else {
             // Snack Bar to show error message that record already exists

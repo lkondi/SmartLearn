@@ -151,6 +151,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String subject = currentuser.getSubject();
         String plan = currentuser.getPlan();
 
+        if (subject == null) { subject = "";}
+        if (plan == null) { plan = "";}
+
         userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject, plan));
         searchAdapter.notifyDataSetChanged();
     }
