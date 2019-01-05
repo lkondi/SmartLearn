@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     SearchAdapter searchAdapter;
+    private static String STRING_EMPTY = "";
 
     ArrayList<User> userArrayList;
     SQLiteDBHelper databaseHelper;
@@ -85,7 +86,18 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         recyclerView.setHasFixedSize(true);
         searchAdapter = new SearchAdapter(this, userArrayList);
         recyclerView.setAdapter(searchAdapter);
-        smartfetchUsers();
+
+
+        //fetch users
+        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        databaseHelper = new SQLiteDBHelper(activity);
+        User currentuser = databaseHelper.getUserEmail(emailFromIntent);
+
+        if (!STRING_EMPTY.equals(currentuser.getStudies()) && !STRING_EMPTY.equals(currentuser.getPlan())) {
+            smartfetchUsers();
+        }else {
+            fetchUsers();
+        }
 
 
         //searchView
@@ -139,6 +151,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     }
 
+    private void fetchUsers() {
+        databaseHelper = new SQLiteDBHelper(activity);
+        userArrayList.addAll(databaseHelper.getAllTutors());
+        searchAdapter.notifyDataSetChanged();
+    }
 
     private void smartfetchUsers() {
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
@@ -149,6 +166,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String studies = currentuser.getStudies();
         String subject = currentuser.getSubject();
         String plan = currentuser.getPlan();
+
 
         userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject, plan));
         searchAdapter.notifyDataSetChanged();
