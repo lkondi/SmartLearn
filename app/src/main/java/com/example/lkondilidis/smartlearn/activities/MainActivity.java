@@ -50,12 +50,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     String[] lectures = {"Analysis", "MSP", "Datenbanksysteme"};
     ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
-    private ListView myList;
+
+    String emailFromIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        emailFromIntent = getIntent().getStringExtra("EMAIL");
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer);
@@ -85,12 +88,12 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, userArrayList);
+        searchAdapter = new SearchAdapter(this, userArrayList, emailFromIntent);
         recyclerView.setAdapter(searchAdapter);
 
 
         //fetch users
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
+
         databaseHelper = new SQLiteDBHelper(activity);
         User currentuser = databaseHelper.getUserEmail(emailFromIntent);
 
@@ -239,7 +242,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
             if(user.getSubject() == selectedLectureName);
         }
 
-        searchAdapter = new SearchAdapter(this, tutorList);
+        searchAdapter = new SearchAdapter(this, tutorList, emailFromIntent);
         recyclerView.setAdapter(searchAdapter);
 
         //userArrayList.remove(userArrayList.size()-1);

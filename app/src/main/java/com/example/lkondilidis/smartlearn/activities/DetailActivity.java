@@ -57,12 +57,15 @@ public class DetailActivity extends AppCompatActivity {
     RadioGroup radiogroup;
 
     private DrawerLayout drawerLayout;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        Intent intent = getIntent();
+        email = intent.getStringExtra("EMAIL");
         //Radio Buttons
         radio_1 = findViewById(R.id.radio_1);
         radio_2 = findViewById(R.id.radio_2);

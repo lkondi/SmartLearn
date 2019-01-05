@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
     android:layout_margin="0dp"
-    app:cardBackgroundColor="@color/primary"
+    app:cardBackgroundColor="@color/primary_darker"
+    app:cardUseCompatPadding="true"
     android:id="@+id/parentLayout"
     >
     
@@ -17,6 +18,7 @@
         android:layout_height="wrap_content">
         
         <ImageView
+            android:layout_gravity="center"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:src="@drawable/ic_verified_user_black_24dp"/>

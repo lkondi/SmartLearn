@@ -38,10 +38,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
     public static final String USER_DETAIL_KEY = "selecteduser";
     private Context context;
     private List<User> users;
+    private String email;
 
-    public SearchAdapter(Context context, List<User> users){
+    public SearchAdapter(Context context, List<User> users, String email){
         this.context = context;
-        this. users = users;
+        this.users = users;
+        this.email = email;
     }
 
     @NonNull
@@ -64,6 +66,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
             public void onClick(View view) {
                 Intent showDetail = new Intent(context, DetailActivity.class);
                 showDetail.putExtra(USER_DETAIL_KEY, users.get(i));
+                showDetail.putExtra("EMAIL", email);
                 context.startActivity(showDetail);
             }
         });
