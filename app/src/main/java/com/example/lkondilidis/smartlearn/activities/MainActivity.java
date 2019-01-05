@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     RecyclerView recyclerView;
     RecyclerView.LayoutManager layoutManager;
     SearchAdapter searchAdapter;
+    private static String STRING_EMPTY = "";
 
     ArrayList<User> userArrayList;
     SQLiteDBHelper databaseHelper;
