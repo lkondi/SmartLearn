@@ -7,7 +7,7 @@
     android:id="@+id/drawer_profile"
     android:theme="@style/AppTheme.NoActionBar"
     tools:context=".activities.MainActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/primary">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,8 +19,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/layout"
-        android:background="@color/colorBackground">
+        android:id="@+id/layout">
 
         <ImageView
             android:id="@+id/header_cover_image"
@@ -52,9 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/header_cover_image"
             android:elevation="4dp"
-            android:paddingBottom="24dp"
-            android:background="@color/colorBackground"
-            >
+            android:paddingBottom="24dp">
 
             <CheckBox
                 android:id="@+id/tutorcheck"
@@ -65,7 +62,7 @@
                 android:layout_marginRight="16dp"
                 android:text="Tutor"
                 android:checked="false"
-                android:textColor="@color/colorPrimary"
+                android:textColor="@color/iron"
                 android:textSize="16sp"
                 android:textStyle="bold"/>
 
@@ -124,7 +121,6 @@
             android:layout_height="match_parent"
             android:layout_below="@+id/profile_layout"
             android:layout_marginLeft="5dp"
-            android:background="@color/colorBackground"
             android:elevation="4dp"
             android:orientation="vertical"
             android:paddingBottom="10dp"
@@ -294,17 +290,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Montag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                     <CheckBox android:id="@+id/checkbox_di"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Dienstag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                     <CheckBox android:id="@+id/checkbox_mi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Mittwoch"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                 </LinearLayout>
                 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                     android:orientation="horizontal"
@@ -314,22 +310,22 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Donnerstag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                     <CheckBox android:id="@+id/checkbox_fr"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Freitag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                     <CheckBox android:id="@+id/checkbox_sa"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Samstag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                     <CheckBox android:id="@+id/checkbox_so"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sonntag"
-                        android:textColor="@color/colorText" />
+                        android:textColor="@color/iron" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -340,7 +336,6 @@
                 android:layout_height="match_parent"
                 android:layout_below="@+id/details_layout"
                 android:layout_marginLeft="5dp"
-                android:background="@color/colorBackground"
                 android:elevation="4dp"
                 android:orientation="vertical"
                 android:paddingTop="15dp"
@@ -352,7 +347,7 @@
                 <android.support.v7.widget.AppCompatButton
                     android:id="@+id/btnSubmit"
                     android:layout_width="match_parent"
-                    android:background="@color/colorPrimary"
+                    android:background="@color/primary_darker"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.20"
                     android:text="@string/submit" />
@@ -364,13 +359,12 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view_profile"
         android:layout_width="wrap_content"
-        android:background="@color/colorBackground"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_layout"
-        app:itemIconTint="@color/colorPrimary"
-        app:itemTextColor="@color/colorText">
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white">
 
     </android.support.design.widget.NavigationView>
 

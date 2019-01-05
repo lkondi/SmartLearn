@@ -7,15 +7,14 @@
     android:id="@+id/drawer_detail"
     android:theme="@style/AppTheme.NoActionBar"
     tools:context=".activities.MainActivity"
-    android:background="@color/colorBackground">
+    android:background="@color/primary">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activities.DetailActivity"
-    android:background="@color/colorBackground">
+    tools:context=".activities.DetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -104,34 +103,34 @@
                 <RadioButton android:id="@+id/radio_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/iron"
                     android:text="1" />
                 <RadioButton android:id="@+id/radio_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/iron"
                     android:text="2" />
                 <RadioButton android:id="@+id/radio_3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/iron"
                     android:text="3" />
                 <RadioButton android:id="@+id/radio_4"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/iron"
                     android:text="4" />
                 <RadioButton android:id="@+id/radio_5"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/colorText"
+                    android:textColor="@color/iron"
                     android:text="5" />
             </RadioGroup>
 
             <Button
                 android:id="@+id/btnRating"
                 android:layout_width="match_parent"
-                android:background="@color/colorPrimary"
+                android:background="@color/primary_darker"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="10dp"
                 android:layout_height="wrap_content"
@@ -145,13 +144,13 @@
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view_detail"
         android:layout_width="wrap_content"
-        android:background="@color/colorBackground"
+        android:background="@color/primary"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         app:headerLayout="@layout/drawer_header"
         app:menu="@menu/drawer_layout"
-        app:itemIconTint="@color/colorPrimary"
-        app:itemTextColor="@color/colorText">
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white">
 
     </android.support.design.widget.NavigationView>
 

@@ -6,12 +6,11 @@
     android:layout_height="wrap_content"
     app:cardElevation="0dp"
     android:layout_margin="0dp"
-    app:cardBackgroundColor="@color/colorBackground"
+    app:cardBackgroundColor="@color/primary"
     android:id="@+id/parentLayout"
     >
     
     <LinearLayout
-        android:background="@color/colorBackground"
         android:orientation="horizontal"
         android:layout_margin="8dp"
         android:layout_width="match_parent"
@@ -20,7 +19,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/ic_account_circle_black_24dp"/>
+            android:src="@drawable/ic_verified_user_black_24dp"/>
         
         <LinearLayout
             android:orientation="vertical"

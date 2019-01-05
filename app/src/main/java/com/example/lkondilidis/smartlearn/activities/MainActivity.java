@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         databaseHelper = new SQLiteDBHelper(activity);
         User currentuser = databaseHelper.getUserEmail(emailFromIntent);
 
-        if (!STRING_EMPTY.equals(currentuser.getStudies()) && !STRING_EMPTY.equals(currentuser.getPlan())) {
+        if (!STRING_EMPTY.equals(currentuser.getSubject()) && !STRING_EMPTY.equals(currentuser.getPlan())) {
             smartfetchUsers();
         }else {
             fetchUsers();
@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     }
 
     private void smartfetchUsers() {
+
         String emailFromIntent = getIntent().getStringExtra("EMAIL");
         databaseHelper = new SQLiteDBHelper(activity);
         User currentuser = databaseHelper.getUserEmail(emailFromIntent);
@@ -167,6 +168,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String subject = currentuser.getSubject();
         String plan = currentuser.getPlan();
 
+        if (subject == null) { subject = "";}
+        if (plan == null) { plan = "";}
 
         userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject, plan));
         searchAdapter.notifyDataSetChanged();

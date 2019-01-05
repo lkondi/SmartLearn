@@ -7,10 +7,9 @@
     android:layout_height="match_parent"
     android:theme="@style/AppTheme.NoActionBar"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    android:background="@color/colorBackground">
+    android:background="@color/primary">
 
     <android.support.v7.widget.RecyclerView
-        android:background="@color/colorBackground"
         android:id="@+id/recycler_search"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
