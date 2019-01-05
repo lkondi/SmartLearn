@@ -208,6 +208,7 @@ public class DetailActivity extends AppCompatActivity {
 
     public void giveRating() {
         int rating = 0;
+        int oldrating = 0;
 
         if(radio_1.isChecked()) {
            rating = 1;
@@ -230,9 +231,16 @@ public class DetailActivity extends AppCompatActivity {
 
         //current User
         User currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        currentuser.setRatings(rating);
-        dataBaseHelper.updateUser(currentuser);
-        userRatings.setText(String.valueOf(rating));
+        oldrating = currentuser.getRatings();
+
+        if(oldrating < rating) {
+            currentuser.setRatings(rating);
+            dataBaseHelper.updateUser(currentuser);
+            userRatings.setText(String.valueOf(rating));
+
+            Toast.makeText(DetailActivity.this, "Thanks for your rating!",
+                    Toast.LENGTH_LONG).show();
+        }
 
         Toast.makeText(DetailActivity.this, "Thanks for your rating!",
                 Toast.LENGTH_LONG).show();
