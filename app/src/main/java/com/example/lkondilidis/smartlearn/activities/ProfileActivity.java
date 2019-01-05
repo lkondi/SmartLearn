@@ -150,6 +150,9 @@ public class ProfileActivity extends AppCompatActivity {
         if (!STRING_EMPTY.equals(currentuser.getPlan())) {
             textViewPlan.setText(currentuser.getPlan());
         }
+        if (!STRING_EMPTY.equals(currentuser.getRatings())) {
+            textViewPlan.setText(String.valueOf(currentuser.getRatings()));
+        }
         else {
             Toast.makeText(ProfileActivity.this, "Please fill you personal data",
                     Toast.LENGTH_LONG).show();
@@ -276,7 +279,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         ArrayList<String> plans = onCheckboxClicked();
 
-        String SEPARATOR = ",";
+        String SEPARATOR = ", ";
         StringBuilder planBuilder = new StringBuilder();
 
         for(String plan : plans){
@@ -300,13 +303,13 @@ public class ProfileActivity extends AppCompatActivity {
                 userDetails.setStudies(editTextStudies.getText().toString());
                 userDetails.setSubject(editTextSubject.getText().toString());
                 userDetails.setPlan(planfinal);
-                //userDetails.setRatings(Integer.parseInt(editTextRatings.getText().toString()));
+
 
                 dataBaseHelper.updateUser(userDetails);
                 textViewStudies.setText(userDetails.getStudies());
                 textViewSubject.setText(userDetails.getSubject());
                 textViewPlan.setText(userDetails.getPlan());
-                //textViewRatings.setText(userDetails.getRatings());
+
 
                 submitClicked();
                 Toast.makeText(ProfileActivity.this, "EDITED!",
