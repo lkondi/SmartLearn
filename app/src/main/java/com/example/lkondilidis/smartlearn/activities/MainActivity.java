@@ -227,12 +227,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String selectedLectureName = lectures2.get(i);
 
         List<User> tutorList = new ArrayList<>();
-        tutorList =  databaseHelper.getAllTutors();
-
-        for (User user : tutorList) {
-            if(user.getSubject() == selectedLectureName);
-        }
-
+        
         searchAdapter = new SearchAdapter(this, tutorList, emailFromIntent);
         recyclerView.setAdapter(searchAdapter);
 
