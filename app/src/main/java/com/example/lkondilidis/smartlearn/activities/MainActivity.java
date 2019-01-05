@@ -27,6 +27,7 @@ import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.services.ServerTask;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 import java.util.ArrayList;
@@ -146,8 +147,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
         //!!!!!!
         //connect to server
-        //ServerTask serverTask = new ServerTask(userArrayList);
-        //serverTask.execute();
+        ServerTask serverTask = new ServerTask(userArrayList, this);
+        serverTask.execute();
 
     }
 

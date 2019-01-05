@@ -62,22 +62,30 @@ public class ProfileActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
+    private String email;
+    private String intentAction;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        //Drawer
-        drawerLayout = findViewById(R.id.drawer_profile);
-        NavigationView navigationView = findViewById(R.id.navigation_view_profile);
-        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
+        Intent intent = getIntent();
+        email = intent.getStringExtra("EMAIL");
+        intentAction = intent.getAction();
 
+        if(intentAction != "register"){
+            //Drawer
+            drawerLayout = findViewById(R.id.drawer_profile);
+            NavigationView navigationView = findViewById(R.id.navigation_view_profile);
+            navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 
-        //Toolbar
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+            //Toolbar
+            ActionBar actionbar = getSupportActionBar();
+            actionbar.setDisplayHomeAsUpEnabled(true);
+            actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
 
         initViews();
         initObjects();
@@ -111,11 +119,11 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = (CircleImageView) findViewById(R.id.profile);
 
-        final String emailFromIntent = getIntent().getStringExtra("EMAIL");
+        //final String emailFromIntent = getIntent().getStringExtra("EMAIL");
         dataBaseHelper = new SQLiteDBHelper(activity);
 
         //current User
-        final User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+        final User currentuser = dataBaseHelper.getUserEmail(email);
 
         //checkbox
         tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
@@ -128,8 +136,8 @@ public class ProfileActivity extends AppCompatActivity {
         socheck = (CheckBox) findViewById(R.id.checkbox_so);
 
         //set Values
-        textViewEmail.setText(emailFromIntent);
-        textViewName.setText(dataBaseHelper.getUserEmail(emailFromIntent).getName());
+        textViewEmail.setText(email);
+        textViewName.setText(dataBaseHelper.getUserEmail(email).getName());
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
@@ -243,11 +251,10 @@ public class ProfileActivity extends AppCompatActivity {
     private void isTutor() {
         if (((CheckBox) tutorcheck).isChecked()) {
 
-            String emailFromIntent = getIntent().getStringExtra("EMAIL");
             dataBaseHelper = new SQLiteDBHelper(activity);
 
             //current User
-            User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+            User currentuser = dataBaseHelper.getUserEmail(email);
             currentuser.setNickname("Tutor");
             dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
@@ -257,11 +264,10 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
 
-            String emailFromIntent = getIntent().getStringExtra("EMAIL");
             dataBaseHelper = new SQLiteDBHelper(activity);
 
             //current User
-            User currentuser = dataBaseHelper.getUserEmail(emailFromIntent);
+            User currentuser = dataBaseHelper.getUserEmail(email);
             currentuser.setNickname("Student");
             dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
@@ -275,8 +281,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     private void updateUser() {
 
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
-
         ArrayList<String> plans = onCheckboxClicked();
 
         String SEPARATOR = ", ";
@@ -289,7 +293,12 @@ public class ProfileActivity extends AppCompatActivity {
         String planfinal = planBuilder.toString();
         System.out.println(planfinal);
         //Remove last comma
-        planfinal = planfinal.substring(0, planfinal.length() - SEPARATOR.length());
+        try {
+            planfinal = planfinal.substring(0, planfinal.length() - SEPARATOR.length());
+        }
+        catch (Exception e){
+            planfinal = "";
+        }
 
         System.out.println(planfinal);
 
@@ -298,7 +307,7 @@ public class ProfileActivity extends AppCompatActivity {
                     && !STRING_EMPTY.equals(planfinal)) {
 
 
-                User userDetails = dataBaseHelper.getUserEmail(emailFromIntent);
+                User userDetails = dataBaseHelper.getUserEmail(email);
 
                 userDetails.setStudies(editTextStudies.getText().toString());
                 userDetails.setSubject(editTextSubject.getText().toString());
@@ -333,6 +342,12 @@ public class ProfileActivity extends AppCompatActivity {
 
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.GONE);
+
+        if(intentAction == "register") {
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            mainActivity.putExtra("EMAIL", email);
+            startActivity(mainActivity);
+        }
 
 
     }
@@ -378,10 +393,12 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+        if(intentAction != "register") {
+            switch (item.getItemId()) {
+                case android.R.id.home:
+                    drawerLayout.openDrawer(GravityCompat.START);
+                    return true;
+            }
         }
         return super.onOptionsItemSelected(item);
     }
