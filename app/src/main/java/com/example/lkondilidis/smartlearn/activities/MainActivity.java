@@ -90,18 +90,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         recyclerView.setHasFixedSize(true);
         searchAdapter = new SearchAdapter(this, userArrayList, emailFromIntent);
         recyclerView.setAdapter(searchAdapter);
-
-
         //fetch users
+        smartfetchUsers();
 
-        databaseHelper = new SQLiteDBHelper(activity);
-        User currentuser = databaseHelper.getUserEmail(emailFromIntent);
-
-        if (!STRING_EMPTY.equals(currentuser.getSubject()) && !STRING_EMPTY.equals(currentuser.getPlan())) {
-            smartfetchUsers();
-        }else {
-            fetchUsers();
-        }
 
 
         //searchView
