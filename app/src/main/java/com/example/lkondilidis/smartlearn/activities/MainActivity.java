@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         recyclerView.setHasFixedSize(true);
         searchAdapter = new SearchAdapter(this, userArrayList, currentuser.getEmail());
         recyclerView.setAdapter(searchAdapter);
+
         //fetch users
         smartfetchUsers();
 

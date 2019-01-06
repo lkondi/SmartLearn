@@ -158,7 +158,7 @@ public class ProfileActivity extends AppCompatActivity {
             textViewPlan.setText(currentuser.getPlan());
         }
         if (!STRING_EMPTY.equals(currentuser.getRatings())) {
-            textViewPlan.setText(String.valueOf(currentuser.getRatings()));
+            textViewRatings.setText(String.valueOf(currentuser.getRatings()));
         }
         else {
             Toast.makeText(ProfileActivity.this, "Please fill you personal data",
