@@ -37,7 +37,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
 
     private final AppCompatActivity activity = MainActivity.this;
-    public static final String USER_DETAIL_KEY = "selecteduser";
+    public static final String USER_DETAIL_KEY = "currentuser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     DrawerLayout drawerLayout;
     SearchView searchView;
     RecyclerView recyclerView;
@@ -51,14 +52,15 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     String[] lectures = {"Analysis", "MSP", "Datenbanksysteme"};
     ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
 
-    String emailFromIntent;
+    User currentuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailFromIntent = getIntent().getStringExtra("EMAIL");
+        currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
+        databaseHelper = new SQLiteDBHelper(activity);
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer);
@@ -88,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, userArrayList, emailFromIntent);
+        searchAdapter = new SearchAdapter(this, userArrayList, currentuser.getEmail());
         recyclerView.setAdapter(searchAdapter);
         //fetch users
         smartfetchUsers();
@@ -147,17 +149,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     }
 
     private void fetchUsers() {
-        databaseHelper = new SQLiteDBHelper(activity);
         userArrayList.addAll(databaseHelper.getAllTutors());
         searchAdapter.notifyDataSetChanged();
     }
 
     private void smartfetchUsers() {
-
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        databaseHelper = new SQLiteDBHelper(activity);
-        User currentuser = databaseHelper.getUserEmail(emailFromIntent);
-
         //User Details
         String studies = currentuser.getStudies();
         String subject = currentuser.getSubject();
@@ -228,7 +224,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
         List<User> tutorList = new ArrayList<>();
         
-        searchAdapter = new SearchAdapter(this, tutorList, emailFromIntent);
+        searchAdapter = new SearchAdapter(this, tutorList, currentuser.getEmail());
         recyclerView.setAdapter(searchAdapter);
 
         //userArrayList.remove(userArrayList.size()-1);

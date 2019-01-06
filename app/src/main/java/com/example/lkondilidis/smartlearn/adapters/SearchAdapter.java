@@ -35,7 +35,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
 
-    public static final String USER_DETAIL_KEY = "selecteduser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     private Context context;
     private List<User> users;
     private String email;
@@ -65,8 +65,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
             @Override
             public void onClick(View view) {
                 Intent showDetail = new Intent(context, DetailActivity.class);
-                showDetail.putExtra(USER_DETAIL_KEY, users.get(i));
-                showDetail.putExtra("EMAIL", email);
+                showDetail.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
+                //showDetail.putExtra("EMAIL", email);
                 context.startActivity(showDetail);
             }
         });

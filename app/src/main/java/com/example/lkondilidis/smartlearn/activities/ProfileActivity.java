@@ -44,10 +44,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
-    private static final int SELECT_PICTURE = 0;
 
     TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
-    EditText editTextStudies, editTextSubject, editTextRatings;
+    EditText editTextStudies, editTextSubject;
     SQLiteDBHelper dataBaseHelper;
 
     ImageView imageView;
@@ -62,8 +61,10 @@ public class ProfileActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
-    private String email;
     private String intentAction;
+    private User currentuser;
+
+    public static final String USER_DETAIL_KEY = "currentuser";
 
 
     @Override
@@ -72,8 +73,11 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
 
         Intent intent = getIntent();
-        email = intent.getStringExtra("EMAIL");
+        currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        dataBaseHelper = new SQLiteDBHelper(activity);
+
         intentAction = intent.getAction();
+
 
         if(intentAction != "register"){
             //Drawer
@@ -119,11 +123,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         imageView = (CircleImageView) findViewById(R.id.profile);
 
-        //final String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        dataBaseHelper = new SQLiteDBHelper(activity);
-
-        //current User
-        final User currentuser = dataBaseHelper.getUserEmail(email);
 
         //checkbox
         tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
@@ -136,8 +135,8 @@ public class ProfileActivity extends AppCompatActivity {
         socheck = (CheckBox) findViewById(R.id.checkbox_so);
 
         //set Values
-        textViewEmail.setText(email);
-        textViewName.setText(dataBaseHelper.getUserEmail(email).getName());
+        textViewEmail.setText(currentuser.getEmail());
+        textViewName.setText(currentuser.getName());
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
@@ -253,8 +252,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             dataBaseHelper = new SQLiteDBHelper(activity);
 
-            //current User
-            User currentuser = dataBaseHelper.getUserEmail(email);
             currentuser.setNickname("Tutor");
             dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
@@ -266,8 +263,6 @@ public class ProfileActivity extends AppCompatActivity {
 
             dataBaseHelper = new SQLiteDBHelper(activity);
 
-            //current User
-            User currentuser = dataBaseHelper.getUserEmail(email);
             currentuser.setNickname("Student");
             dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
@@ -307,17 +302,15 @@ public class ProfileActivity extends AppCompatActivity {
                     && !STRING_EMPTY.equals(planfinal)) {
 
 
-                User userDetails = dataBaseHelper.getUserEmail(email);
-
-                userDetails.setStudies(editTextStudies.getText().toString());
-                userDetails.setSubject(editTextSubject.getText().toString());
-                userDetails.setPlan(planfinal);
+                currentuser.setStudies(editTextStudies.getText().toString());
+                currentuser.setSubject(editTextSubject.getText().toString());
+                currentuser.setPlan(planfinal);
 
 
-                dataBaseHelper.updateUser(userDetails);
-                textViewStudies.setText(userDetails.getStudies());
-                textViewSubject.setText(userDetails.getSubject());
-                textViewPlan.setText(userDetails.getPlan());
+                dataBaseHelper.updateUser(currentuser);
+                textViewStudies.setText(currentuser.getStudies());
+                textViewSubject.setText(currentuser.getSubject());
+                textViewPlan.setText(currentuser.getPlan());
 
 
                 submitClicked();
@@ -345,7 +338,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         if(intentAction == "register") {
             Intent mainActivity = new Intent(this, MainActivity.class);
-            mainActivity.putExtra("EMAIL", email);
+            mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
             startActivity(mainActivity);
         }
 
