@@ -57,6 +57,8 @@ public class DetailActivity extends AppCompatActivity {
     RadioGroup radiogroup;
 
     User selecteduser;
+    private User currentuser;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
     private DrawerLayout drawerLayout;
 
@@ -68,6 +70,8 @@ public class DetailActivity extends AppCompatActivity {
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
         dataBaseHelper = new SQLiteDBHelper(activity);
+
+        currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
 
         //Radio Buttons
@@ -130,6 +134,9 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getPlan())) {
             userPlan.setText(user.getPlan());
+        }
+        if (user.getRatings()!=0) {
+            userRatings.setText(String.valueOf(user.getRatings()));
         }
         else {
             Toast.makeText(DetailActivity.this, "Please fill you personal data",

@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, userArrayList, currentuser.getEmail());
+        searchAdapter = new SearchAdapter(this, userArrayList, currentuser);
         recyclerView.setAdapter(searchAdapter);
 
         //fetch users
@@ -225,7 +225,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
         List<User> tutorList = new ArrayList<>();
         
-        searchAdapter = new SearchAdapter(this, tutorList, currentuser.getEmail());
+        searchAdapter = new SearchAdapter(this, tutorList, currentuser);
         recyclerView.setAdapter(searchAdapter);
 
         //userArrayList.remove(userArrayList.size()-1);
