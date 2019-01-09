@@ -56,9 +56,9 @@ public class ApiAuthenticationClient {
      */
     public ApiAuthenticationClient setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-        if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
-            this.baseUrl += "/";
-        }
+        //if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
+          //  this.baseUrl += "/";
+        //}
         return this;
     }
 
@@ -69,6 +69,11 @@ public class ApiAuthenticationClient {
      */
     public ApiAuthenticationClient setUrlResource(String urlResource) {
         this.urlResource = urlResource;
+        return this;
+    }
+
+    public ApiAuthenticationClient setPayload(JSONObject payload){
+        this.payload = payload;
         return this;
     }
 

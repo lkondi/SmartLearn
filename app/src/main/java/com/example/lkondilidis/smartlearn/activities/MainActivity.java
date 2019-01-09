@@ -149,8 +149,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
         //!!!!!!
         //connect to server
-        ApiAuthenticationClient auth = new ApiAuthenticationClient()
-        ServerTask serverTask = new ServerTask(userArrayList, this);
+        ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+        auth.setHttpMethod("GET");
+        auth.setUrlPath("all");
+        ServerTask serverTask = new ServerTask(userArrayList, this, auth);
         serverTask.execute();
 
     }
