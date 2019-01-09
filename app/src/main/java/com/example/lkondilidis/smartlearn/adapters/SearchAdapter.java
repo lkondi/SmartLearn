@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
+import com.example.lkondilidis.smartlearn.activities.LoginActivity;
+import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.List;
@@ -35,15 +37,16 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
 
-    public static final String USER_DETAIL_KEY = "selecteduser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
+    public static final String USER_DETAIL_KEY = "currentuser";
     private Context context;
     private List<User> users;
-    private String email;
+    private User currentuser;
 
-    public SearchAdapter(Context context, List<User> users, String email){
+    public SearchAdapter(Context context, List<User> users, User currentuser){
         this.context = context;
         this.users = users;
-        this.email = email;
+        this.currentuser = currentuser;
     }
 
     @NonNull
@@ -56,6 +59,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, final int i) {
+
         searchViewHolder.name.setText(users.get(i).getName());
         searchViewHolder.subject.setText(users.get(i).getSubject());
         searchViewHolder.plan.setText(users.get(i).getPlan());
@@ -65,8 +69,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
             @Override
             public void onClick(View view) {
                 Intent showDetail = new Intent(context, DetailActivity.class);
-                showDetail.putExtra(USER_DETAIL_KEY, users.get(i));
-                showDetail.putExtra("EMAIL", email);
+                showDetail.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
+                showDetail.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(showDetail);
             }
         });

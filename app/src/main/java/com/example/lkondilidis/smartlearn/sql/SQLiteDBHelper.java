@@ -113,6 +113,28 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return userDetailsList;
     }
 
+    public List getAllLectures() {
+        List lecturesDetailsList = new ArrayList();
+        String selectQuery = "SELECT " + KEY_SUBJECT + " FROM " + TABLE_NAME
+                + " ORDER BY " + KEY_SUBJECT + " DESC";
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        //if TABLE has rows
+        if (cursor.moveToFirst()) {
+            //Loop through the table rows
+            do {
+                User userDetails = new User();
+                userDetails.setSubject(cursor.getString(0));
+
+                //Add movie details to list
+                lecturesDetailsList.add(userDetails.getSubject());
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return lecturesDetailsList;
+    }
+
     public List getAllTutors() {
         String tutor = "Tutor";
         List tutorDetailsList = new ArrayList();
@@ -191,6 +213,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         db.close();
         return tutorDetailsList;
     }
+
 
     public User getUserEmail(String email) {
 

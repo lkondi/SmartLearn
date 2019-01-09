@@ -12,10 +12,14 @@ import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.activities.ProfileActivity;
+import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
 public class DrawerNavigationListener implements NavigationView.OnNavigationItemSelectedListener{
 
     private Context context;
+    public static final String USER_DETAIL_KEY = "currentuser";
+
 
     public DrawerNavigationListener(Context context){
         this.context = context;
@@ -23,18 +27,19 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
         Intent intent = ((Activity)context).getIntent();
-        String email = intent.getStringExtra("EMAIL");
+        User currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
         switch (item.getItemId()){
             case R.id.drawer_home:
                 Intent mainactivity = new Intent(context, MainActivity.class);
-                mainactivity.putExtra("EMAIL", email);
+                mainactivity.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(mainactivity);
                 break;
             case R.id.profile:
                 Intent profileactivity = new Intent(context, ProfileActivity.class);
-                profileactivity.putExtra("EMAIL", email);
+                profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(profileactivity);
                 break;
             case R.id.logout:

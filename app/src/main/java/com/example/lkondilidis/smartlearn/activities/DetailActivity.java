@@ -56,16 +56,24 @@ public class DetailActivity extends AppCompatActivity {
     RadioButton radio_5;
     RadioGroup radiogroup;
 
+    User selecteduser;
+    private User currentuser;
+    public static final String USER_DETAIL_KEY = "currentuser";
+
     private DrawerLayout drawerLayout;
-    private String email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        Intent intent = getIntent();
-        email = intent.getStringExtra("EMAIL");
+        selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
+        dataBaseHelper = new SQLiteDBHelper(activity);
+
+        currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+
+
         //Radio Buttons
         radio_1 = findViewById(R.id.radio_1);
         radio_2 = findViewById(R.id.radio_2);
@@ -103,12 +111,6 @@ public class DetailActivity extends AppCompatActivity {
         userPlan = (TextView) findViewById(R.id.userPlan);
         userRatings = (TextView) findViewById(R.id.userRatings);
 
-        User selecteduser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        //idFromIntent = getIntent().getIntExtra("SELECTEDUSER", idFromIntent);
-        dataBaseHelper = new SQLiteDBHelper(activity);
-
-        //selected User
-        //User selecteduser = dataBaseHelper.getUser(idFromIntent);
         loadUser(selecteduser);
 
     }
@@ -132,6 +134,9 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getPlan())) {
             userPlan.setText(user.getPlan());
+        }
+        if (user.getRatings()!=0) {
+            userRatings.setText(String.valueOf(user.getRatings()));
         }
         else {
             Toast.makeText(DetailActivity.this, "Please fill you personal data",
@@ -229,16 +234,11 @@ public class DetailActivity extends AppCompatActivity {
             rating = 5;
         }
 
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        dataBaseHelper = new SQLiteDBHelper(activity);
-
-        //current User
-        User currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        oldrating = currentuser.getRatings();
+        oldrating = selecteduser.getRatings();
 
         if(oldrating < rating) {
-            currentuser.setRatings(rating);
-            dataBaseHelper.updateUser(currentuser);
+            selecteduser.setRatings(rating);
+            dataBaseHelper.updateUser(selecteduser);
             userRatings.setText(String.valueOf(rating));
 
             Toast.makeText(DetailActivity.this, "Thanks for your rating!",

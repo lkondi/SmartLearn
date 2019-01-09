@@ -38,7 +38,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     private InputValidation inputValidation;
     private SQLiteDBHelper databaseHelper;
-    private User user;
+    private User currentuser;
+
+    public static final String USER_DETAIL_KEY = "currentuser";
 
     //TODO: most of this code should be on the server side. i.e. Registering user and password, initialising the database
 
@@ -90,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private void initObjects() {
         inputValidation = new InputValidation(activity);
         databaseHelper = new SQLiteDBHelper(activity);
-        user = new User();
+        currentuser = new User();
 
     }
 
@@ -107,8 +109,9 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             case R.id.appCompatButtonRegister:
                 postDataToSQLite();
 
+
                 Intent profileactivity = new Intent(activity, ProfileActivity.class);
-                profileactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
+                profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
                 profileactivity.setAction("register");
                 emptyInputEditText();
                 startActivity(profileactivity);
@@ -143,11 +146,11 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
         if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
 
-            user.setName(textInputEditTextName.getText().toString().trim());
-            user.setEmail(textInputEditTextEmail.getText().toString().trim());
-            user.setPassword(textInputEditTextPassword.getText().toString().trim());
+            currentuser.setName(textInputEditTextName.getText().toString().trim());
+            currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
+            currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
 
-            databaseHelper.addUser(user);
+            databaseHelper.addUser(currentuser);
 
             // Snack Bar to show success message that record saved successfully
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();

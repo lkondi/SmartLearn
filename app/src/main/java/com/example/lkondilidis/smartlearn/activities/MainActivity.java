@@ -38,7 +38,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
 
     private final AppCompatActivity activity = MainActivity.this;
-    public static final String USER_DETAIL_KEY = "selecteduser";
+    public static final String USER_DETAIL_KEY = "currentuser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     DrawerLayout drawerLayout;
     SearchView searchView;
     RecyclerView recyclerView;
@@ -49,17 +50,22 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     ArrayList<User> userArrayList;
     SQLiteDBHelper databaseHelper;
 
-    String[] lectures = {"Analysis", "MSP", "Datenbanksysteme"};
-    ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
+    List<String> lectures;
+   // ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
 
-    String emailFromIntent;
+    User currentuser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        emailFromIntent = getIntent().getStringExtra("EMAIL");
+        currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
+        databaseHelper = new SQLiteDBHelper(activity);
+
+        //lectures
+        lectures = new ArrayList<>();
+        lectures = databaseHelper.getAllLectures();
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer);
@@ -89,8 +95,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        searchAdapter = new SearchAdapter(this, userArrayList, emailFromIntent);
+        searchAdapter = new SearchAdapter(this, userArrayList, currentuser);
         recyclerView.setAdapter(searchAdapter);
+
         //fetch users
         smartfetchUsers();
 
@@ -107,10 +114,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String[] columns=new String[]{"_id","text"};
         Object[] temp=new Object[]{"0","default"};
         final MatrixCursor cursor=new MatrixCursor(columns);
-        for(int j=0;j<lectures2.size();j++)
+        for(int j=0;j<lectures.size();j++)
         {
             temp[0]=j;
-            temp[1]=lectures2.get(j);
+            temp[1]=lectures.get(j);
 
             cursor.addRow(temp);
             System.out.println(j+": "+temp[1]+" added to cursor");
@@ -118,7 +125,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         cursor.moveToFirst();
         System.out.println("This one first!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 
-        ExampleAdapter exampleAdapter = new ExampleAdapter(getBaseContext(),cursor,lectures2);
+        ExampleAdapter exampleAdapter = new ExampleAdapter(getBaseContext(),cursor,lectures);
         searchView.setSuggestionsAdapter(exampleAdapter);
 
 
@@ -149,17 +156,11 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     }
 
     private void fetchUsers() {
-        databaseHelper = new SQLiteDBHelper(activity);
         userArrayList.addAll(databaseHelper.getAllTutors());
         searchAdapter.notifyDataSetChanged();
     }
 
     private void smartfetchUsers() {
-
-        String emailFromIntent = getIntent().getStringExtra("EMAIL");
-        databaseHelper = new SQLiteDBHelper(activity);
-        User currentuser = databaseHelper.getUserEmail(emailFromIntent);
-
         //User Details
         String studies = currentuser.getStudies();
         String subject = currentuser.getSubject();
@@ -185,10 +186,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         String[] columns=new String[]{"_id","text"};
         Object[] temp=new Object[]{"0","default"};
         final MatrixCursor cursor=new MatrixCursor(columns);
-        for(int j=0;j<lectures2.size();j++)
+        for(int j=0;j<lectures.size();j++)
         {
             temp[0]=j;
-            temp[1]=lectures2.get(j);
+            temp[1]=lectures.get(j);
 
             cursor.addRow(temp);
             System.out.println(j+": "+temp[1]+" added to cursor");
@@ -196,7 +197,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         cursor.moveToFirst();
 
 
-        ExampleAdapter exampleAdapter = new ExampleAdapter(getBaseContext(),cursor,lectures2);
+        ExampleAdapter exampleAdapter = new ExampleAdapter(getBaseContext(),cursor,lectures);
         searchView.setSuggestionsAdapter(exampleAdapter);
 
 
@@ -226,11 +227,17 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     @Override
     public boolean onSuggestionClick(int i) {
         //myList.setVisibility(View.GONE);
-        String selectedLectureName = lectures2.get(i);
+        String selectedLectureName = lectures.get(i);
 
-        List<User> tutorList = new ArrayList<>();
+        List<User> tutorListSearched = new ArrayList<>();
+
+        for (User user : userArrayList) {
+            if(user.getSubject() == selectedLectureName) {
+                tutorListSearched.add(user);
+            }
+        }
         
-        searchAdapter = new SearchAdapter(this, tutorList, emailFromIntent);
+        searchAdapter = new SearchAdapter(this, tutorListSearched, currentuser);
         recyclerView.setAdapter(searchAdapter);
 
         //userArrayList.remove(userArrayList.size()-1);

@@ -12,6 +12,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
@@ -32,6 +33,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private InputValidation inputValidation;
     private SQLiteDBHelper databaseHelper;
+
+    private User currentuser;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
     //TODO: most of this code should be on the server side. i.e. Validating user and password, initialising the database
 
@@ -118,11 +122,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
                 , textInputEditTextPassword.getText().toString().trim())) {
 
+            //get currentuser
+            currentuser = databaseHelper.getUserEmail(textInputEditTextEmail.getText().toString().trim());
 
-            Intent mainactivity = new Intent(activity, MainActivity.class);
-            mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-            emptyInputEditText();
-            startActivity(mainactivity);
+            Intent mainActivity = new Intent(this, MainActivity.class);
+            mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
+            startActivity(mainActivity);
 
 
         } else {
