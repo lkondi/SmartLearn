@@ -27,6 +27,7 @@ import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
 import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
 
@@ -141,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
         //!!!!!!
         //connect to server
+        ApiAuthenticationClient auth = new ApiAuthenticationClient()
         ServerTask serverTask = new ServerTask(userArrayList, this);
         serverTask.execute();
 

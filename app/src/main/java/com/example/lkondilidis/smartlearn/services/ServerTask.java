@@ -1,12 +1,13 @@
 package com.example.lkondilidis.smartlearn.services;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.strictmode.NonSdkApiUsedViolation;
 import android.util.Log;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -23,10 +24,12 @@ public class ServerTask extends AsyncTask<Void, Void, User>
 {
     ArrayList<User> users;
     Context context;
+    ApiAuthenticationClient auth;
 
-    public ServerTask(ArrayList<User> users, Context context){
+    public ServerTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth){
         this.users = users;
         this.context = context;
+        this.auth = auth;
     }
 
     @Override
@@ -37,14 +40,22 @@ public class ServerTask extends AsyncTask<Void, Void, User>
 
     @Override
     protected User doInBackground(Void... voids) {
-        return getWebServiceResponseData();
-
+        //return getWebServiceResponseData();
+        String result = auth.execute();
+        System.out.println("it works: "+ result);
+        return new User();
     }
 
     @Override
     protected void onPostExecute(User user) {
         this.users.add(user);
     }
+
+
+
+
+
+
 
     public User getWebServiceResponseData() {
 
