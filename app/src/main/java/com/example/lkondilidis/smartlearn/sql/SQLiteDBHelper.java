@@ -174,7 +174,7 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         return tutorDetailsList;
     }
 
-    public List getAllTutorsSmart(String subject, String plan) {
+    public List getAllTutorsSmart(String subject) {
         String tutor = "Tutor";
         List tutorDetailsList = new ArrayList();
 
@@ -187,9 +187,8 @@ public class SQLiteDBHelper extends SQLiteOpenHelper {
         //Arguments for selection
         String[] selectionArgs = {String.valueOf(tutor)};
 
-        Cursor cursor = db.query(TABLE_NAME, columns, KEY_USER_NICKNAME + " = ?" + " AND " + KEY_SUBJECT + "= ?"
-                        + " AND " + KEY_PLAN + "= ?",
-                new String[] {tutor, subject, plan}, null, null, null);
+        Cursor cursor = db.query(TABLE_NAME, columns, KEY_USER_NICKNAME + " = ?" + " AND " + KEY_SUBJECT + "= ?",
+                new String[] {tutor, subject}, null, null, null);
 
         //if TABLE has rows
         if (cursor.moveToFirst()) {

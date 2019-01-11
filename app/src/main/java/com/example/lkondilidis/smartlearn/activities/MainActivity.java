@@ -159,6 +159,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     }
 
     private void smartfetchUsers() {
+
+        //ArrayList<User> userDetails = new ArrayList<>();
         //User Details
         String studies = currentuser.getStudies();
         String subject = currentuser.getSubject();
@@ -167,7 +169,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         if (subject == null) { subject = "";}
         if (plan == null) { plan = "";}
 
-        userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject, plan));
+        //userDetails.addAll(databaseHelper.getAllTutorsSmart(subject));
+        
+
+        userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject));
         searchAdapter.notifyDataSetChanged();
     }
 

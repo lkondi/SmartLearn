@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.graphics.Bitmap;
@@ -62,6 +63,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
 
+    private RatingBar rating;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +99,7 @@ public class DetailActivity extends AppCompatActivity {
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 
 
+
         //Toolbar
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
@@ -109,13 +113,15 @@ public class DetailActivity extends AppCompatActivity {
         userStudies = (TextView) findViewById(R.id.userStudies);
         userSubject = (TextView) findViewById(R.id.userSubject);
         userPlan = (TextView) findViewById(R.id.userPlan);
-        userRatings = (TextView) findViewById(R.id.userRatings);
+        rating = (RatingBar) findViewById(R.id.ratingProvider);
 
         loadUser(selecteduser);
 
     }
 
     private void loadUser(User user) {
+
+        rating.setNumStars(user.getRatings());
 
         if (!STRING_EMPTY.equals(user.getName())) {
             userName.setText(user.getName());
@@ -134,9 +140,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getPlan())) {
             userPlan.setText(user.getPlan());
-        }
-        if (user.getRatings()!=0) {
-            userRatings.setText(String.valueOf(user.getRatings()));
         }
         else {
             Toast.makeText(DetailActivity.this, "Please fill you personal data",
@@ -215,35 +218,27 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     public void giveRating() {
-        int rating = 0;
-        int oldrating = 0;
+        int ratings = 0;
 
         if(radio_1.isChecked()) {
-           rating = 1;
+           ratings = 1;
         }
         if(radio_2.isChecked()) {
-            rating = 2;
+            ratings = 2;
         }
         if(radio_3.isChecked()) {
-            rating = 3;
+            ratings = 3;
         }
         if(radio_4.isChecked()) {
-            rating = 4;
+            ratings = 4;
         }
         if(radio_5.isChecked()) {
-            rating = 5;
+            ratings = 5;
         }
 
-        oldrating = selecteduser.getRatings();
-
-        if(oldrating < rating) {
-            selecteduser.setRatings(rating);
-            dataBaseHelper.updateUser(selecteduser);
-            userRatings.setText(String.valueOf(rating));
-
-            Toast.makeText(DetailActivity.this, "Thanks for your rating!",
-                    Toast.LENGTH_LONG).show();
-        }
+        selecteduser.setRatings(ratings);
+        dataBaseHelper.updateUser(selecteduser);
+        rating.setNumStars(ratings);
 
         Toast.makeText(DetailActivity.this, "Thanks for your rating!",
                 Toast.LENGTH_LONG).show();

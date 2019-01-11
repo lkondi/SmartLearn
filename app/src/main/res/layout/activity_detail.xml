@@ -59,6 +59,20 @@
                 android:textSize="22sp"
                 android:layout_marginTop="8dp" />
 
+            <RatingBar
+                android:id="@+id/ratingProvider"
+                android:layout_below="@+id/nicknametext"
+                style="?attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="5sp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:progressTint="#FFCA28"
+                android:rating="5" />
+
+
             <View
                 android:background="@android:color/darker_gray"
                 android:layout_width="280dp"

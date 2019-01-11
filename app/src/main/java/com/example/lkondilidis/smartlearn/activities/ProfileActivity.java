@@ -20,6 +20,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
+import android.widget.RatingBar;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.Switch;
@@ -63,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
 
     private String intentAction;
     private User currentuser;
+
+    private RatingBar rating;
 
     public static final String USER_DETAIL_KEY = "currentuser";
 
@@ -118,11 +121,10 @@ public class ProfileActivity extends AppCompatActivity {
         //plan
         textViewPlan = (TextView) findViewById(R.id.plantext);
 
-        //ratings
-        textViewRatings = (TextView) findViewById(R.id.ratingstext);
+        //ratingbar
+        rating = (RatingBar) findViewById(R.id.ratingProvider);
 
         imageView = (CircleImageView) findViewById(R.id.profile);
-
 
         //checkbox
         tutorcheck = (CheckBox) findViewById(R.id.tutorcheck);
@@ -137,6 +139,10 @@ public class ProfileActivity extends AppCompatActivity {
         //set Values
         textViewEmail.setText(currentuser.getEmail());
         textViewName.setText(currentuser.getName());
+
+        System.out.println("!!!!!!!!!!" + currentuser.getRatings());
+        rating.setNumStars(currentuser.getRatings());
+
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
@@ -157,9 +163,7 @@ public class ProfileActivity extends AppCompatActivity {
         if (!STRING_EMPTY.equals(currentuser.getPlan())) {
             textViewPlan.setText(currentuser.getPlan());
         }
-        if (!STRING_EMPTY.equals(currentuser.getRatings())) {
-            textViewRatings.setText(String.valueOf(currentuser.getRatings()));
-        }
+
         else {
             Toast.makeText(ProfileActivity.this, "Please fill you personal data",
                     Toast.LENGTH_LONG).show();
