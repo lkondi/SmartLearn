@@ -19,7 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
-import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
@@ -29,7 +29,7 @@ import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
-import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
+import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -48,12 +48,13 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     private static String STRING_EMPTY = "";
 
     ArrayList<User> userArrayList;
-    SQLiteDBHelper databaseHelper;
+    DatabaseHelper databaseHelper;
 
     List<String> lectures;
    // ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
 
     User currentuser;
+    TextView usernameHeader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         setContentView(R.layout.activity_main);
 
         currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
-        databaseHelper = new SQLiteDBHelper(activity);
+        databaseHelper = new DatabaseHelper(activity);
 
         //lectures
         lectures = new ArrayList<>();
@@ -213,6 +214,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+
+        usernameHeader = (TextView) findViewById(R.id.usernameHeader);
+        usernameHeader.setText(currentuser.getName());
 
         switch (item.getItemId()) {
             case android.R.id.home:

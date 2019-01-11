@@ -15,13 +15,15 @@ public class User implements Serializable {
     private String studies;
     private String subject;
     private String plan;
-    private int ratings;
+    private int ratingstars;
+    private String ratingdes;
 
     public User(){
 
     }
 
-    public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratings){
+    public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratingstars, String
+                ratingdes){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -30,7 +32,8 @@ public class User implements Serializable {
         this.studies = studies;
         this.subject = subject;
         this.plan = plan;
-        this.ratings = ratings;
+        this.ratingstars = ratingstars;
+        this.ratingdes = ratingdes;
     }
 
     public User(JSONObject jsonObject){
@@ -42,7 +45,8 @@ public class User implements Serializable {
             this.studies = jsonObject.getString("studies");
             this.subject = jsonObject.getString("subject");
             this.plan = jsonObject.getString("plan");
-            this.ratings = jsonObject.getInt("ratings");
+            this.ratingstars = jsonObject.getInt("ratingstars");
+            this.ratingdes = jsonObject.getString("ratingdes");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -112,12 +116,20 @@ public class User implements Serializable {
         this.plan = plan;
     }
 
-    public int getRatings() {
-        return ratings;
+    public int getRatingStars() {
+        return ratingstars;
     }
 
-    public void setRatings(int ratings) {
-        this.ratings = ratings;
+    public void setRatingStars(int ratingstars) {
+        this.ratingstars = ratingstars;
+    }
+
+    public String getRatingDes() {
+        return ratingdes;
+    }
+
+    public void setRatingDes(String ratingdes) {
+        this.ratingdes = ratingdes;
     }
 
     public JSONObject convertToJASON(){
@@ -130,7 +142,8 @@ public class User implements Serializable {
             jsonObject.put("studies", getStudies());
             jsonObject.put("subject", getSubject());
             jsonObject.put("plan", getPlan());
-            jsonObject.put("ratings", getRatings());
+            jsonObject.put("ratingstars", getRatingStars());
+            jsonObject.put("ratingdes", getRatingDes());
         } catch (JSONException e) {
             e.printStackTrace();
         }

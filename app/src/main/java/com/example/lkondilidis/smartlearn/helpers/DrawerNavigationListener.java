@@ -11,9 +11,10 @@ import android.widget.Toast;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
+import com.example.lkondilidis.smartlearn.activities.PaymentActivity;
 import com.example.lkondilidis.smartlearn.activities.ProfileActivity;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
+import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 public class DrawerNavigationListener implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -41,6 +42,11 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
                 Intent profileactivity = new Intent(context, ProfileActivity.class);
                 profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(profileactivity);
+                break;
+            case R.id.payment:
+                Intent paymentactivity = new Intent(context, PaymentActivity.class);
+                paymentactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                context.startActivity(paymentactivity);
                 break;
             case R.id.logout:
                 Toast.makeText(context, "You are logged out!",

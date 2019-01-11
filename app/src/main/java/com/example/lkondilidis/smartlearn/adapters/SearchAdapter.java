@@ -9,12 +9,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
+import com.example.lkondilidis.smartlearn.activities.RatingActivity;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.List;
@@ -23,14 +26,14 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
 
     TextView name, subject, plan;
     CardView parentLayout;
-
+    ImageButton imagerating;
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.textView_name);
         subject = itemView.findViewById(R.id.textView_subject);
         plan = itemView.findViewById(R.id.textView_plan);
-       // descrition = itemView.findViewById(R.id.textView_description);
+        imagerating = itemView.findViewById(R.id.imagerating);
         parentLayout = itemView.findViewById(R.id.parentLayout);
     }
 }
@@ -72,6 +75,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
                 showDetail.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
                 showDetail.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(showDetail);
+            }
+        });
+
+        searchViewHolder.imagerating.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent showRating = new Intent(context, RatingActivity.class);
+                showRating.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
+                showRating.putExtra(USER_DETAIL_KEY, currentuser);
+                context.startActivity(showRating);
             }
         });
 

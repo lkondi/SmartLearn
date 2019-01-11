@@ -59,6 +59,29 @@
                 android:layout_below="@+id/textView_name"
                 android:text="Info"
                 android:textSize="12dp" />
+        </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_weight="9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp">
+
+
+                <ImageButton
+                    android:id="@+id/imagerating"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_star"
+                    android:background="@color/primary_darker"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tutor bewerten"
+                    android:textSize="16dp" />
 
         </LinearLayout>
     </LinearLayout>

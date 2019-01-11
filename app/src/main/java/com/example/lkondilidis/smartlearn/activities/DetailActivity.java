@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
+import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 public class DetailActivity extends AppCompatActivity {
     private final AppCompatActivity activity = DetailActivity.this;
@@ -42,20 +42,12 @@ public class DetailActivity extends AppCompatActivity {
     private TextView userStudies;
     private TextView userSubject;
     private TextView userPlan;
-    private TextView userRatings;
+    private TextView userRating;
     private User user;
-    private SQLiteDBHelper dataBaseHelper;
+    private DatabaseHelper dataBaseHelper;
     private static String STRING_EMPTY = "";
     int idFromIntent = 0;
-    Button btnRating;
 
-    //RadioButtons
-    RadioButton radio_1;
-    RadioButton radio_2;
-    RadioButton radio_3;
-    RadioButton radio_4;
-    RadioButton radio_5;
-    RadioGroup radiogroup;
 
     User selecteduser;
     private User currentuser;
@@ -72,26 +64,10 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
-        dataBaseHelper = new SQLiteDBHelper(activity);
+        dataBaseHelper = new DatabaseHelper(activity);
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
-
-        //Radio Buttons
-        radio_1 = findViewById(R.id.radio_1);
-        radio_2 = findViewById(R.id.radio_2);
-        radio_3 = findViewById(R.id.radio_3);
-        radio_4 = findViewById(R.id.radio_4);
-        radio_5 = findViewById(R.id.radio_5);
-
-
-        //Button
-        btnRating = findViewById(R.id.btnRating);
-        btnRating.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                giveRating();
-            }
-        });
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer_detail);
@@ -113,6 +89,7 @@ public class DetailActivity extends AppCompatActivity {
         userStudies = (TextView) findViewById(R.id.userStudies);
         userSubject = (TextView) findViewById(R.id.userSubject);
         userPlan = (TextView) findViewById(R.id.userPlan);
+        userRating = (TextView) findViewById(R.id.userRating);
         rating = (RatingBar) findViewById(R.id.ratingProvider);
 
         loadUser(selecteduser);
@@ -121,7 +98,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void loadUser(User user) {
 
-        rating.setNumStars(user.getRatings());
+        rating.setNumStars(user.getRatingStars());
 
         if (!STRING_EMPTY.equals(user.getName())) {
             userName.setText(user.getName());
@@ -140,6 +117,9 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getPlan())) {
             userPlan.setText(user.getPlan());
+        }
+        if (!STRING_EMPTY.equals(user.getRatingDes())) {
+            userRating.setText(user.getRatingDes());
         }
         else {
             Toast.makeText(DetailActivity.this, "Please fill you personal data",
@@ -215,32 +195,5 @@ public class DetailActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bmpUri;
-    }
-
-    public void giveRating() {
-        int ratings = 0;
-
-        if(radio_1.isChecked()) {
-           ratings = 1;
-        }
-        if(radio_2.isChecked()) {
-            ratings = 2;
-        }
-        if(radio_3.isChecked()) {
-            ratings = 3;
-        }
-        if(radio_4.isChecked()) {
-            ratings = 4;
-        }
-        if(radio_5.isChecked()) {
-            ratings = 5;
-        }
-
-        selecteduser.setRatings(ratings);
-        dataBaseHelper.updateUser(selecteduser);
-        rating.setNumStars(ratings);
-
-        Toast.makeText(DetailActivity.this, "Thanks for your rating!",
-                Toast.LENGTH_LONG).show();
     }
 }

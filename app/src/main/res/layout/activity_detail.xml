@@ -28,7 +28,7 @@
 
             <ImageView
                 android:id="@+id/ivUserImage"
-                android:src="@mipmap/ic_launcher"
+                android:src="@drawable/ic_dummy_user"
                 android:layout_marginTop="8dp"
                 android:layout_width="280dp"
                 android:layout_height="280dp" />
@@ -72,7 +72,6 @@
                 android:progressTint="#FFCA28"
                 android:rating="5" />
 
-
             <View
                 android:background="@android:color/darker_gray"
                 android:layout_width="280dp"
@@ -102,55 +101,12 @@
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/userRatings"
-                android:text="Ratings"
+                android:text="Rating"
+                android:id="@+id/userRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:textSize="14sp" />
 
-            <RadioGroup
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginLeft="65dp"
-                android:layout_marginTop="10dp">
-                <RadioButton android:id="@+id/radio_1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/iron"
-                    android:text="1" />
-                <RadioButton android:id="@+id/radio_2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/iron"
-                    android:text="2" />
-                <RadioButton android:id="@+id/radio_3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/iron"
-                    android:text="3" />
-                <RadioButton android:id="@+id/radio_4"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/iron"
-                    android:text="4" />
-                <RadioButton android:id="@+id/radio_5"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/iron"
-                    android:text="5" />
-            </RadioGroup>
-
-            <Button
-                android:id="@+id/btnRating"
-                android:layout_width="match_parent"
-                android:background="@color/primary_darker"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="10dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="0.20"
-                android:text="@string/ratings" />
 
         </LinearLayout>
     </ScrollView>

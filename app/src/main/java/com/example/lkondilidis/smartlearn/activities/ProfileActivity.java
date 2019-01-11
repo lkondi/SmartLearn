@@ -1,43 +1,30 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.CompoundButton;
 import android.support.v7.widget.AppCompatButton;
-import android.support.v7.widget.AppCompatEditText;
-import android.support.v7.widget.AppCompatTextView;
-import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RatingBar;
 import android.widget.Toast;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.ImageButton;
-import android.widget.Toast;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
+import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -46,9 +33,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
 
-    TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRatings;
+    TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRating;
     EditText editTextStudies, editTextSubject;
-    SQLiteDBHelper dataBaseHelper;
+    DatabaseHelper dataBaseHelper;
 
     ImageView imageView;
 
@@ -77,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        dataBaseHelper = new SQLiteDBHelper(activity);
+        dataBaseHelper = new DatabaseHelper(activity);
 
         intentAction = intent.getAction();
 
@@ -121,8 +108,9 @@ public class ProfileActivity extends AppCompatActivity {
         //plan
         textViewPlan = (TextView) findViewById(R.id.plantext);
 
-        //ratingbar
+        //ratings
         rating = (RatingBar) findViewById(R.id.ratingProvider);
+        textViewRating = (TextView) findViewById(R.id.ratingText);
 
         imageView = (CircleImageView) findViewById(R.id.profile);
 
@@ -140,9 +128,7 @@ public class ProfileActivity extends AppCompatActivity {
         textViewEmail.setText(currentuser.getEmail());
         textViewName.setText(currentuser.getName());
 
-        System.out.println("!!!!!!!!!!" + currentuser.getRatings());
-        rating.setNumStars(currentuser.getRatings());
-
+        rating.setNumStars(currentuser.getRatingStars());
 
         if (!STRING_EMPTY.equals(currentuser.getNickname())) {
             textViewNickname.setText(currentuser.getNickname());
@@ -162,6 +148,9 @@ public class ProfileActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(currentuser.getPlan())) {
             textViewPlan.setText(currentuser.getPlan());
+        }
+        if (!STRING_EMPTY.equals(currentuser.getRatingDes())) {
+            textViewRating.setText(currentuser.getRatingDes());
         }
 
         else {
@@ -247,14 +236,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initObjects() {
-        dataBaseHelper = new SQLiteDBHelper(activity);
+        dataBaseHelper = new DatabaseHelper(activity);
 
     }
 
     private void isTutor() {
         if (((CheckBox) tutorcheck).isChecked()) {
 
-            dataBaseHelper = new SQLiteDBHelper(activity);
+            dataBaseHelper = new DatabaseHelper(activity);
 
             currentuser.setNickname("Tutor");
             dataBaseHelper.updateUser(currentuser);
@@ -265,7 +254,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
 
-            dataBaseHelper = new SQLiteDBHelper(activity);
+            dataBaseHelper = new DatabaseHelper(activity);
 
             currentuser.setNickname("Student");
             dataBaseHelper.updateUser(currentuser);

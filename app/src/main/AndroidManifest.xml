@@ -33,6 +33,12 @@
         <activity
             android:name=".activities.DetailActivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.PaymentActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.RatingActivity"
+            android:screenOrientation="portrait" />
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

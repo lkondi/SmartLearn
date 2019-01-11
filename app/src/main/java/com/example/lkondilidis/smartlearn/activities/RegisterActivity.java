@@ -15,7 +15,7 @@ import android.view.View;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.sql.SQLiteDBHelper;
+import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 public class RegisterActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -37,7 +37,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatTextView appCompatTextViewLoginLink;
 
     private InputValidation inputValidation;
-    private SQLiteDBHelper databaseHelper;
+    private DatabaseHelper databaseHelper;
     private User currentuser;
 
     public static final String USER_DETAIL_KEY = "currentuser";
@@ -91,7 +91,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void initObjects() {
         inputValidation = new InputValidation(activity);
-        databaseHelper = new SQLiteDBHelper(activity);
+        databaseHelper = new DatabaseHelper(activity);
         currentuser = new User();
 
     }

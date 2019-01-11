@@ -111,10 +111,10 @@
                     android:textSize="16sp" />
 
             <RatingBar
-                android:layout_marginLeft="160dp"
+                android:layout_marginLeft="165dp"
                 android:id="@+id/ratingProvider"
-                android:layout_below="@+id/nicknametext"
                 style="?attr/ratingBarStyleSmall"
+                android:layout_below="@+id/nicknametext"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -124,6 +124,16 @@
                 android:progressTint="#FFCA28"
                 android:rating="5" />
 
+            <TextView
+                android:id="@+id/ratingText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/ratingProvider"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="10dp"
+                android:text="@string/ratings"
+                android:textColor="#fff"
+                android:textSize="16sp" />
 
         </RelativeLayout>
 

@@ -31,6 +31,8 @@
     <string name="studies">Wähle deinen Studiengang</string>
     <string name="subject">Wähle deine Fächer</string>
     <string name="plan">Gib deine Verfürgbarkeit ein</string>
-    <string name="ratings">Bewertung eingeben</string>
+    <string name="ratings">Bewertung</string>
     <string name="home">Home</string>
+    <string name="payment">Payment</string>
+    <string name="actions">More Actions</string>
 </resources>

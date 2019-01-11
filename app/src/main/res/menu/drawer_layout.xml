@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/drawer_home"
@@ -10,9 +11,18 @@
             android:icon="@drawable/ic_verified_user_black_24dp"
             android:title="@string/profile" />
         <item
-            android:id="@+id/logout"
-            android:icon="@drawable/ic_exit_to_app_black_24dp"
-            android:title="@string/logout" />
-        <!-- TODO: add other items -->
+            android:id="@+id/payment"
+            android:icon="@drawable/ic_menu_payment"
+            android:title="@string/payment" />
     </group>
+
+    <item android:title="@string/actions">
+        <menu>
+            <item
+                android:id="@+id/logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
+                android:title="Log Out" />
+        </menu>
+    </item>
+
 </menu>
