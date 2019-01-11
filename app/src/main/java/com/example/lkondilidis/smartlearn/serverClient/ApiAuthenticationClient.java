@@ -24,7 +24,7 @@ public class ApiAuthenticationClient {
     private String httpMethod; // GET, POST, PUT, DELETE
     private String urlPath;
     private String lastResponse;
-    private String payload;
+    private JSONObject payload;
     private HashMap<String, String> parameters;
     private Map<String, List<String>> headerFields;
 
@@ -43,7 +43,7 @@ public class ApiAuthenticationClient {
         this.httpMethod = "GET";
         parameters = new HashMap<>();
         lastResponse = "";
-        payload = "";
+        payload = new JSONObject();
         headerFields = new HashMap<>();
         // This is important. The application may break without this line.
         System.setProperty("jsse.enableSNIExtension", "false");
@@ -56,9 +56,9 @@ public class ApiAuthenticationClient {
      */
     public ApiAuthenticationClient setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
-        if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
-            this.baseUrl += "/";
-        }
+        //if (!baseUrl.substring(baseUrl.length() - 1).equals("/")) {
+          //  this.baseUrl += "/";
+        //}
         return this;
     }
 
@@ -69,6 +69,11 @@ public class ApiAuthenticationClient {
      */
     public ApiAuthenticationClient setUrlResource(String urlResource) {
         this.urlResource = urlResource;
+        return this;
+    }
+
+    public ApiAuthenticationClient setPayload(JSONObject payload){
+        this.payload = payload;
         return this;
     }
 
@@ -161,7 +166,7 @@ public class ApiAuthenticationClient {
         this.urlPath = "";
         this.httpMethod = "";
         lastResponse = "";
-        payload = "";
+        payload = new JSONObject();
         headerFields.clear();
         return this;
     }
@@ -230,7 +235,7 @@ public class ApiAuthenticationClient {
             }
 
             if (parameters.size() > 0 && httpMethod.equals("GET")) {
-                payload = getPayloadAsString();
+                //payload = getPayloadAsString();
                 urlString.append("?" + payload);
             }
 
@@ -244,19 +249,19 @@ public class ApiAuthenticationClient {
             connection.setRequestMethod(httpMethod);
             connection.setRequestProperty("Authorization", "Basic " + encoding);
             connection.setRequestProperty("Accept", "application/json");
-            connection.setRequestProperty("Content-Type", "text/plain");
+            connection.setRequestProperty("Content-Type", "application/json");
 
             // Make the network connection and retrieve the output from the server.
             if (httpMethod.equals("POST") || httpMethod.equals("PUT")) {
 
-                payload = getPayloadAsString();
+                //payload = getPayloadAsString();
 
                 connection.setDoInput(true);
                 connection.setDoOutput(true);
 
                 try {
                     OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-                    writer.write(payload);
+                    writer.write(payload.toString());
 
                     headerFields = connection.getHeaderFields();
 

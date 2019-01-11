@@ -1,13 +1,15 @@
 package com.example.lkondilidis.smartlearn.services;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.AsyncTask;
+import android.os.strictmode.NonSdkApiUsedViolation;
 import android.util.Log;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.BufferedReader;
@@ -15,18 +17,21 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import static android.content.ContentValues.TAG;
 
-public class ServerTask extends AsyncTask<Void, Void, User>
+public class ServerTask extends AsyncTask<Void, Void, List<User>>
 {
     ArrayList<User> users;
     Context context;
+    ApiAuthenticationClient auth;
 
-    public ServerTask(ArrayList<User> users, Context context){
+    public ServerTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth){
         this.users = users;
         this.context = context;
+        this.auth = auth;
     }
 
     @Override
@@ -36,15 +41,38 @@ public class ServerTask extends AsyncTask<Void, Void, User>
     }
 
     @Override
-    protected User doInBackground(Void... voids) {
-        return getWebServiceResponseData();
-
+    protected List<User> doInBackground(Void... voids) {
+        //return getWebServiceResponseData();
+        ArrayList<User> users = new ArrayList<>();
+        try {
+            JSONArray response = new JSONArray(auth.execute());
+            for(int i=0; i<response.length(); i++){
+                JSONObject jsonUser = response.getJSONObject(i);
+                User tempUser = new User((jsonUser));
+                users.add(tempUser);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return users;
     }
 
     @Override
-    protected void onPostExecute(User user) {
-        this.users.add(user);
+    protected void onPostExecute(List<User> tempUsers) {
+        for(User u: tempUsers){
+            if(!this.users.contains(u)){
+                this.users.add(u);
+            }
+        }
+        //this.users.add(tempUsers.get(1));
+        //users = (ArrayList<User>) tempUsers;
     }
+
+
+
+
+
+
 
     public User getWebServiceResponseData() {
 
