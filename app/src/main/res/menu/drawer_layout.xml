@@ -11,13 +11,17 @@
             android:icon="@drawable/ic_verified_user_black_24dp"
             android:title="@string/profile" />
         <item
-            android:id="@+id/payment"
-            android:icon="@drawable/ic_menu_payment"
-            android:title="@string/payment" />
+            android:id="@+id/appointments"
+            android:icon="@drawable/ic_date"
+            android:title="@string/appointment" />
     </group>
 
     <item android:title="@string/actions">
         <menu>
+            <item
+                android:id="@+id/payment"
+                android:icon="@drawable/ic_menu_payment"
+                android:title="@string/payment" />
             <item
                 android:id="@+id/logout"
                 android:icon="@drawable/ic_exit_to_app_black_24dp"

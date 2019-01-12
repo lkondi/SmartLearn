@@ -35,4 +35,5 @@
     <string name="home">Home</string>
     <string name="payment">Payment</string>
     <string name="actions">More Actions</string>
+    <string name="appointment">Termine</string>
 </resources>

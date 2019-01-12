@@ -21,8 +21,8 @@ import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
 
@@ -33,9 +33,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends AppCompatActivity {
     private final AppCompatActivity activity = ProfileActivity.this;
 
-    TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRating;
+    TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRating, usernameHeader;
     EditText editTextStudies, editTextSubject;
-    DatabaseHelper dataBaseHelper;
+    SQLITEHelper dataBaseHelper;
 
     ImageView imageView;
 
@@ -64,7 +64,7 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        dataBaseHelper = new DatabaseHelper(activity);
+        dataBaseHelper = new SQLITEHelper(activity);
 
         intentAction = intent.getAction();
 
@@ -236,14 +236,14 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void initObjects() {
-        dataBaseHelper = new DatabaseHelper(activity);
+        dataBaseHelper = new SQLITEHelper(activity);
 
     }
 
     private void isTutor() {
         if (((CheckBox) tutorcheck).isChecked()) {
 
-            dataBaseHelper = new DatabaseHelper(activity);
+            dataBaseHelper = new SQLITEHelper(activity);
 
             currentuser.setNickname("Tutor");
             dataBaseHelper.updateUser(currentuser);
@@ -254,7 +254,7 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
 
-            dataBaseHelper = new DatabaseHelper(activity);
+            dataBaseHelper = new SQLITEHelper(activity);
 
             currentuser.setNickname("Student");
             dataBaseHelper.updateUser(currentuser);
@@ -379,6 +379,9 @@ public class ProfileActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        usernameHeader = (TextView) findViewById(R.id.usernameHeader);
+        usernameHeader.setText(currentuser.getName());
+
         if(intentAction != "register") {
             switch (item.getItemId()) {
                 case android.R.id.home:

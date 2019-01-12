@@ -12,10 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class SQLITEHelper extends SQLiteOpenHelper {
 
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Database";
+    public static final String DATABASE_NAME = "DetailsDatabase";
 
     public static final String TABLE_NAME = "user";
     public static final String KEY_USER_ID = "user_id";
@@ -28,19 +28,26 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String KEY_PLAN = "plan";
     public static final String KEY_RATINGINT = "ratingint";
     public static final String KEY_RATINGDES = "ratingdes";
+    public static final String KEY_APPUSER = "app_user";
+    public static final String KEY_APPSUBJECT = "app_subject";
+    public static final String KEY_APPDATE = "app_date";
+    public static final String KEY_APPTIME = "app_time";
+
     //Create Table Query
     private static final String SQL_CREATE_USER =
             "CREATE TABLE user (" + KEY_USER_ID + "  INTEGER PRIMARY KEY AUTOINCREMENT, "
                     + KEY_USER_NAME + " TEXT, " + KEY_USER_EMAIL + "  TEXT, "
                     + KEY_USER_PASSWORD + "  TEXT, " + KEY_USER_NICKNAME + "  TEXT, "
                     + KEY_STUDIES + "  TEXT, " + KEY_SUBJECT + "  TEXT, "
-                    + KEY_PLAN + "  TEXT, " + KEY_RATINGINT + "  INTEGER, "+ KEY_RATINGDES + "  TEXT  );";
+                    + KEY_PLAN + "  TEXT, " + KEY_RATINGINT + "  INTEGER, " + KEY_RATINGDES + "  TEXT, "
+                    + KEY_APPUSER + "  TEXT, " + KEY_APPSUBJECT + "  TEXT, " + KEY_APPDATE + "  TEXT, "
+                    + KEY_APPTIME + "  TEXT  );";
 
     private static final String SQL_DELETE_USER =
             "DROP TABLE IF EXISTS " + TABLE_NAME;
 
 
-    public DatabaseHelper(Context context) {
+    public SQLITEHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
@@ -78,6 +85,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user_details.put(KEY_PLAN, user.getPlan());
         user_details.put(KEY_RATINGINT, user.getRatingStars());
         user_details.put(KEY_RATINGDES, user.getRatingDes());
+        user_details.put(KEY_APPUSER, user.getAppuser());
+        user_details.put(KEY_APPSUBJECT, user.getAppsubject());
+        user_details.put(KEY_APPDATE, user.getAppdate());
+        user_details.put(KEY_APPTIME, user.getApptime());
 
         long newRowId = db.insert(TABLE_NAME, null, user_details);
         db.close();
@@ -107,6 +118,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 userDetails.setPlan(cursor.getString(7));
                 userDetails.setRatingStars(cursor.getInt(8));
                 userDetails.setRatingDes(cursor.getString(9));
+                userDetails.setAppuser(cursor.getString(10));
+                userDetails.setAppsubject(cursor.getString(11));
+                userDetails.setAppdate(cursor.getString(12));
+                userDetails.setApptime(cursor.getString(13));
 
                 //Add movie details to list
                 userDetailsList.add(userDetails);
@@ -145,7 +160,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //specify the columns to be fetched
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
-                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES};
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES, KEY_APPUSER, KEY_APPSUBJECT, KEY_APPDATE, KEY_APPTIME};
         //Select condition
         String selection = KEY_USER_NICKNAME + " = ?";
         //Arguments for selection
@@ -169,6 +184,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 tutorDetails.setPlan(cursor.getString(7));
                 tutorDetails.setRatingStars(cursor.getInt(8));
                 tutorDetails.setRatingDes(cursor.getString(9));
+                tutorDetails.setAppuser(cursor.getString(10));
+                tutorDetails.setAppsubject(cursor.getString(11));
+                tutorDetails.setAppdate(cursor.getString(12));
+                tutorDetails.setApptime(cursor.getString(13));
 
                 //Add movie details to list
                 tutorDetailsList.add(tutorDetails);
@@ -185,7 +204,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //specify the columns to be fetched
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
-                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES};
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES, KEY_APPUSER, KEY_APPSUBJECT, KEY_APPDATE, KEY_APPTIME};
         //Select condition
         String selection = KEY_USER_NICKNAME + " = ?";
         //Arguments for selection
@@ -209,6 +228,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 tutorDetails.setPlan(cursor.getString(7));
                 tutorDetails.setRatingStars(cursor.getInt(8));
                 tutorDetails.setRatingDes(cursor.getString(9));
+                tutorDetails.setAppuser(cursor.getString(10));
+                tutorDetails.setAppsubject(cursor.getString(11));
+                tutorDetails.setAppdate(cursor.getString(12));
+                tutorDetails.setApptime(cursor.getString(13));
 
                 //Add movie details to list
                 tutorDetailsList.add(tutorDetails);
@@ -225,7 +248,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //specify the columns to be fetched
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
-                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES};
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES, KEY_APPUSER, KEY_APPSUBJECT, KEY_APPDATE, KEY_APPTIME};
         //Select condition
         String selection = KEY_USER_EMAIL + " = ?";
         //Arguments for selection
@@ -246,6 +269,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             userDetails.setPlan(cursor.getString(7));
             userDetails.setRatingStars(cursor.getInt(8));
             userDetails.setRatingDes(cursor.getString(9));
+            userDetails.setAppuser(cursor.getString(10));
+            userDetails.setAppsubject(cursor.getString(11));
+            userDetails.setAppdate(cursor.getString(12));
+            userDetails.setApptime(cursor.getString(13));
 
         }
         db.close();
@@ -259,7 +286,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         //specify the columns to be fetched
         String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
-                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES};
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES, KEY_APPUSER, KEY_APPSUBJECT, KEY_APPDATE, KEY_APPTIME};
         //Select condition
         String selection = KEY_USER_ID + " = ?";
         //Arguments for selection
@@ -280,6 +307,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             userDetails.setPlan(cursor.getString(7));
             userDetails.setRatingStars(cursor.getInt(8));
             userDetails.setRatingDes(cursor.getString(9));
+            userDetails.setAppuser(cursor.getString(10));
+            userDetails.setAppsubject(cursor.getString(11));
+            userDetails.setAppdate(cursor.getString(12));
+            userDetails.setApptime(cursor.getString(13));
         }
         db.close();
         return userDetails;
@@ -300,6 +331,10 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         user_details.put(KEY_PLAN, user.getPlan());
         user_details.put(KEY_RATINGINT, user.getRatingStars());
         user_details.put(KEY_RATINGDES, user.getRatingDes());
+        user_details.put(KEY_APPUSER, user.getAppuser());
+        user_details.put(KEY_APPSUBJECT, user.getAppsubject());
+        user_details.put(KEY_APPDATE, user.getAppdate());
+        user_details.put(KEY_APPTIME, user.getApptime());
         db.update(TABLE_NAME, user_details, KEY_USER_ID + " = ?", userIds);
         db.close();
     }

@@ -9,10 +9,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,22 +18,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
-import android.widget.RadioButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
 
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 public class DetailActivity extends AppCompatActivity {
     private final AppCompatActivity activity = DetailActivity.this;
     private ImageView ivUserImage;
-    private TextView userName;
+    private TextView userName, usernameHeader;
     private TextView userEmail;
     private TextView userNickname;
     private TextView userStudies;
@@ -44,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     private TextView userPlan;
     private TextView userRating;
     private User user;
-    private DatabaseHelper dataBaseHelper;
+    private SQLITEHelper dataBaseHelper;
     private static String STRING_EMPTY = "";
     int idFromIntent = 0;
 
@@ -64,7 +59,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
-        dataBaseHelper = new DatabaseHelper(activity);
+        dataBaseHelper = new SQLITEHelper(activity);
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
@@ -140,6 +135,9 @@ public class DetailActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+
+        usernameHeader = (TextView) findViewById(R.id.usernameHeader);
+        usernameHeader.setText(currentuser.getName());
 
         switch (item.getItemId()) {
             case android.R.id.home:

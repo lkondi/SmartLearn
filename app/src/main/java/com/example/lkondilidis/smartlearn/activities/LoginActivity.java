@@ -12,9 +12,9 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
-import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = LoginActivity.this;
@@ -32,7 +32,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatTextView textViewLinkRegister;
 
     private InputValidation inputValidation;
-    private DatabaseHelper databaseHelper;
+    private SQLITEHelper databaseHelper;
 
     private User currentuser;
     public static final String USER_DETAIL_KEY = "currentuser";
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * initialize objects to be used
      */
     private void initObjects() {
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new SQLITEHelper(activity);
         inputValidation = new InputValidation(activity);
 
     }

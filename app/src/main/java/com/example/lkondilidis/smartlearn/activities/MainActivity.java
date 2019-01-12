@@ -1,17 +1,13 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.app.SearchManager;
-import android.app.UiAutomation;
 import android.content.Context;
-import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,19 +16,17 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.support.v7.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
-import com.example.lkondilidis.smartlearn.helpers.DatabaseHelper;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
@@ -48,7 +42,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     private static String STRING_EMPTY = "";
 
     ArrayList<User> userArrayList;
-    DatabaseHelper databaseHelper;
+    SQLITEHelper databaseHelper;
 
     List<String> lectures;
    // ArrayList<String> lectures2 = new ArrayList<String>(Arrays.asList(lectures));
@@ -62,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         setContentView(R.layout.activity_main);
 
         currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
-        databaseHelper = new DatabaseHelper(activity);
+        databaseHelper = new SQLITEHelper(activity);
 
         //lectures
         lectures = new ArrayList<>();

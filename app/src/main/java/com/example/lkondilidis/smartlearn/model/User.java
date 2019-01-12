@@ -17,13 +17,18 @@ public class User implements Serializable {
     private String plan;
     private int ratingstars;
     private String ratingdes;
+    private String appuser;
+    private String appsubject;
+    private String appdate;
+    private String apptime;
+
 
     public User(){
 
     }
 
     public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratingstars, String
-                ratingdes){
+                ratingdes, String appuser, String appsubject, String appdate, String apptime){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -34,6 +39,10 @@ public class User implements Serializable {
         this.plan = plan;
         this.ratingstars = ratingstars;
         this.ratingdes = ratingdes;
+        this.appuser = appuser;
+        this.appsubject = appsubject;
+        this.appdate = appdate;
+        this.apptime = apptime;
     }
 
     public User(JSONObject jsonObject){
@@ -131,6 +140,39 @@ public class User implements Serializable {
     public void setRatingDes(String ratingdes) {
         this.ratingdes = ratingdes;
     }
+
+    public String getAppuser() {
+        return appuser;
+    }
+
+    public void setAppuser(String appuser) {
+        this.appuser = appuser;
+    }
+
+    public String getAppsubject() {
+        return appsubject;
+    }
+
+    public void setAppsubject(String appsubject) {
+        this.appsubject = appsubject;
+    }
+
+    public String getAppdate() {
+        return appdate;
+    }
+
+    public void setAppdate(String appdate) {
+        this.appdate = appdate;
+    }
+
+    public String getApptime() {
+        return apptime;
+    }
+
+    public void setApptime(String apptime) {
+        this.apptime = apptime;
+    }
+
 
     public JSONObject convertToJASON(){
         JSONObject jsonObject = new JSONObject();

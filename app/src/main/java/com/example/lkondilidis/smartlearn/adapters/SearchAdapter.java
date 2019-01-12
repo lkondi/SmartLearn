@@ -14,6 +14,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.activities.AppointmentActivity;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
@@ -26,7 +27,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
 
     TextView name, subject, plan;
     CardView parentLayout;
-    ImageButton imagerating;
+    ImageButton imagerating, imagedate;
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
@@ -34,6 +35,7 @@ class SearchViewHolder extends RecyclerView.ViewHolder{
         subject = itemView.findViewById(R.id.textView_subject);
         plan = itemView.findViewById(R.id.textView_plan);
         imagerating = itemView.findViewById(R.id.imagerating);
+        imagedate = itemView.findViewById(R.id.imagedate);
         parentLayout = itemView.findViewById(R.id.parentLayout);
     }
 }
@@ -85,6 +87,16 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
                 showRating.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
                 showRating.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(showRating);
+            }
+        });
+
+        searchViewHolder.imagedate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent bookApp = new Intent(context, AppointmentActivity.class);
+                bookApp.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
+                bookApp.putExtra(USER_DETAIL_KEY, currentuser);
+                context.startActivity(bookApp);
             }
         });
 
