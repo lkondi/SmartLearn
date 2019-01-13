@@ -175,11 +175,15 @@ public class User implements Serializable {
 
 
     public JSONObject convertToJASON(){
+        String toByte = getPassword();
+        String encoding = new String(android.util.Base64.encode(toByte.getBytes(), android.util.Base64.DEFAULT));
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());
-            jsonObject.put("name", getName());
+            jsonObject.put("username", getName());
             jsonObject.put("email", getEmail());
+            //FIXME: encode the password
+            jsonObject.put("password", getPassword());
             jsonObject.put("nickname", getNickname());
             jsonObject.put("studies", getStudies());
             jsonObject.put("subject", getSubject());
@@ -194,6 +198,16 @@ public class User implements Serializable {
 
     public String getPrivateInfo() {
         return "";
+    }
+
+    public void updateUser(User user) {
+        this.setId(user.getId());
+        this.setNickname(user.getNickname());
+        this.setSubject(user.getSubject());
+        this.setStudies(user.getStudies());
+        this.setRatingDes(user.getRatingDes());
+        this.setRatingStars(user.getRatingStars());
+        this.setPlan(user.getPlan());
     }
 }
 

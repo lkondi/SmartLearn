@@ -23,6 +23,11 @@ import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerTask;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -158,6 +163,9 @@ public class ProfileActivity extends AppCompatActivity {
                     Toast.LENGTH_LONG).show();
         }
 
+        if(currentuser.getNickname() != null && currentuser.getNickname().equals("Tutor")){
+            tutorcheck.setChecked(true);
+        }
         tutorcheck.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -299,6 +307,11 @@ public class ProfileActivity extends AppCompatActivity {
                 currentuser.setSubject(editTextSubject.getText().toString());
                 currentuser.setPlan(planfinal);
 
+                try {
+                    updateUserOnServer();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
 
                 dataBaseHelper.updateUser(currentuser);
                 textViewStudies.setText(currentuser.getStudies());
@@ -328,14 +341,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.GONE);
-
-        if(intentAction == "register") {
-            Intent mainActivity = new Intent(this, MainActivity.class);
-            mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
-            startActivity(mainActivity);
-        }
-
-
     }
 
     public void editClicked() {
@@ -376,6 +381,25 @@ public class ProfileActivity extends AppCompatActivity {
         return plan;
     }
 
+    private void updateUserOnServer() throws JSONException {
+        ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+        auth.setHttpMethod("POST");
+        auth.setUrlPath("update/"+currentuser.getId());
+        JSONObject payload = new JSONObject();
+        payload.put("nickname", currentuser.getNickname());
+        payload.put("subject", currentuser.getSubject());
+        payload.put("studies", currentuser.getStudies());
+        payload.put("plan", currentuser.getPlan());
+        auth.setPayload(payload);
+        Intent mainActivity = null;
+        if(intentAction == "register") {
+            mainActivity = new Intent(this, MainActivity.class);
+            mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
+            //startActivity(mainActivity);
+        }
+        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity);
+        serverTask.execute();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
