@@ -77,6 +77,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:ems="10"
+                android:textSize="20dp"
                 android:text="Name des Users" />
 
             <EditText
@@ -121,7 +122,7 @@
                 android:layout_marginBottom="72dp"
                 android:backgroundTint="@color/primary_darker"
                 android:singleLine="true"
-                android:text="Confirm Appointment" />
+                android:text="Make Appointment" />
         </RelativeLayout>
     </LinearLayout>
 

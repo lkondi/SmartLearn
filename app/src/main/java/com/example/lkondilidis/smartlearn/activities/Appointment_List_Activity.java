@@ -1,6 +1,7 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -16,7 +17,7 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
@@ -37,6 +38,8 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
     private String intentAction;
     private User currentuser;
+    private ImageButton appbutton;
+    private TextView apptext;
 
     private TextView appuser, appsubject, appdate, apptime, usernameHeader;
 
@@ -64,9 +67,18 @@ public class Appointment_List_Activity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         //initiate Views
-        appuser= (TextView) findViewById(R.id.app_user);
-        appdate= (TextView) findViewById(R.id.app_date);
-        appsubject= (TextView) findViewById(R.id.app_subject);
+        appuser = (TextView) findViewById(R.id.app_user);
+        appdate = (TextView) findViewById(R.id.app_date);
+        appsubject = (TextView) findViewById(R.id.app_subject);
+        appbutton = (ImageButton) findViewById(R.id.imageconfirm);
+        apptext = (TextView) findViewById(R.id.appointment);
+        appbutton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                apptext.setText("Appointment confirmed");
+            }
+        });
 
         if (!STRING_EMPTY.equals(currentuser.getAppuser())) {
             appuser.setText(currentuser.getAppuser());
