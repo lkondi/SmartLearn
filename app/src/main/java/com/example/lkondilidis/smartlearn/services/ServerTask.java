@@ -1,6 +1,7 @@
 package com.example.lkondilidis.smartlearn.services;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.strictmode.NonSdkApiUsedViolation;
 import android.util.Log;
@@ -27,11 +28,15 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
     ArrayList<User> users;
     Context context;
     ApiAuthenticationClient auth;
+    User currentuser;
+    Intent intent;
 
-    public ServerTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth){
+    public ServerTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent){
         this.users = users;
         this.context = context;
         this.auth = auth;
+        this.currentuser = currentuser;
+        this.intent = intent;
     }
 
     @Override
@@ -44,14 +49,22 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
     protected List<User> doInBackground(Void... voids) {
         //return getWebServiceResponseData();
         ArrayList<User> users = new ArrayList<>();
+        String output = auth.execute();
         try {
-            JSONArray response = new JSONArray(auth.execute());
+            JSONArray response = new JSONArray(output);
             for(int i=0; i<response.length(); i++){
                 JSONObject jsonUser = response.getJSONObject(i);
                 User tempUser = new User((jsonUser));
                 users.add(tempUser);
             }
         } catch (JSONException e) {
+            try {
+                JSONObject jsonUser = new JSONObject(output);
+                User tempUser = new User((jsonUser));
+                currentuser.updateUser(tempUser);
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
         return users;
@@ -59,10 +72,16 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
 
     @Override
     protected void onPostExecute(List<User> tempUsers) {
-        for(User u: tempUsers){
-            if(!this.users.contains(u)){
-                this.users.add(u);
+        if (users != null) {
+            this.users.retainAll(tempUsers);
+            for (User u : tempUsers) {
+                if (!this.users.contains(u)) {
+                    this.users.add(u);
+                }
             }
+        }
+        if(intent != null) {
+            context.startActivity(intent);
         }
         //this.users.add(tempUsers.get(1));
         //users = (ArrayList<User>) tempUsers;

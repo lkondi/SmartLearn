@@ -4,11 +4,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Iterator;
@@ -241,13 +241,13 @@ public class ApiAuthenticationClient {
 
             URL url = new URL(urlString.toString());
 
-            String toByte = username + ":" + password;
-            String encoding = new String(android.util.Base64.encode(toByte.getBytes(), android.util.Base64.DEFAULT));
-
-
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod(httpMethod);
-            connection.setRequestProperty("Authorization", "Basic " + encoding);
+            if(urlPath != "registration"){
+                String toByte = username + ":" + password;
+                String encoding = new String(android.util.Base64.encode(toByte.getBytes(), android.util.Base64.DEFAULT));
+                connection.setRequestProperty("Authorization", "Basic " + encoding);
+            }
             connection.setRequestProperty("Accept", "application/json");
             connection.setRequestProperty("Content-Type", "application/json");
 
@@ -260,8 +260,9 @@ public class ApiAuthenticationClient {
                 connection.setDoOutput(true);
 
                 try {
-                    OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
-                    writer.write(payload.toString());
+                    OutputStream os = connection.getOutputStream();
+                    os.write(payload.toString().getBytes("UTF-8"));
+                    os.close();
 
                     headerFields = connection.getHeaderFields();
 
