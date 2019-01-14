@@ -1,9 +1,12 @@
 package com.example.lkondilidis.smartlearn.model;
 
+import android.util.Base64;
+
 import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.Serializable;
+import java.util.Arrays;
 
 public class User implements Serializable {
 
@@ -21,14 +24,16 @@ public class User implements Serializable {
     private String appsubject;
     private String appdate;
     private String apptime;
+    private String firebaseId;
+    private String imageURL;
 
 
     public User(){
-
+        imageURL ="default";
     }
 
     public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratingstars, String
-                ratingdes, String appuser, String appsubject, String appdate, String apptime){
+                ratingdes, String appuser, String appsubject, String appdate, String apptime, String firebaseId){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -43,6 +48,7 @@ public class User implements Serializable {
         this.appsubject = appsubject;
         this.appdate = appdate;
         this.apptime = apptime;
+        this.firebaseId = firebaseId;
     }
 
     public User(JSONObject jsonObject){
@@ -54,6 +60,7 @@ public class User implements Serializable {
             this.studies = jsonObject.getString("studies");
             this.subject = jsonObject.getString("subject");
             this.plan = jsonObject.getString("plan");
+            this.firebaseId = jsonObject.getString("firebaseId");
             this.ratingstars = jsonObject.getInt("ratingstars");
             this.ratingdes = jsonObject.getString("ratingdes");
         } catch (JSONException e) {
@@ -173,23 +180,33 @@ public class User implements Serializable {
         this.apptime = apptime;
     }
 
+    public void setFirebaseId(String firebaseId){
+        this.firebaseId = firebaseId;
+    }
+
+    public String getFirebaseId(){
+        return this.firebaseId;
+    }
+
 
     public JSONObject convertToJASON(){
         String toByte = getPassword();
-        String encoding = new String(android.util.Base64.encode(toByte.getBytes(), android.util.Base64.DEFAULT));
+        String encoding = new String(Base64.encode(toByte.getBytes(), Base64.DEFAULT));
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());
-            jsonObject.put("username", getName());
+            jsonObject.put("name", getName());
             jsonObject.put("email", getEmail());
             //FIXME: encode the password
             jsonObject.put("password", getPassword());
             jsonObject.put("nickname", getNickname());
+            jsonObject.put("firebaseId", getFirebaseId());
             jsonObject.put("studies", getStudies());
             jsonObject.put("subject", getSubject());
             jsonObject.put("plan", getPlan());
             jsonObject.put("ratingstars", getRatingStars());
             jsonObject.put("ratingdes", getRatingDes());
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -208,6 +225,15 @@ public class User implements Serializable {
         this.setRatingDes(user.getRatingDes());
         this.setRatingStars(user.getRatingStars());
         this.setPlan(user.getPlan());
+        this.setFirebaseId(user.getFirebaseId());
+    }
+
+    public String getImageURL() {
+        return this.imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
 

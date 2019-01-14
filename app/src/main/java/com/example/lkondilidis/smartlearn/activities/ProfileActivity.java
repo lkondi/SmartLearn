@@ -274,7 +274,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
     }
 
-
     private void updateUser() {
 
         ArrayList<String> plans = onCheckboxClicked();
@@ -397,7 +396,7 @@ public class ProfileActivity extends AppCompatActivity {
             mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
             //startActivity(mainActivity);
         }
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity);
+        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity, 0);
         serverTask.execute();
     }
 

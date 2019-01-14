@@ -4,7 +4,11 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.database.MatrixCursor;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -20,6 +24,8 @@ import android.widget.TextView;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
+import com.example.lkondilidis.smartlearn.fragments.ChatFragment;
+import com.example.lkondilidis.smartlearn.fragments.MainFragment;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -49,6 +55,10 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     User currentuser;
     TextView usernameHeader;
 
+    BottomNavigationView bottomNavigationView;
+    ChatFragment chatFragment;
+    MainFragment mainFragment;
+
     @Override
     protected void onStart(){
         super.onStart();
@@ -59,25 +69,70 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
-        databaseHelper = new SQLITEHelper(activity);
-        userArrayList = new ArrayList<>();
+        //databaseHelper = new SQLITEHelper(activity);
+        //userArrayList = new ArrayList<>();
+
+        //Drawer
+        drawerLayout = findViewById(R.id.drawer);
+        NavigationView navigationView = findViewById(R.id.navigation_view);
+        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
+
+        //Toolbar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionbar = getSupportActionBar();
+        actionbar.setDisplayHomeAsUpEnabled(true);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         //!!!!!!
         //connect to server and fetch Users
-        ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
-        auth.setHttpMethod("GET");
-        auth.setUrlPath("tutors/" + currentuser.getId());
-        ServerTask serverTask = new ServerTask(userArrayList, this, auth, currentuser, null);
-        serverTask.execute();
+        //ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+        //auth.setHttpMethod("GET");
+        //auth.setUrlPath("tutors/" + currentuser.getId());
+        //ServerTask serverTask = new ServerTask(userArrayList, this, auth, currentuser, null);
+        //serverTask.execute();
 
         //lectures
-        lectures = new ArrayList<>();
-        lectures = databaseHelper.getAllLectures();
+        //lectures = new ArrayList<>();
+        //lectures = databaseHelper.getAllLectures();
 
-        initViews();
+        chatFragment = new ChatFragment();
+        mainFragment = new MainFragment();
+
+        setFragment(mainFragment);
+
+        bottomNavigationView = (BottomNavigationView) findViewById(R.id.bottomDrawer);
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+                switch (menuItem.getItemId()){
+                    case R.id.bottom_chat:
+                        setFragment(chatFragment);
+                        return true;
+                    case R.id.bottom_drawer_home:
+                        setFragment(mainFragment);
+                        return true;
+                    case 2:
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+
+
+        //initViews();
 
         //fetch users
         //smartfetchUsers();
+    }
+
+    private void setFragment(Fragment fragment) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.main_frame, fragment);
+        fragmentTransaction.commit();
+
     }
 
     private void initViews() {
@@ -239,5 +294,9 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         //userArrayList.remove(userArrayList.size()-1);
         //searchAdapter.notifyDataSetChanged();
         return true;
+    }
+
+    public User getCurrentuser(){
+        return currentuser;
     }
 }

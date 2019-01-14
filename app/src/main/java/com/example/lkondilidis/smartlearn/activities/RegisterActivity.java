@@ -118,7 +118,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-
     /**
      * listen the click on view
      *
@@ -148,7 +147,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //FIREBASE TEST
-    private void register(final String username, String email, String password){
+    private void register(final String username, final String email, String password){
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -157,12 +156,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                         if (task.isSuccessful()){
                             FirebaseUser firebaseUser = auth.getCurrentUser();
                             assert firebaseUser != null;
-                            String userid = firebaseUser.getUid();
+                            final String userid = firebaseUser.getUid();
 
                             reference = FirebaseDatabase.getInstance().getReference("Users").child(userid);
 
                             HashMap<String, String> hashMap = new HashMap<>();
-                            hashMap.put("id", userid);
+                            hashMap.put("firebaseId", userid);
+                            hashMap.put("email", email);
                             hashMap.put("username", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("status", "offline");
@@ -173,7 +173,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
                                         postDataToSQLite();
-
+                                        currentuser.setFirebaseId(userid);
                                         Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                         intent.setAction("register");
@@ -197,7 +197,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         auth.setHttpMethod("POST");
         auth.setUrlPath("registration");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(new ArrayList<User>(), this, auth, currentuser, intent);
+        ServerTask serverTask = new ServerTask(new ArrayList<User>(), this, auth, currentuser, intent, 0);
         serverTask.execute();
     }
 
@@ -222,13 +222,13 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             return;
         }
 
-        if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
+        //if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
 
             currentuser.setName(textInputEditTextName.getText().toString().trim());
             currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
             currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
 
-            databaseHelper.addUser(currentuser);
+            //databaseHelper.addUser(currentuser);
 
             // Snack Bar to show success message that record saved successfully
             Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
@@ -240,10 +240,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
             //startActivity(mainactivity);
 
 
-        } else {
+       /* } else {
             // Snack Bar to show error message that record already exists
             Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-        }
+        }*/
 
 
     }

@@ -7,6 +7,7 @@ import android.os.strictmode.NonSdkApiUsedViolation;
 import android.util.Log;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 
@@ -25,18 +26,21 @@ import static android.content.ContentValues.TAG;
 
 public class ServerTask extends AsyncTask<Void, Void, List<User>>
 {
-    ArrayList<User> users;
+    List<User> users;
     Context context;
     ApiAuthenticationClient auth;
     User currentuser;
     Intent intent;
+    int flag;
+    SearchAdapter searchAdapter;
 
-    public ServerTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent){
+    public ServerTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, int flag){
         this.users = users;
         this.context = context;
         this.auth = auth;
         this.currentuser = currentuser;
         this.intent = intent;
+        this.flag = flag;
     }
 
     @Override
@@ -61,7 +65,15 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
             try {
                 JSONObject jsonUser = new JSONObject(output);
                 User tempUser = new User((jsonUser));
-                currentuser.updateUser(tempUser);
+                switch (flag){
+                    case 0: currentuser.updateUser(tempUser);
+                    break;
+                    case 1: users.add(tempUser);
+                    break;
+                    default:
+                        break;
+                }
+
             } catch (JSONException e1) {
                 e1.printStackTrace();
             }
@@ -79,69 +91,15 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
                     this.users.add(u);
                 }
             }
+            assert searchAdapter != null;
+            searchAdapter.notifyDataSetChanged();
         }
         if(intent != null) {
             context.startActivity(intent);
         }
-        //this.users.add(tempUsers.get(1));
-        //users = (ArrayList<User>) tempUsers;
     }
 
-
-
-
-
-
-
-    public User getWebServiceResponseData() {
-
-        StringBuffer response = null;
-        try {
-            String path = context.getString(R.string.path);
-            URL url = new URL(path);
-            Log.d(TAG, "ServerData: " + path);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            Log.d(TAG, "HttpsConnection: " + conn.toString());
-            conn.setRequestMethod("GET");
-
-            int responseCode = conn.getResponseCode();
-
-            Log.d(TAG, "Response code: " + responseCode);
-            if (responseCode == HttpsURLConnection.HTTP_OK) {
-                // Reading response from input Stream
-                BufferedReader in = new BufferedReader(
-                        new InputStreamReader(conn.getInputStream()));
-                String output;
-                response = new StringBuffer();
-
-                while ((output = in.readLine()) != null) {
-                    response.append(output);
-                }
-                in.close();
-            }}
-        catch(Exception e){
-            e.printStackTrace();
-        }
-
-        String responseText = "";
-        if(response != null) {
-            responseText = response.toString();
-        }
-        //Call ServerData() method to call webservice and store result in response
-        //  response = service.ServerData(path, postDataParams);
-        Log.d(TAG, "data:" + responseText);
-        System.out.println("Impotant");
-        try {
-
-                JSONObject jsonobject = new JSONObject(responseText);
-                int id = jsonobject.getInt("id");
-                String content = jsonobject.getString("content");
-                Log.d(TAG, "id:" + id);
-                Log.d(TAG, "content:" + content);
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return new User();
+    public void setAdapter(SearchAdapter searchAdapter) {
+        this.searchAdapter = searchAdapter;
     }
 }

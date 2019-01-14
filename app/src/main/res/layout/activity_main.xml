@@ -28,27 +28,36 @@
 
         </android.support.design.widget.AppBarLayout>
 
-        <!-- TODO: create search bar -->
-
-        <android.support.v7.widget.SearchView
-            android:id="@+id/searchView"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:queryHint="@string/search_hint"
-            app:iconifiedByDefault="false"
-            android:outlineSpotShadowColor="@color/white"
-            android:outlineAmbientShadowColor="@color/white"
-            android:paddingHorizontal="20dp">
-        </android.support.v7.widget.SearchView>
+            android:layout_height="match_parent">
 
-        <include
-            layout="@layout/content_main"
-            android:layout_gravity="center|top"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <RelativeLayout
+                android:id="@+id/main_frame"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentLeft="true"
+                android:layout_above="@+id/bottomDrawer"
+                android:layout_alignParentTop="true">
+
+            </RelativeLayout>
+
+            <android.support.design.widget.BottomNavigationView
+                android:id="@+id/bottomDrawer"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentLeft="true"
+                android:background="@color/primary_darker"
+                app:itemIconTint="@color/white"
+                app:menu="@menu/bottom_drawer_items" />
+
+        </RelativeLayout>
+
 
     </LinearLayout>
-
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
@@ -62,7 +71,5 @@
         app:itemTextColor="@color/white">
 
     </android.support.design.widget.NavigationView>
-
-    <!-- TODO: include bottom drawer -->
 
 </android.support.v4.widget.DrawerLayout>

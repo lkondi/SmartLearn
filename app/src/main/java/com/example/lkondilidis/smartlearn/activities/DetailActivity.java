@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -9,6 +10,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -52,11 +55,17 @@ public class DetailActivity extends AppCompatActivity {
 
     private RatingBar rating;
 
+    private Button sendButton;
+
+    private Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        this.context = this;
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
         dataBaseHelper = new SQLITEHelper(activity);
@@ -86,6 +95,18 @@ public class DetailActivity extends AppCompatActivity {
         userPlan = (TextView) findViewById(R.id.userPlan);
         userRating = (TextView) findViewById(R.id.userRating);
         rating = (RatingBar) findViewById(R.id.ratingProvider);
+        sendButton = (Button) findViewById(R.id.button_send);
+
+        sendButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, MessageActivity.class);
+                intent.putExtra("userid", selecteduser.getFirebaseId());
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+                context.startActivity(intent);
+            }
+        });
+
 
         loadUser(selecteduser);
 

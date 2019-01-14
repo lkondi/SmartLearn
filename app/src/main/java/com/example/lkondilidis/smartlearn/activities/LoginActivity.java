@@ -135,24 +135,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.appCompatButtonLogin:
                 //verifyFromSQLite();
-
-                //FIREBASE TEST
-                auth.signInWithEmailAndPassword(textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString())
-                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                if (task.isSuccessful()){
-                                    Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-                                    mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
-                                    mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                                    loginUser(mainActivity);
-                                    //startActivity(mainActivity);
-                                    //finish();
-                                } else {
-                                    Toast.makeText(LoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
+                verifyLogin();
                 break;
             case R.id.textViewLinkRegister:
                 // Navigate to RegisterActivity
@@ -162,6 +145,26 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
+    private void verifyLogin() {
+        //FIREBASE TEST
+        auth.signInWithEmailAndPassword(textInputEditTextEmail.getText().toString(), textInputEditTextPassword.getText().toString())
+            .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                @Override
+                public void onComplete(@NonNull Task<AuthResult> task) {
+                    if (task.isSuccessful()){
+                        Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
+                        mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
+                        mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                        loginUser(mainActivity);
+                        //startActivity(mainActivity);
+                        //finish();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Authentication failed!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+    }
+
     private void loginUser(Intent intent) {
         currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
         currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
@@ -169,7 +172,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, intent);
+        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, intent, 0);
         serverTask.execute();
     }
 
