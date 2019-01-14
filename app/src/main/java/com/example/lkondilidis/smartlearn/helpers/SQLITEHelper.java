@@ -240,6 +240,43 @@ public class SQLITEHelper extends SQLiteOpenHelper {
         db.close();
         return tutorDetailsList;
     }
+    public User getUserName(String name) {
+
+        User userDetails = new User();
+        SQLiteDatabase db = this.getReadableDatabase();
+        //specify the columns to be fetched
+        String[] columns = {KEY_USER_ID, KEY_USER_NAME, KEY_USER_EMAIL, KEY_USER_PASSWORD, KEY_USER_NICKNAME,
+                KEY_STUDIES, KEY_SUBJECT, KEY_PLAN, KEY_RATINGINT, KEY_RATINGDES, KEY_APPUSER, KEY_APPSUBJECT, KEY_APPDATE, KEY_APPTIME};
+        //Select condition
+        String selection = KEY_USER_NAME + " = ?";
+        //Arguments for selection
+        String[] selectionArgs = {String.valueOf(name)};
+
+
+        Cursor cursor = db.query(TABLE_NAME, columns, selection,
+                selectionArgs, null, null, null);
+        if (null != cursor) {
+            cursor.moveToFirst();
+            userDetails.setId(cursor.getInt(0));
+            userDetails.setName(cursor.getString(1));
+            userDetails.setEmail(cursor.getString(2));
+            userDetails.setPassword(cursor.getString(3));
+            userDetails.setNickname(cursor.getString(4));
+            userDetails.setStudies(cursor.getString(5));
+            userDetails.setSubject(cursor.getString(6));
+            userDetails.setPlan(cursor.getString(7));
+            userDetails.setRatingStars(cursor.getInt(8));
+            userDetails.setRatingDes(cursor.getString(9));
+            userDetails.setAppuser(cursor.getString(10));
+            userDetails.setAppsubject(cursor.getString(11));
+            userDetails.setAppdate(cursor.getString(12));
+            userDetails.setApptime(cursor.getString(13));
+
+        }
+        db.close();
+        return userDetails;
+
+    }
 
 
     public User getUserEmail(String email) {
