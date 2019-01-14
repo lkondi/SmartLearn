@@ -63,18 +63,18 @@
 
 
             <ImageButton
-                android:id="@+id/imageconfirm"
+                android:id="@+id/imagedelete"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/ic_tick"
+                android:src="@drawable/ic_delete"
                 android:background="@color/primary_darker"
                 />
 
             <TextView
-                android:id="@+id/appointment"
+                android:id="@+id/appointmentno"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Confirm appointment"
+                android:text="Delete appointment"
                 android:textSize="16dp" />
         </LinearLayout>
 

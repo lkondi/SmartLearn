@@ -38,8 +38,8 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
     private String intentAction;
     private User currentuser;
-    private ImageButton appbutton;
-    private TextView apptext;
+    private ImageButton imagedelete;
+    private TextView appointmentno;
 
     private TextView appuser, appsubject, appdate, apptime, usernameHeader;
 
@@ -70,13 +70,30 @@ public class Appointment_List_Activity extends AppCompatActivity {
         appuser = (TextView) findViewById(R.id.app_user);
         appdate = (TextView) findViewById(R.id.app_date);
         appsubject = (TextView) findViewById(R.id.app_subject);
-        appbutton = (ImageButton) findViewById(R.id.imageconfirm);
-        apptext = (TextView) findViewById(R.id.appointment);
-        appbutton.setOnClickListener(new View.OnClickListener() {
+
+        //appointments
+        imagedelete = (ImageButton) findViewById(R.id.imagedelete);
+        appointmentno = (TextView) findViewById(R.id.appointmentno);
+
+        imagedelete.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                apptext.setText("Appointment confirmed");
+                User selecteduser = dataBaseHelper.getUserName(currentuser.getAppuser());
+                selecteduser.setAppuser("");
+                selecteduser.setAppsubject("");
+                selecteduser.setAppdate("");
+                selecteduser.setApptime("");
+                dataBaseHelper.updateUser(selecteduser);
+
+
+                currentuser.setAppuser("");
+                currentuser.setAppsubject("");
+                currentuser.setAppdate("");
+                currentuser.setApptime("");
+                dataBaseHelper.updateUser(currentuser);
+
+                appointmentno.setText("Appointment deleted");
             }
         });
 

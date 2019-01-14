@@ -75,6 +75,12 @@ public class AppointmentActivity extends AppCompatActivity {
                     currentuser.setApptime(time.getText().toString());
                     dataBaseHelper.updateUser(currentuser);
 
+                    selecteduser.setAppuser(currentuser.getName());
+                    selecteduser.setAppsubject(subject.getText().toString());
+                    selecteduser.setAppdate(date.getText().toString());
+                    selecteduser.setApptime(time.getText().toString());
+                    dataBaseHelper.updateUser(selecteduser);
+
                     subject.setText("");
                     time.setText("");
                     date.setText("");
