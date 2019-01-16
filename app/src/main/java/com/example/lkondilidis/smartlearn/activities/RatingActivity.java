@@ -15,13 +15,11 @@ import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
 
 public class RatingActivity extends AppCompatActivity {
     private final AppCompatActivity activity = RatingActivity.this;
-    private SQLITEHelper dataBaseHelper;
     User selecteduser;
     private User currentuser;
     public static final String USER_DETAIL_KEY = "currentuser";
@@ -41,7 +39,6 @@ public class RatingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_rating);
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
@@ -99,7 +96,6 @@ public class RatingActivity extends AppCompatActivity {
                 } else {
                     selecteduser.setRatingStars(ratingStars);
                     selecteduser.setRatingDes(mFeedback.getText().toString());
-                    dataBaseHelper.updateUser(selecteduser);
                     mFeedback.setText("");
                     mRatingBar.setRating(0);
                     Toast.makeText(RatingActivity.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();

@@ -16,11 +16,9 @@ import android.view.MenuItem;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 
 public class AppointmentActivity extends AppCompatActivity {
     private final AppCompatActivity activity = AppointmentActivity.this;
-    private SQLITEHelper dataBaseHelper;
     User selecteduser;
     private User currentuser;
     public static final String USER_DETAIL_KEY = "currentuser";
@@ -39,7 +37,6 @@ public class AppointmentActivity extends AppCompatActivity {
         setContentView(R.layout.activity_make_appointment);
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
@@ -61,7 +58,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
         name.setText(selecteduser.getName());
 
-        confirm.setOnClickListener(new View.OnClickListener() {
+      /*  confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (subject.getText().toString().isEmpty() && date.getText().toString().isEmpty() &&
@@ -88,7 +85,7 @@ public class AppointmentActivity extends AppCompatActivity {
                     Toast.makeText(AppointmentActivity.this, "Thank you for scheduling", Toast.LENGTH_SHORT).show();
                 }
             }
-        });
+        });*/
 
     }
 

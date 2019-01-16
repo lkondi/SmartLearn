@@ -21,7 +21,6 @@ import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
@@ -40,7 +39,6 @@ public class ProfileActivity extends AppCompatActivity {
 
     TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRating, usernameHeader;
     EditText editTextStudies, editTextSubject;
-    SQLITEHelper dataBaseHelper;
 
     ImageView imageView;
 
@@ -69,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         intentAction = intent.getAction();
 
@@ -87,7 +84,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
 
         initViews();
-        initObjects();
 
     }
 
@@ -243,18 +239,13 @@ public class ProfileActivity extends AppCompatActivity {
 
     }
 
-    private void initObjects() {
-        dataBaseHelper = new SQLITEHelper(activity);
-
-    }
 
     private void isTutor() {
         if (((CheckBox) tutorcheck).isChecked()) {
 
-            dataBaseHelper = new SQLITEHelper(activity);
 
             currentuser.setNickname("Tutor");
-            dataBaseHelper.updateUser(currentuser);
+           // dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
 
             Toast.makeText(ProfileActivity.this, "You are a tutor!",
@@ -262,10 +253,8 @@ public class ProfileActivity extends AppCompatActivity {
         }
         else {
 
-            dataBaseHelper = new SQLITEHelper(activity);
-
             currentuser.setNickname("Student");
-            dataBaseHelper.updateUser(currentuser);
+          //  dataBaseHelper.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
 
 
@@ -312,7 +301,7 @@ public class ProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-                dataBaseHelper.updateUser(currentuser);
+               // dataBaseHelper.updateUser(currentuser);
                 textViewStudies.setText(currentuser.getStudies());
                 textViewSubject.setText(currentuser.getSubject());
                 textViewPlan.setText(currentuser.getPlan());

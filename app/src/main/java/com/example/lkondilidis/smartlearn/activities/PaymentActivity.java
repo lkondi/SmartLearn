@@ -11,14 +11,11 @@ import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 
 public class PaymentActivity extends AppCompatActivity {
 
     private final AppCompatActivity activity = PaymentActivity.this;
-
-    SQLITEHelper dataBaseHelper;
 
     private DrawerLayout drawerLayout;
 
@@ -35,7 +32,6 @@ public class PaymentActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         intentAction = intent.getAction();
 
