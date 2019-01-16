@@ -190,8 +190,8 @@ public class User implements Serializable {
 
 
     public JSONObject convertToJASON(){
-        String toByte = getPassword();
-        String encoding = new String(Base64.encode(toByte.getBytes(), Base64.DEFAULT));
+        //String toByte = getPassword();
+        //String encoding = new String(Base64.encode(toByte.getBytes(), Base64.DEFAULT));
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());

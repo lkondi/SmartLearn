@@ -132,8 +132,8 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     }
 
     private void fetchUsers() {
-        userArrayList.addAll(databaseHelper.getAllTutors());
-        searchAdapter.notifyDataSetChanged();
+        //userArrayList.addAll(databaseHelper.getAllTutors());
+        //searchAdapter.notifyDataSetChanged();
     }
 
     private void smartfetchUsers() {
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         //userDetails.addAll(databaseHelper.getAllTutorsSmart(subject));
 
 
-        userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject));
+        //userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject));
         searchAdapter.notifyDataSetChanged();
     }
 
