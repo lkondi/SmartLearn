@@ -16,7 +16,6 @@ import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
@@ -31,7 +30,6 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
     private SearchAdapter searchAdapter;
     private SearchView searchView;
     private User currentuser;
-    private SQLITEHelper databaseHelper;
     private ArrayList<User> userArrayList;
     private List<String> lectures;
     private MainActivity activity;
@@ -43,14 +41,13 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         activity = (MainActivity) getActivity();
 
         currentuser = activity.getCurrentuser();
-        databaseHelper = new SQLITEHelper(activity);
         userArrayList = new ArrayList<>();
 
 
 
         //lectures
         lectures = new ArrayList<>();
-        lectures = databaseHelper.getAllLectures();
+       // lectures = databaseHelper.getAllLectures();
 
         //recyclerView
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search);

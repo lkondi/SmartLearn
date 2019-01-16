@@ -27,10 +27,7 @@ import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.fragments.ChatFragment;
 import com.example.lkondilidis.smartlearn.fragments.MainFragment;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +45,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
     private static String STRING_EMPTY = "";
 
     ArrayList<User> userArrayList;
-    SQLITEHelper databaseHelper;
 
     List<String> lectures;
 
@@ -222,28 +218,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         //myList.setAdapter(exampleAdapter);
     }
 
-    private void fetchUsers() {
-        userArrayList.addAll(databaseHelper.getAllTutors());
-        searchAdapter.notifyDataSetChanged();
-    }
-
-    private void smartfetchUsers() {
-
-        //ArrayList<User> userDetails = new ArrayList<>();
-        //User Details
-        String studies = currentuser.getStudies();
-        String subject = currentuser.getSubject();
-        String plan = currentuser.getPlan();
-
-        if (subject == null) { subject = "";}
-        if (plan == null) { plan = "";}
-
-        //userDetails.addAll(databaseHelper.getAllTutorsSmart(subject));
-        
-
-        userArrayList.addAll(databaseHelper.getAllTutorsSmart(subject));
-        searchAdapter.notifyDataSetChanged();
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -16,7 +16,6 @@ import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.services.ServerTask;
@@ -51,7 +50,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
     private AppCompatTextView appCompatTextViewLoginLink;
 
     private InputValidation inputValidation;
-    private SQLITEHelper databaseHelper;
     private User currentuser;
 
 
@@ -113,7 +111,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
      */
     private void initObjects() {
         inputValidation = new InputValidation(activity);
-        databaseHelper = new SQLITEHelper(activity);
         currentuser = new User();
 
     }

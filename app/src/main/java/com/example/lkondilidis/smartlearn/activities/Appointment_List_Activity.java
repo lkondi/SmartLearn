@@ -1,7 +1,6 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
-import android.media.Image;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -9,28 +8,17 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.widget.CheckBox;
-import android.widget.RatingBar;
 import android.widget.Toast;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
-import android.widget.Button;
-import android.widget.LinearLayout;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
-
-import java.util.ArrayList;
 
 public class Appointment_List_Activity extends AppCompatActivity {
     private final AppCompatActivity activity = Appointment_List_Activity.this;
-
-    SQLITEHelper dataBaseHelper;
 
     private static String STRING_EMPTY = "";
 
@@ -52,7 +40,6 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         intentAction = intent.getAction();
 
@@ -75,7 +62,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
         imagedelete = (ImageButton) findViewById(R.id.imagedelete);
         appointmentno = (TextView) findViewById(R.id.appointmentno);
 
-        imagedelete.setOnClickListener(new View.OnClickListener() {
+       /** imagedelete.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -114,7 +101,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
             Toast.makeText(Appointment_List_Activity.this, "You have no appointments",
                     Toast.LENGTH_LONG).show();
-        }
+        }*/
 
     }
 

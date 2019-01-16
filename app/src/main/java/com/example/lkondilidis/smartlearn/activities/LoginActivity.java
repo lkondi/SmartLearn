@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.AppCompatButton;
 import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
-import android.widget.TextView;
 import android.widget.Toast;
+import java.io.*;
+import java.util.ArrayList;
 
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
@@ -25,8 +25,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-
-import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     private final AppCompatActivity activity = LoginActivity.this;
@@ -44,9 +42,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private AppCompatTextView textViewLinkRegister;
 
     private InputValidation inputValidation;
-    private SQLITEHelper databaseHelper;
 
-    private User currentuser = new User();
+    private final static String STORETEXT="storetext.txt";
+
+    private User currentuser;
 
     //FIREBASE TEST
     FirebaseAuth auth;
@@ -61,14 +60,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     protected void onStart() {
         super.onStart();
 
-        //initObjects();
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //check if user is null
         if (false){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             String email = firebaseUser.getEmail();
-            currentuser = databaseHelper.getUserEmail(email);
+            currentuser = readFileInEditor();
             intent.putExtra(USER_DETAIL_KEY, currentuser);
             startActivity(intent);
             finish();
@@ -120,7 +118,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
      * initialize objects to be used
      */
     private void initObjects() {
-        databaseHelper = new SQLITEHelper(activity);
         inputValidation = new InputValidation(activity);
 
     }
@@ -134,7 +131,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.appCompatButtonLogin:
-                //verifyFromSQLite();
+                saveClicked();
                 verifyLogin();
                 break;
             case R.id.textViewLinkRegister:
@@ -166,8 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginUser(Intent intent) {
-        currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
-        currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
+        currentuser = readFileInEditor();
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
@@ -176,37 +172,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         serverTask.execute();
     }
 
-    /**
-     * validate the input text fields and verify login credentials from SQLite
-     */
-    private void verifyFromSQLite() {
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextEmail(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_email))) {
-            return;
-        }
-
-        if (databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim()
-                , textInputEditTextPassword.getText().toString().trim())) {
-
-            //get currentuser
-            currentuser = databaseHelper.getUserEmail(textInputEditTextEmail.getText().toString().trim());
-
-            //FIREBASE TEST
-            //Intent mainActivity = new Intent(this, MainActivity.class);
-            //mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
-            //startActivity(mainActivity);
-
-
-        } else {
-            // Snack Bar to show success message that record is wrong
-            Snackbar.make(nestedScrollView, getString(R.string.error_valid_email_password), Snackbar.LENGTH_LONG).show();
-        }
-    }
 
     /**
      * empty all input edit text
@@ -214,5 +179,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private void emptyInputEditText() {
         textInputEditTextEmail.setText(null);
         textInputEditTextPassword.setText(null);
+    }
+
+    public void saveClicked() {
+        try {
+            OutputStreamWriter out= new OutputStreamWriter(openFileOutput(STORETEXT, 0));
+            out.write(textInputEditTextEmail.getText().toString());
+            out.write(textInputEditTextPassword.getText().toString());
+            out.close();
+            Toast.makeText(this, "The contents are saved in the file.", Toast.LENGTH_LONG).show();
+        }
+        catch (Throwable t) {
+            Toast.makeText(this, "Exception: "+t.toString(), Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public User readFileInEditor() {
+        User user = new User();
+        ArrayList<String> lines = new ArrayList<>();
+        try {
+            InputStream in = openFileInput(STORETEXT);
+            if (in != null) {
+                InputStreamReader tmp=new InputStreamReader(in);
+                BufferedReader reader=new BufferedReader(tmp);
+                String str;
+                StringBuilder buf=new StringBuilder();
+                while ((str = reader.readLine()) != null) {
+                    buf.append(str+"n");
+                    lines.add(str);
+                }
+                in.close();
+                for(int i=0; i<lines.size(); i++){
+                    user.setEmail(lines.get(0));
+                    user.setPassword(lines.get(1));
+                }
+            }
+        }
+
+        catch (java.io.FileNotFoundException e) {
+        }
+        catch (Throwable t) {
+            Toast.makeText(this, "Exception: "+t.toString(), Toast.LENGTH_LONG).show();
+        }
+        return user;
     }
 }

@@ -27,7 +27,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
-import com.example.lkondilidis.smartlearn.helpers.SQLITEHelper;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
 
@@ -42,7 +41,6 @@ public class DetailActivity extends AppCompatActivity {
     private TextView userPlan;
     private TextView userRating;
     private User user;
-    private SQLITEHelper dataBaseHelper;
     private static String STRING_EMPTY = "";
     int idFromIntent = 0;
 
@@ -68,7 +66,6 @@ public class DetailActivity extends AppCompatActivity {
         this.context = this;
 
         selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
-        dataBaseHelper = new SQLITEHelper(activity);
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
