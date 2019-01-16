@@ -91,8 +91,9 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
                     this.users.add(u);
                 }
             }
-            assert searchAdapter != null;
-            searchAdapter.notifyDataSetChanged();
+            if(searchAdapter != null) {
+                searchAdapter.notifyDataSetChanged();
+            }
         }
         if(intent != null) {
             context.startActivity(intent);

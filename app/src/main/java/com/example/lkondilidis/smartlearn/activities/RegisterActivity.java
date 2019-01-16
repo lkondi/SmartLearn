@@ -61,8 +61,6 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
 
     public static final String USER_DETAIL_KEY = "currentuser";
 
-    //TODO: most of this code should be on the server side. i.e. Registering user and password, initialising the database
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -172,7 +170,10 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                                 @Override
                                 public void onComplete(@NonNull Task<Void> task) {
                                     if (task.isSuccessful()){
-                                        postDataToSQLite();
+                                        //postDataToSQLite();
+                                        currentuser.setName(textInputEditTextName.getText().toString().trim());
+                                        currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
+                                        currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
                                         currentuser.setFirebaseId(userid);
                                         Intent intent = new Intent(RegisterActivity.this, ProfileActivity.class);
                                         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
