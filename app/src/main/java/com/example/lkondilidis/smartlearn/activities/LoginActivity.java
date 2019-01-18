@@ -150,7 +150,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()){
                         Intent mainActivity = new Intent(LoginActivity.this, MainActivity.class);
-                        mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
                         mainActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                         loginUser(mainActivity);
                         //startActivity(mainActivity);
@@ -164,6 +163,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginUser(Intent intent) {
         currentuser = readFileInEditor();
+        intent.putExtra(USER_DETAIL_KEY, currentuser);
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
