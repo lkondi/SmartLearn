@@ -11,6 +11,8 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import java.io.*;
+import com.example.lkondilidis.smartlearn.helpers.CSVReader;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
@@ -43,11 +45,11 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         currentuser = activity.getCurrentuser();
         userArrayList = new ArrayList<>();
 
-
-
         //lectures
         lectures = new ArrayList<>();
-       // lectures = databaseHelper.getAllLectures();
+        InputStream inputStream = getResources().openRawResource(R.raw.stats);
+        CSVReader csvFile = new CSVReader(inputStream);
+        lectures = csvFile.read();
 
         //recyclerView
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search);
