@@ -82,7 +82,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
                 appointmentno.setText("Appointment deleted");
             }
-        });
+        });*/
 
         if (!STRING_EMPTY.equals(currentuser.getAppuser())) {
             appuser.setText(currentuser.getAppuser());
@@ -95,13 +95,10 @@ public class Appointment_List_Activity extends AppCompatActivity {
         }
 
         else {
-            appuser.setText("");
-            appsubject.setText("");
-            appdate.setText("");
 
             Toast.makeText(Appointment_List_Activity.this, "You have no appointments",
                     Toast.LENGTH_LONG).show();
-        }*/
+        }
 
     }
 

@@ -131,11 +131,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     }
 
-    private void fetchUsers() {
-        //userArrayList.addAll(databaseHelper.getAllTutors());
-        //searchAdapter.notifyDataSetChanged();
-    }
-
     private void smartfetchUsers() {
 
         //ArrayList<User> userDetails = new ArrayList<>();

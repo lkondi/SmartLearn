@@ -38,4 +38,5 @@
     <string name="appointment">Termine</string>
     <string name="chat">chat</string>
     <string name="newItem">newItem</string>
+    <string name="lecture">Lectures</string>
 </resources>

@@ -19,6 +19,10 @@
     <item android:title="@string/actions">
         <menu>
             <item
+                android:id="@+id/lecture"
+                android:icon="@drawable/ic_book"
+                android:title="@string/lecture" />
+            <item
                 android:id="@+id/payment"
                 android:icon="@drawable/ic_menu_payment"
                 android:title="@string/payment" />

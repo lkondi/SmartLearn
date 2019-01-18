@@ -10,10 +10,12 @@ import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.Appointment_List_Activity;
+import com.example.lkondilidis.smartlearn.activities.LectureActivity;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.activities.PaymentActivity;
 import com.example.lkondilidis.smartlearn.activities.ProfileActivity;
+import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
 
 public class DrawerNavigationListener implements NavigationView.OnNavigationItemSelectedListener{
@@ -52,6 +54,11 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
                 Intent paymentactivity = new Intent(context, PaymentActivity.class);
                 paymentactivity.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(paymentactivity);
+                break;
+            case R.id.lecture:
+                Intent lectureactivity = new Intent(context, LectureActivity.class);
+                lectureactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                context.startActivity(lectureactivity);
                 break;
             case R.id.logout:
                 Toast.makeText(context, "You are logged out!",
