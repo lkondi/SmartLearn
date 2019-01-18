@@ -1,12 +1,15 @@
 package com.example.lkondilidis.smartlearn.model;
 
-import android.util.Base64;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
 
 import java.io.Serializable;
-import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class User implements Serializable {
 
@@ -26,6 +29,7 @@ public class User implements Serializable {
     private String apptime;
     private String firebaseId;
     private String imageURL;
+    private Set<Lecture> lectures;
 
 
     public User(){
@@ -33,7 +37,7 @@ public class User implements Serializable {
     }
 
     public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratingstars, String
-                ratingdes, String appuser, String appsubject, String appdate, String apptime, String firebaseId){
+            ratingdes, String appuser, String appsubject, String appdate, String apptime, String firebaseId, Set<Lecture> lectures){
         this.id = id;
         this.name = name;
         this.email = email;
@@ -49,6 +53,7 @@ public class User implements Serializable {
         this.appdate = appdate;
         this.apptime = apptime;
         this.firebaseId = firebaseId;
+        this.lectures = lectures;
     }
 
     public User(JSONObject jsonObject){
@@ -61,6 +66,19 @@ public class User implements Serializable {
             this.subject = jsonObject.getString("subject");
             this.plan = jsonObject.getString("plan");
             this.firebaseId = jsonObject.getString("firebaseId");
+            JSONArray jsonArray = new JSONArray();
+            jsonArray.put(jsonObject.getJSONArray("lectures"));
+            Set<Lecture> lectures = new HashSet<>();
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    JSONObject jsonLecture = jsonArray.getJSONObject(i);
+                    Lecture lecture = new Lecture(jsonLecture);
+                    lectures.add(lecture);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.lectures = lectures;
             this.ratingstars = jsonObject.getInt("ratingstars");
             this.ratingdes = jsonObject.getString("ratingdes");
         } catch (JSONException e) {
@@ -204,6 +222,13 @@ public class User implements Serializable {
             jsonObject.put("studies", getStudies());
             jsonObject.put("subject", getSubject());
             jsonObject.put("plan", getPlan());
+            JSONArray jsonArray = new JSONArray();
+            if(lectures != null) {
+                for (Lecture l : lectures) {
+                    jsonArray.put(l.convertToJSON());
+                }
+            }
+            jsonObject.put("lectures", jsonArray);
             jsonObject.put("ratingstars", getRatingStars());
             jsonObject.put("ratingdes", getRatingDes());
 
@@ -226,6 +251,7 @@ public class User implements Serializable {
         this.setRatingStars(user.getRatingStars());
         this.setPlan(user.getPlan());
         this.setFirebaseId(user.getFirebaseId());
+        this.setLectures(user.getLectures());
     }
 
     public String getImageURL() {
@@ -234,6 +260,14 @@ public class User implements Serializable {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public Set<Lecture> getLectures() {
+        return lectures;
+    }
+
+    public void setLectures(Set<Lecture> lectures) {
+        this.lectures = lectures;
     }
 }
 

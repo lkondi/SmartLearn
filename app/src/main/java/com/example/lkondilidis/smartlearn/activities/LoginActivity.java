@@ -3,7 +3,6 @@ package com.example.lkondilidis.smartlearn.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -15,6 +14,7 @@ import android.widget.Toast;
 import java.io.*;
 import java.util.ArrayList;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
@@ -53,7 +53,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public static final String USER_DETAIL_KEY = "currentuser";
 
-    //TODO: most of this code should be on the server side. i.e. Validating user and password, initialising the database
 
     //FIREBASE TEST
     @Override
@@ -162,23 +161,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void loginUser(Intent intent) {
-        currentuser = readFileInEditor();
+        //currentuser = readFileInEditor();
+        currentuser = new User();
+        currentuser.setEmail(textInputEditTextEmail.getText().toString());
+        currentuser.setPassword(textInputEditTextPassword.getText().toString());
         intent.putExtra(USER_DETAIL_KEY, currentuser);
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, intent, 0);
+        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, intent, StatusFlag.SERVER_STATUS_LOGIN_USER);
         serverTask.execute();
-    }
-
-
-    /**
-     * empty all input edit text
-     */
-    private void emptyInputEditText() {
-        textInputEditTextEmail.setText(null);
-        textInputEditTextPassword.setText(null);
     }
 
     public void saveClicked() {

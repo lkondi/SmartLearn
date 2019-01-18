@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.activities.MessageActivity;
 import com.example.lkondilidis.smartlearn.model.Chat;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,16 +28,20 @@ import java.util.List;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
 
+    public static final String USER_DETAIL_KEY = "currentuser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     private Context mContext;
     private List<User> mUsers;
     private boolean ischat;
+    private User currentuser;
 
     String theLastMessage;
 
-    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat){
+    public UserAdapter(Context mContext, List<User> mUsers, boolean ischat, User currentuser){
         this.mUsers = mUsers;
         this.mContext = mContext;
         this.ischat = ischat;
+        this.currentuser = currentuser;
     }
 
     @NonNull
@@ -79,9 +84,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //Intent intent = new Intent(mContext, MessageActivity.class);
-                //intent.putExtra("userid", user.getId());
-                //mContext.startActivity(intent);
+                Intent intent = new Intent(mContext, MessageActivity.class);
+                intent.putExtra(SELECTED_USER_DETAIL_KEY, user);
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+                intent.setAction("ChatFragment");
+                mContext.startActivity(intent);
             }
         });
     }
@@ -91,7 +98,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         return mUsers.size();
     }
 
-    public  class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView username;
         public ImageView profile_image;
@@ -102,8 +109,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.ViewHolder> {
         public ViewHolder(View itemView) {
             super(itemView);
 
-            username = itemView.findViewById(R.id.textView_name);
-            profile_image = itemView.findViewById(R.id.profile_picture);
+            username = itemView.findViewById(R.id.username);
+            profile_image = itemView.findViewById(R.id.profile_image);
             img_on = itemView.findViewById(R.id.img_on);
             img_off = itemView.findViewById(R.id.img_off);
             last_msg = itemView.findViewById(R.id.last_msg);

@@ -8,8 +8,7 @@
     android:layout_margin="0dp"
     app:cardBackgroundColor="@color/primary_darker"
     app:cardUseCompatPadding="true"
-    android:id="@+id/parentLayout"
-    >
+    android:id="@+id/parentLayout">
     
     <LinearLayout
         android:orientation="horizontal"

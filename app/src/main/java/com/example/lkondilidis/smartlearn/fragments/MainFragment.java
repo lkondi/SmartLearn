@@ -11,9 +11,8 @@ import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import java.io.*;
-import com.example.lkondilidis.smartlearn.helpers.CSVReader;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
@@ -33,7 +32,7 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
     private SearchView searchView;
     private User currentuser;
     private ArrayList<User> userArrayList;
-    private List<String> lectures;
+    private List lectures;
     private MainActivity activity;
 
     @Override
@@ -42,14 +41,13 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         View view = inflater.inflate(R.layout.fragment_main, container, false);
         activity = (MainActivity) getActivity();
 
+        assert activity != null;
         currentuser = activity.getCurrentuser();
         userArrayList = new ArrayList<>();
 
         //lectures
-        lectures = new ArrayList<>();
-        InputStream inputStream = getResources().openRawResource(R.raw.stats);
-        CSVReader csvFile = new CSVReader(inputStream);
-        lectures = csvFile.read();
+        lectures = activity.getLectures();
+
 
         //recyclerView
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search);
@@ -64,7 +62,7 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("GET");
         auth.setUrlPath("tutors/" + currentuser.getId());
-        ServerTask serverTask = new ServerTask(userArrayList, activity, auth, currentuser, null, 1);
+        ServerTask serverTask = new ServerTask(userArrayList, activity, auth, currentuser, null, StatusFlag.SERVER_STATUS_GET_USERS);
         serverTask.setAdapter(searchAdapter);
         serverTask.execute();
 
@@ -72,6 +70,7 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);
         //myList = findViewById(R.id.listView1);
         searchView = view.findViewById(R.id.searchView);
+        assert manager != null;
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
         searchView.setOnSuggestionListener(this);
         searchView.setSubmitButtonEnabled(true);
@@ -123,9 +122,9 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
             temp[1]=lectures.get(j);
 
             cursor.addRow(temp);
-            System.out.println(j+": "+temp[1]+" added to cursor");
+            //System.out.println(j+": "+temp[1]+" added to cursor");
         }
-        cursor.moveToFirst();
+        //cursor.moveToFirst();
 
 
         ExampleAdapter exampleAdapter = new ExampleAdapter(activity,cursor,lectures);
@@ -144,7 +143,7 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
     @Override
     public boolean onSuggestionClick(int i) {
         //myList.setVisibility(View.GONE);
-        String selectedLectureName = lectures.get(i);
+        String selectedLectureName = (String) lectures.get(i);
 
         List<User> tutorListSearched = new ArrayList<>();
 

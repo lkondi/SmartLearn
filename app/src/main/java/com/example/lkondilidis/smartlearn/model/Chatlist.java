@@ -1,20 +1,20 @@
 package com.example.lkondilidis.smartlearn.model;
 
 public class Chatlist {
-    public String id;
+    public String firebaseId;
 
     public Chatlist(String id) {
-        this.id = id;
+        this.firebaseId = id;
     }
 
     public Chatlist() {
     }
 
     public String getId() {
-        return id;
+        return firebaseId;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.firebaseId = id;
     }
 }

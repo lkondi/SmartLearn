@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -385,7 +386,7 @@ public class ProfileActivity extends AppCompatActivity {
             mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
             //startActivity(mainActivity);
         }
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity, 0);
+        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity, StatusFlag.SERVER_STATUS_UPDATE_USER);
         serverTask.execute();
     }
 

@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
@@ -54,8 +55,6 @@ public class ChatFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        /*userAdapter = new UserAdapter(getContext(), mUsers, true);
-        recyclerView.setAdapter(userAdapter);*/
 
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -99,20 +98,23 @@ public class ChatFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 mUsers.clear();
+
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     User user = snapshot.getValue(User.class);
                     for (Chatlist chatlist : usersList){
-                        if (user.getFirebaseId() == chatlist.getId()){
-                            ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                        assert user != null;
+                        if (user.getFirebaseId().equals(chatlist.getId())){
+/*                            ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                             auth.setHttpMethod("GET");
                             auth.setUrlPath("users/" + user.getEmail());
-                            ServerTask serverTask = new ServerTask(mUsers, activity, auth, currentuser, null, 1);
-                            serverTask.execute();
-                            //mUsers.add(user);
+                            ServerTask serverTask = new ServerTask(mUsers, activity, auth, currentuser, null, StatusFlag.SERVER_STATUS_ADD_USER);
+                            serverTask.setAdapter(userAdapter);
+                            serverTask.execute();*/
+                            mUsers.add(user);
                         }
                     }
                 }
-                userAdapter = new UserAdapter(getContext(), mUsers, true);
+                userAdapter = new UserAdapter(getContext(), mUsers, true, currentuser);
                 recyclerView.setAdapter(userAdapter);
             }
 

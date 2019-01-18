@@ -48,6 +48,7 @@ public class DetailActivity extends AppCompatActivity {
     User selecteduser;
     private User currentuser;
     public static final String USER_DETAIL_KEY = "currentuser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
 
     private DrawerLayout drawerLayout;
 
@@ -65,9 +66,9 @@ public class DetailActivity extends AppCompatActivity {
 
         this.context = this;
 
-        selecteduser = (User) getIntent().getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
+        selecteduser = (User) getIntent().getSerializableExtra(DetailActivity.SELECTED_USER_DETAIL_KEY);
 
-        currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        currentuser = (User) getIntent().getSerializableExtra(DetailActivity.USER_DETAIL_KEY);
 
 
         //Drawer
@@ -98,8 +99,9 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, MessageActivity.class);
-                intent.putExtra("userid", selecteduser.getFirebaseId());
+                intent.putExtra(SELECTED_USER_DETAIL_KEY, selecteduser);
                 intent.putExtra(USER_DETAIL_KEY, currentuser);
+                intent.setAction("DetailActivity");
                 context.startActivity(intent);
             }
         });

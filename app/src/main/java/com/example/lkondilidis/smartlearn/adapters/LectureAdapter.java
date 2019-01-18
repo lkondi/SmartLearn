@@ -6,11 +6,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
+
+import com.example.lkondilidis.smartlearn.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class LectureAdapter extends ArrayAdapter {
-    private List lectureList = new ArrayList();
+    private List<String[]> lectureList = new ArrayList();
 
     static class ItemViewHolder {
         TextView id;
@@ -21,7 +25,7 @@ public class LectureAdapter extends ArrayAdapter {
         super(context, textViewResourceId);
     }
 
-    @Override
+    //@Override
     public void add(String[] object) {
         lectureList.add(object);
         super.add(object);

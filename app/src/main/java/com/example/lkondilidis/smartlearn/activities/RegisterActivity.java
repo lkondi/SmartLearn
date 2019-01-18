@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -14,6 +13,7 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -158,7 +158,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
                             HashMap<String, String> hashMap = new HashMap<>();
                             hashMap.put("firebaseId", userid);
                             hashMap.put("email", email);
-                            hashMap.put("username", username);
+                            hashMap.put("name", username);
                             hashMap.put("imageURL", "default");
                             hashMap.put("status", "offline");
                             hashMap.put("search", username.toLowerCase());
@@ -195,55 +195,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         auth.setHttpMethod("POST");
         auth.setUrlPath("registration");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(new ArrayList<User>(), this, auth, currentuser, intent, 0);
+        ServerTask serverTask = new ServerTask(new ArrayList<User>(), this, auth, currentuser, intent, StatusFlag.SERVER_STATUS_REGISTER_USER);
         serverTask.execute();
-    }
-
-    /**
-     * validate the input text fields and post data to SQLite
-     */
-    private void postDataToSQLite() {
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextName, textInputLayoutName, getString(R.string.error_message_name))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextEmail(textInputEditTextEmail, textInputLayoutEmail, getString(R.string.error_message_email))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextFilled(textInputEditTextPassword, textInputLayoutPassword, getString(R.string.error_message_password))) {
-            return;
-        }
-        if (!inputValidation.isInputEditTextMatches(textInputEditTextPassword, textInputEditTextConfirmPassword,
-                textInputLayoutConfirmPassword, getString(R.string.error_password_match))) {
-            return;
-        }
-
-        //if (!databaseHelper.checkUser(textInputEditTextEmail.getText().toString().trim())) {
-
-            currentuser.setName(textInputEditTextName.getText().toString().trim());
-            currentuser.setEmail(textInputEditTextEmail.getText().toString().trim());
-            currentuser.setPassword(textInputEditTextPassword.getText().toString().trim());
-
-            //databaseHelper.addUser(currentuser);
-
-            // Snack Bar to show success message that record saved successfully
-            Snackbar.make(nestedScrollView, getString(R.string.success_message), Snackbar.LENGTH_LONG).show();
-
-
-            //Intent mainactivity = new Intent(activity, MainActivity.class);
-            //mainactivity.putExtra("EMAIL", textInputEditTextEmail.getText().toString().trim());
-            //emptyInputEditText();
-            //startActivity(mainactivity);
-
-
-       /* } else {
-            // Snack Bar to show error message that record already exists
-            Snackbar.make(nestedScrollView, getString(R.string.error_email_exists), Snackbar.LENGTH_LONG).show();
-        }*/
-
-
     }
 
     /**

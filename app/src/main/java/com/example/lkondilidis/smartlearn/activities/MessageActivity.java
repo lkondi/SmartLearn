@@ -36,6 +36,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class MessageActivity extends AppCompatActivity {
 
     public static final String USER_DETAIL_KEY = "currentuser";
+    public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     CircleImageView profile_image;
     TextView username;
 
@@ -57,6 +58,9 @@ public class MessageActivity extends AppCompatActivity {
     String userid;
 
     User currentuser;
+    User selectedUser;
+
+    String action;
 
 
     boolean notify = false;
@@ -67,8 +71,10 @@ public class MessageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_message);
 
         intent = getIntent();
-        userid = intent.getStringExtra("userid");
-        currentuser = (User) getIntent().getSerializableExtra(LoginActivity.USER_DETAIL_KEY);
+        selectedUser = (User) getIntent().getSerializableExtra(MessageActivity.SELECTED_USER_DETAIL_KEY);
+        userid = selectedUser.getFirebaseId();
+        currentuser = (User) getIntent().getSerializableExtra(MessageActivity.USER_DETAIL_KEY);
+        action = intent.getAction();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
 
 
@@ -79,8 +85,14 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // and this
-                Intent intent = new Intent(MessageActivity.this, MainActivity.class);
+                Intent intent;
+                if (action.equals("DetailActivity")){
+                    intent = new Intent(MessageActivity.this, DetailActivity.class);
+                    intent. putExtra(MessageActivity.SELECTED_USER_DETAIL_KEY, selectedUser);
+                } else {
+                    intent = new Intent(MessageActivity.this, MainActivity.class);
+                    intent.setAction(action);
+                }
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(USER_DETAIL_KEY, currentuser);
                 startActivity(intent);

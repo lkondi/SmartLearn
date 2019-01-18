@@ -5,6 +5,7 @@ import android.os.Parcelable;
 import android.os.Bundle;
 import android.widget.ListView;
 
+import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.CSVReader;
 
 import java.io.InputStream;
@@ -22,7 +23,7 @@ public class LectureActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
         listView = (ListView) findViewById(R.id.listView);
-        itemArrayAdapter = new LectureAdapter(getApplicationContext(), R.lecture_item_layout);
+        itemArrayAdapter = new LectureAdapter(getApplicationContext(), R.layout.lecture_item_layout);
 
         Parcelable state = listView.onSaveInstanceState();
         listView.setAdapter(itemArrayAdapter);
@@ -30,7 +31,7 @@ public class LectureActivity extends Activity {
 
         InputStream inputStream = getResources().openRawResource(R.raw.stats);
         CSVReader csvFile = new CSVReader(inputStream);
-        List lectureList = csvFile.read();
+        List<String[]> lectureList = csvFile.read();
 
         for(String[] lectureData:lectureList ) {
             itemArrayAdapter.add(lectureData);
