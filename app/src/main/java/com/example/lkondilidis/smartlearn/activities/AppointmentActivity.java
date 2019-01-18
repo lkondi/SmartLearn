@@ -58,7 +58,7 @@ public class AppointmentActivity extends AppCompatActivity {
 
         name.setText(selecteduser.getName());
 
-      /*  confirm.setOnClickListener(new View.OnClickListener() {
+        confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (subject.getText().toString().isEmpty() && date.getText().toString().isEmpty() &&
@@ -70,13 +70,13 @@ public class AppointmentActivity extends AppCompatActivity {
                     currentuser.setAppsubject(subject.getText().toString());
                     currentuser.setAppdate(date.getText().toString());
                     currentuser.setApptime(time.getText().toString());
-                    dataBaseHelper.updateUser(currentuser);
+                    //dataBaseHelper.updateUser(currentuser);
 
                     selecteduser.setAppuser(currentuser.getName());
                     selecteduser.setAppsubject(subject.getText().toString());
                     selecteduser.setAppdate(date.getText().toString());
                     selecteduser.setApptime(time.getText().toString());
-                    dataBaseHelper.updateUser(selecteduser);
+                   // dataBaseHelper.updateUser(selecteduser);
 
                     subject.setText("");
                     time.setText("");
@@ -85,7 +85,7 @@ public class AppointmentActivity extends AppCompatActivity {
                     Toast.makeText(AppointmentActivity.this, "Thank you for scheduling", Toast.LENGTH_SHORT).show();
                 }
             }
-        });*/
+        });
 
     }
 

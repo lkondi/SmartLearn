@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 StringBuilder buf=new StringBuilder();
                 while ((str = reader.readLine()) != null) {
                     buf.append(str+"n");
-                    lines.add(str);
+                    lines.add(str+"n");
                 }
                 in.close();
                 for(int i=0; i<lines.size(); i++){
