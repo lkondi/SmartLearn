@@ -245,7 +245,7 @@ public class ProfileActivity extends AppCompatActivity {
 
 
             currentuser.setNickname("Tutor");
-           // dataBaseHelper.updateUser(currentuser);
+            currentuser.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
 
             Toast.makeText(ProfileActivity.this, "You are a tutor!",
@@ -254,7 +254,7 @@ public class ProfileActivity extends AppCompatActivity {
         else {
 
             currentuser.setNickname("Student");
-          //  dataBaseHelper.updateUser(currentuser);
+            currentuser.updateUser(currentuser);
             textViewNickname.setText(currentuser.getNickname());
 
 
@@ -301,7 +301,7 @@ public class ProfileActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
 
-               // dataBaseHelper.updateUser(currentuser);
+                currentuser.updateUser(currentuser);
                 textViewStudies.setText(currentuser.getStudies());
                 textViewSubject.setText(currentuser.getSubject());
                 textViewPlan.setText(currentuser.getPlan());
