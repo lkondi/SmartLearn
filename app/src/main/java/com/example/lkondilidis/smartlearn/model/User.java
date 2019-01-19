@@ -1,12 +1,8 @@
 package com.example.lkondilidis.smartlearn.model;
 
-import android.os.Build;
-import android.support.annotation.RequiresApi;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
-
 import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
@@ -30,6 +26,9 @@ public class User implements Serializable {
     private String firebaseId;
     private String imageURL;
     private Set<Lecture> lectures;
+    private Set<Rating> yourRatings;
+    private Set<Rating> userRatings;
+    private Set<Appointment> appointments;
 
 
     public User(){
@@ -59,15 +58,60 @@ public class User implements Serializable {
     public User(JSONObject jsonObject){
         try {
             this.id = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.name = jsonObject.getString("name");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.email = jsonObject.getString("email");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.nickname = jsonObject.getString("nickname");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.studies = jsonObject.getString("studies");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.subject = jsonObject.getString("subject");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.imageURL = jsonObject.getString("imageURL");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.plan = jsonObject.getString("plan");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.firebaseId = jsonObject.getString("firebaseId");
-            JSONArray jsonArray = new JSONArray();
-            jsonArray.put(jsonObject.getJSONArray("lectures"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("lectures");
             Set<Lecture> lectures = new HashSet<>();
             for(int i=0; i<jsonArray.length(); i++){
                 try {
@@ -79,12 +123,143 @@ public class User implements Serializable {
                 }
             }
             this.lectures = lectures;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("yourRatings");
+            Set<Rating> ratings = new HashSet<>();
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    JSONObject jsonRating = jsonArray.getJSONObject(i);
+                    Rating rating = new Rating(jsonRating);
+                    ratings.add(rating);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.yourRatings = ratings;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("userRatings");
+            Set<Rating> ratings = new HashSet<>();
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    JSONObject jsonRating = jsonArray.getJSONObject(i);
+                    Rating rating = new Rating(jsonRating);
+                    ratings.add(rating);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.userRatings = ratings;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("appointments");
+            Set<Appointment> appointments = new HashSet<>();
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    JSONObject jsonAppointment = jsonArray.getJSONObject(i);
+                    Appointment appointment = new Appointment(jsonAppointment);
+                    appointments.add(appointment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.appointments = appointments;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        try {
             this.ratingstars = jsonObject.getInt("ratingstars");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.ratingdes = jsonObject.getString("ratingdes");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+    public JSONObject convertToJASON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("id", getId());
+            jsonObject.put("name", getName());
+            jsonObject.put("email", getEmail());
+            jsonObject.put("nickname", getNickname());
+            jsonObject.put("firebaseId", getFirebaseId());
+            jsonObject.put("studies", getStudies());
+            jsonObject.put("subject", getSubject());
+            jsonObject.put("plan", getPlan());
+
+            JSONArray jsonArray = new JSONArray();
+            if(lectures != null) {
+                for (Lecture l : lectures) {
+                    jsonArray.put(l.convertToJSON());
+                }
+            }
+
+            JSONArray jsonArrayYourRatings = new JSONArray();
+            if(yourRatings != null) {
+                for (Rating r : yourRatings) {
+                    jsonArrayYourRatings.put(r.convertToJSON());
+                }
+            }
+
+            JSONArray jsonArrayUserRatings = new JSONArray();
+            if(userRatings != null) {
+                for (Rating r : userRatings) {
+                    jsonArrayUserRatings.put(r.convertToJSON());
+                }
+            }
+
+            JSONArray jsonArrayAppointments = new JSONArray();
+            if(appointments != null) {
+                for (Appointment a : appointments) {
+                    jsonArrayAppointments.put(a.convertToJSON());
+                }
+            }
+
+            jsonObject.put("lectures", jsonArray);
+            jsonObject.put("ratingstars", getRatingStars());
+            jsonObject.put("ratingdes", getRatingDes());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return  jsonObject;
+    }
+
+    public void updateUser(User user) {
+        this.setId(user.getId());
+        this.setNickname(user.getNickname());
+        this.setSubject(user.getSubject());
+        this.setStudies(user.getStudies());
+        this.setRatingDes(user.getRatingDes());
+        this.setRatingStars(user.getRatingStars());
+        this.setPlan(user.getPlan());
+        this.setFirebaseId(user.getFirebaseId());
+        this.setLectures(user.getLectures());
+        this.setYourRatings(user.getYourRatings());
+        this.setUserRatings(user.getUserRatings());
+        this.setAppointments(user.getAppointments());
+    }
+
+
+    //-------------- Getter and Setter -------------------------------
+
 
     public int getId() {
         return id;
@@ -206,52 +381,8 @@ public class User implements Serializable {
         return this.firebaseId;
     }
 
-
-    public JSONObject convertToJASON(){
-        //String toByte = getPassword();
-        //String encoding = new String(Base64.encode(toByte.getBytes(), Base64.DEFAULT));
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("id", getId());
-            jsonObject.put("name", getName());
-            jsonObject.put("email", getEmail());
-            //FIXME: encode the password
-            jsonObject.put("password", getPassword());
-            jsonObject.put("nickname", getNickname());
-            jsonObject.put("firebaseId", getFirebaseId());
-            jsonObject.put("studies", getStudies());
-            jsonObject.put("subject", getSubject());
-            jsonObject.put("plan", getPlan());
-            JSONArray jsonArray = new JSONArray();
-            if(lectures != null) {
-                for (Lecture l : lectures) {
-                    jsonArray.put(l.convertToJSON());
-                }
-            }
-            jsonObject.put("lectures", jsonArray);
-            jsonObject.put("ratingstars", getRatingStars());
-            jsonObject.put("ratingdes", getRatingDes());
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return  jsonObject;
-    }
-
     public String getPrivateInfo() {
         return "";
-    }
-
-    public void updateUser(User user) {
-        this.setId(user.getId());
-        this.setNickname(user.getNickname());
-        this.setSubject(user.getSubject());
-        this.setStudies(user.getStudies());
-        this.setRatingDes(user.getRatingDes());
-        this.setRatingStars(user.getRatingStars());
-        this.setPlan(user.getPlan());
-        this.setFirebaseId(user.getFirebaseId());
-        this.setLectures(user.getLectures());
     }
 
     public String getImageURL() {
@@ -268,6 +399,30 @@ public class User implements Serializable {
 
     public void setLectures(Set<Lecture> lectures) {
         this.lectures = lectures;
+    }
+
+    public Set<Rating> getYourRatings() {
+        return yourRatings;
+    }
+
+    public void setYourRatings(Set<Rating> yourRatings) {
+        this.yourRatings = yourRatings;
+    }
+
+    public Set<Rating> getUserRatings() {
+        return userRatings;
+    }
+
+    public void setUserRatings(Set<Rating> userRatings) {
+        this.userRatings = userRatings;
+    }
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
     }
 }
 

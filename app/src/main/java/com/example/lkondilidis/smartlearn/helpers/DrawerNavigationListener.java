@@ -36,29 +36,49 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
 
         switch (item.getItemId()){
             case R.id.drawer_home:
-                Intent mainactivity = new Intent(context, MainActivity.class);
-                mainactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(mainactivity);
+                if ( context instanceof MainActivity ) {
+
+                } else {
+                    Intent mainactivity = new Intent(context, MainActivity.class);
+                    mainactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                    context.startActivity(mainactivity);
+                }
                 break;
             case R.id.profile:
-                Intent profileactivity = new Intent(context, ProfileActivity.class);
-                profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(profileactivity);
+                if ( context instanceof ProfileActivity ) {
+
+                } else {
+                    Intent profileactivity = new Intent(context, ProfileActivity.class);
+                    profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                    context.startActivity(profileactivity);
+                }
                 break;
             case R.id.appointments:
-                Intent appactivity = new Intent(context, Appointment_List_Activity.class);
-                appactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(appactivity);
+                if ( context instanceof Appointment_List_Activity ) {
+
+                } else {
+                    Intent appactivity = new Intent(context, Appointment_List_Activity.class);
+                    appactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                    context.startActivity(appactivity);
+                }
                 break;
             case R.id.payment:
-                Intent paymentactivity = new Intent(context, PaymentActivity.class);
-                paymentactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(paymentactivity);
+                if ( context instanceof PaymentActivity ) {
+
+                } else {
+                    Intent paymentactivity = new Intent(context, PaymentActivity.class);
+                    paymentactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                    context.startActivity(paymentactivity);
+                }
                 break;
             case R.id.lecture:
-                Intent lectureactivity = new Intent(context, LectureActivity.class);
-                lectureactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(lectureactivity);
+                if ( context instanceof LectureActivity ) {
+
+                } else {
+                    Intent lectureactivity = new Intent(context, LectureActivity.class);
+                    lectureactivity.putExtra(USER_DETAIL_KEY, currentuser);
+                    context.startActivity(lectureactivity);
+                }
                 break;
             case R.id.logout:
                 Toast.makeText(context, "You are logged out!",

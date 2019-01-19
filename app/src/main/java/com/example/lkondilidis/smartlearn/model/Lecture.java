@@ -3,9 +3,10 @@ package com.example.lkondilidis.smartlearn.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.Set;
 
-public class Lecture {
+public class Lecture implements Serializable {
 
     private String name;
     private int id;
@@ -24,11 +25,18 @@ public class Lecture {
     public Lecture(JSONObject jsonObject){
         try {
             this.id = jsonObject.getInt("id");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
             this.name = jsonObject.getString("name");
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+
 
     public JSONObject convertToJSON(){
         JSONObject jsonObject = new JSONObject();
@@ -42,6 +50,8 @@ public class Lecture {
         return  jsonObject;
     }
 
+
+    //-------------- Getter and Setter -------------------------------
 
     public int getId() {
         return id;

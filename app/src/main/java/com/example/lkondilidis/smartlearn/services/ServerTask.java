@@ -78,6 +78,25 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
         return users;
     }
 
+    @Override
+    protected void onPostExecute(List<User> tempUsers) {
+        switch (flag){
+            case SERVER_STATUS_ADD_USER: updateUserList(tempUsers);
+                break;
+            case SERVER_STATUS_GET_USERS: updateUserList(tempUsers);
+                break;
+            case SERVER_STATUS_UPDATE_USER:
+                break;
+            case SERVER_STATUS_REGISTER_USER:
+                break;
+            case SERVER_STATUS_LOGIN_USER:
+                break;
+            default:
+                break;
+        }
+        updateAdapters();
+    }
+
     private void saveUser(String output) {
         updateUser(output);
         //Save User in File
@@ -93,7 +112,6 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     private void addUsers(String output, ArrayList<User> users) {
         try {
             JSONArray response = new JSONArray(output);
@@ -116,25 +134,6 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
         } catch (JSONException e) {
             e.printStackTrace();
         }
-    }
-
-    @Override
-    protected void onPostExecute(List<User> tempUsers) {
-        switch (flag){
-            case SERVER_STATUS_ADD_USER: updateUserList(tempUsers);
-                break;
-            case SERVER_STATUS_GET_USERS: updateUserList(tempUsers);
-                break;
-            case SERVER_STATUS_UPDATE_USER:
-                break;
-            case SERVER_STATUS_REGISTER_USER:
-                break;
-            case SERVER_STATUS_LOGIN_USER:
-                break;
-            default:
-                break;
-        }
-        updateAdapters();
     }
 
     private void updateUserList(List<User> tempUsers) {
