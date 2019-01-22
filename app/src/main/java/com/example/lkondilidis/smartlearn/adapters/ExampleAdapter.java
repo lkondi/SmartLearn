@@ -14,11 +14,11 @@ import com.example.lkondilidis.smartlearn.R;
 
 public class ExampleAdapter extends CursorAdapter {
 
-    private List<String> items;
+    private List<String[]> items;
     private TextView text;
     private Context context;
 
-    public ExampleAdapter(Context context,Cursor cursor,List<String> items)
+    public ExampleAdapter(Context context,Cursor cursor,List<String[]> items)
     {
         super(context,cursor,false);
         this.items=items;
@@ -28,7 +28,8 @@ public class ExampleAdapter extends CursorAdapter {
 
     @Override
     public void bindView(View view, Context context, Cursor cursor) {
-        text.setText(items.get(cursor.getPosition()));
+        String[] item = items.get(cursor.getPosition());
+        text.setText(item[1]);
     }
 
     @Override

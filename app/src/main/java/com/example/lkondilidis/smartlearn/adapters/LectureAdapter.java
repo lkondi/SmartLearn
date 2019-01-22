@@ -58,7 +58,7 @@ public class LectureAdapter extends ArrayAdapter {
         }
         String[] stat = getItem(position);
         viewHolder.id.setText(stat[0]);
-        viewHolder.lecture.setText(stat[1]);
+        viewHolder.lecture.setText(stat[1].substring(1));
         return row;
     }
 }

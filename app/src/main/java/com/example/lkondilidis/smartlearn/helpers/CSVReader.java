@@ -22,8 +22,8 @@ public class CSVReader {
             while ((csvLine = reader.readLine()) != null) {
                 String[] row = csvLine.split(",");
                 if(row[0].startsWith("0") || row[0].startsWith("1")) {
-                resultList.add(row[0]);
-                resultList.add(row[1].substring(1));
+                resultList.add(row);
+                //resultList.add(row[1].substring(1));
                 }
             }
         }

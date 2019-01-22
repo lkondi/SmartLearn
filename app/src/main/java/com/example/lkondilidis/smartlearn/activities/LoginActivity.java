@@ -43,8 +43,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private InputValidation inputValidation;
 
-    private final static String STORETEXT="storetext.txt";
-
     private User currentuser;
 
     //FIREBASE TEST
@@ -176,7 +174,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void saveClicked() {
         try {
-            OutputStreamWriter out= new OutputStreamWriter(openFileOutput(STORETEXT, 0));
+            OutputStreamWriter out= new OutputStreamWriter(openFileOutput("storetext.txt", 0));
             out.write(textInputEditTextEmail.getText().toString());
             out.write(textInputEditTextPassword.getText().toString());
             out.close();
@@ -191,15 +189,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         User user = new User();
         ArrayList<String> lines = new ArrayList<>();
         try {
-            InputStream in = openFileInput(STORETEXT);
+            InputStream in = getResources().openRawResource(R.raw.storetext);
             if (in != null) {
                 InputStreamReader tmp=new InputStreamReader(in);
                 BufferedReader reader=new BufferedReader(tmp);
                 String str;
                 StringBuilder buf=new StringBuilder();
                 while ((str = reader.readLine()) != null) {
-                    buf.append(str+"n");
-                    lines.add(str+"n");
+                    buf.append(str+"\n");
+                    lines.add(str+"\n");
                 }
                 in.close();
                 for(int i=0; i<lines.size(); i++){

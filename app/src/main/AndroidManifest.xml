@@ -53,7 +53,8 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.LectureActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 
