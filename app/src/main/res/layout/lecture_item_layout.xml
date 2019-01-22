@@ -4,6 +4,7 @@
     android:layout_height="wrap_content"
     android:background="@color/primary">
     <TextView
+        android:textColor="@color/white"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/lecture"
@@ -12,6 +13,7 @@
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="20dp" />
     <TextView
+        android:textColor="@color/white"
         android:text="123456"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
