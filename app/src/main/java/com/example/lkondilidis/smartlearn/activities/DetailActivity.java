@@ -12,23 +12,31 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ImageButton;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
+import android.view.LayoutInflater;
+import android.support.v7.app.AlertDialog;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
 
 public class DetailActivity extends AppCompatActivity {
     private final AppCompatActivity activity = DetailActivity.this;
@@ -51,32 +59,40 @@ public class DetailActivity extends AppCompatActivity {
     public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
 
     private DrawerLayout drawerLayout;
-
     private RatingBar rating;
-
-    private Button sendButton;
-
+    private ImageButton sendButton;
     private Context context;
 
+    //rating
+    private ListView ratinglistView;
+    private RatingAdapter ratingadapter;
+    private ArrayList<Rating> ratingarrayList;
+
+    //popup
+    int ratingStars;
+    private Button openInputPopupDialogButton = null;
+    private View popupInputDialogView = null;
+    private RatingBar mRatingBar = null;
+    private TextView mRatingScale = null;
+    private EditText mFeedback = null;
+    private Button mSendFeedback = null;
+    private Button btnDismisspopup = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        initMainActivityControls();
+
         this.context = this;
-
         selecteduser = (User) getIntent().getSerializableExtra(DetailActivity.SELECTED_USER_DETAIL_KEY);
-
         currentuser = (User) getIntent().getSerializableExtra(DetailActivity.USER_DETAIL_KEY);
-
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer_detail);
         NavigationView navigationView = findViewById(R.id.navigation_view_detail);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
-
-
 
         //Toolbar
         ActionBar actionbar = getSupportActionBar();
@@ -91,9 +107,95 @@ public class DetailActivity extends AppCompatActivity {
         userStudies = (TextView) findViewById(R.id.userStudies);
         userSubject = (TextView) findViewById(R.id.userSubject);
         userPlan = (TextView) findViewById(R.id.userPlan);
-        userRating = (TextView) findViewById(R.id.userRating);
+       // userRating = (TextView) findViewById(R.id.userRating);
         rating = (RatingBar) findViewById(R.id.ratingProvider);
-        sendButton = (Button) findViewById(R.id.button_send);
+        sendButton = (ImageButton) findViewById(R.id.button_send);
+
+        //ratings
+        ratingarrayList = new ArrayList<>(selecteduser.getUserRatings());
+        ratinglistView = (ListView)findViewById(R.id.listviewrating);
+        ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList);
+        ratinglistView.setAdapter(ratingadapter);
+
+
+        //popup
+        // When click the open input popup dialog button.
+        openInputPopupDialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                // Create a AlertDialog Builder.
+                AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(DetailActivity.this);
+                // Set title, icon, can not cancel properties.
+              //  alertDialogBuilder.setTitle("Rating Dialog");
+              //  alertDialogBuilder.setIcon(R.drawable.ic_launcher_background);
+                alertDialogBuilder.setCancelable(false);
+
+                // Init popup dialog view and it's ui controls.
+                initPopupViewControls();
+
+                // Set the inflated layout view object to the AlertDialog builder.
+                alertDialogBuilder.setView(popupInputDialogView);
+
+                // Create AlertDialog and show.
+                final AlertDialog alertDialog = alertDialogBuilder.create();
+                alertDialog.show();
+
+                mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float v, boolean b) {
+                        mRatingScale.setText(String.valueOf(v));
+                        switch ((int) ratingBar.getRating()) {
+                            case 1:
+                                mRatingScale.setText("Sehr schlecht");
+                                ratingStars = 1;
+                                break;
+                            case 2:
+                                mRatingScale.setText("Braucht etwas Verbesserung");
+                                ratingStars = 2;
+                                break;
+                            case 3:
+                                mRatingScale.setText("Gut");
+                                ratingStars = 3;
+                                break;
+                            case 4:
+                                mRatingScale.setText("Sehr gut");
+                                ratingStars = 4;
+                                break;
+                            case 5:
+                                mRatingScale.setText("Genial. Ich liebe diesen Tutor");
+                                ratingStars = 5;
+                                break;
+                            default:
+                                mRatingScale.setText("");
+                        }
+                    }
+                });
+
+                mSendFeedback.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        if (mFeedback.getText().toString().isEmpty()) {
+                            //Toast.makeText(DetailActivity.this, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
+                        } else {
+                            // TODO save user ratings
+                            mFeedback.setText("");
+                            mRatingBar.setRating(0);
+                            Toast.makeText(DetailActivity.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
+                        }
+
+                        alertDialog.cancel();
+                    }
+                });
+                btnDismisspopup.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.cancel();
+                    }
+                });
+            }
+        });
 
         sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,9 +234,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getPlan())) {
             userPlan.setText(user.getPlan());
-        }
-        if (!STRING_EMPTY.equals(user.getRatingDes())) {
-            userRating.setText(user.getRatingDes());
         }
         else {
             Toast.makeText(DetailActivity.this, "Please fill you personal data",
@@ -214,4 +313,29 @@ public class DetailActivity extends AppCompatActivity {
         }
         return bmpUri;
     }
+
+    /* Initialize main activity ui controls ( button and listview ). */
+    private void initMainActivityControls() {
+        if(openInputPopupDialogButton == null)
+        {
+            openInputPopupDialogButton = (Button)findViewById(R.id.open_popup);
+        }
+    }
+
+    /* Initialize popup dialog view and ui controls in the popup dialog. */
+    private void initPopupViewControls() {
+        // Get layout inflater object.
+        LayoutInflater layoutInflater = LayoutInflater.from(DetailActivity.this);
+
+        // Inflate the popup dialog from a layout xml file.
+        popupInputDialogView = layoutInflater.inflate(R.layout.activity_rating, null);
+
+        mRatingBar = (RatingBar)popupInputDialogView.findViewById(R.id.ratingBarup);
+        mRatingScale = (TextView)popupInputDialogView.findViewById(R.id.tvRatingScale);
+        mFeedback = (EditText)popupInputDialogView.findViewById(R.id.etFeedback);
+        mSendFeedback = (Button)popupInputDialogView.findViewById(R.id.btnSubmit);
+        btnDismisspopup = (Button)popupInputDialogView.findViewById(R.id.dismiss);
+
+    }
+
 }

@@ -4,120 +4,199 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/drawer_detail"
+    android:id="@+id/drawer_profile"
     android:theme="@style/AppTheme.NoActionBar"
     tools:context=".activities.MainActivity"
     android:background="@color/primary">
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activities.DetailActivity">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <LinearLayout
-            android:gravity="center_horizontal"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:id="@+id/layout">
 
             <ImageView
+                android:id="@+id/header_cover_image"
+                android:layout_width="match_parent"
+                android:layout_height="150dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerCrop" />
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:clickable="true"
+                app:civ_border_width="3dp"
+                app:civ_border_color="#FFFFFFFF"
                 android:id="@+id/ivUserImage"
-                android:src="@drawable/ic_dummy_user"
-                android:layout_marginTop="8dp"
-                android:layout_width="280dp"
-                android:layout_height="280dp" />
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_below="@+id/header_cover_image"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="-130dp"
+                android:elevation="5dp"
+                android:padding="20dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_dummy_user" />
 
-            <TextView
-                android:id="@+id/userName"
-                android:text="Username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="32sp"
-                android:layout_marginTop="8dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp" />
-
-            <TextView
-                android:id="@+id/userEmail"
-                android:text="Email"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:id="@+id/userNickname"
-                android:text="Nickname"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="22sp"
-                android:layout_marginTop="8dp" />
-
-            <RatingBar
-                android:id="@+id/ratingProvider"
-                android:layout_below="@+id/nicknametext"
-                style="?attr/ratingBarStyleSmall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="5sp"
-                android:isIndicator="true"
-                android:numStars="5"
-                android:progressTint="#FFCA28"
-                android:rating="5" />
-
-            <View
-                android:background="@android:color/darker_gray"
-                android:layout_width="280dp"
-                android:layout_height="1px"
-                android:layout_marginTop="8dp" />
-
-            <TextView
-                android:text="Studies"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:id="@+id/userStudies"
-                android:textSize="14sp" />
-
-            <TextView
-                android:text="Subject"
-                android:id="@+id/userSubject"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp" />
-
-            <TextView
-                android:text="Plan"
-                android:id="@+id/userPlan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp" />
-
-            <TextView
-                android:text="Rating"
-                android:id="@+id/userRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp" />
-
-            <Button
-                android:id="@+id/button_send"
+            <RelativeLayout
+                android:id="@+id/profile_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Button" />
+                android:layout_below="@+id/header_cover_image"
+                android:elevation="4dp"
+                android:paddingBottom="5dp">
+
+                <ImageButton
+                    android:id="@+id/button_send"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="16dp"
+                    android:layout_marginRight="16dp"
+                    android:layout_marginTop="16dp"
+                    android:clickable="true"
+                    android:src="@drawable/ic_chat" />
+
+                <TextView
+                    android:id="@+id/userName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="70dp"
+                    android:text="Lydia Kondylidou"
+                    android:textColor="#fff"
+                    android:textSize="24sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/userEmail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userName"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="(lydia.kondylidis@gmail.com)"
+                    android:textColor="#fff"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/userNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/userEmail"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/nickname"
+                    android:textColor="#fff"
+                    android:textSize="16sp" />
+
+                <RatingBar
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/ratingProvider"
+                    style="?attr/ratingBarStyleSmall"
+                    android:layout_below="@+id/userNickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="5sp"
+                    android:isIndicator="true"
+                    android:numStars="5"
+                    android:progressTint="#FFCA28"
+                    android:rating="5" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/details_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/profile_layout"
+                android:elevation="4dp"
+                android:paddingBottom="5dp">
+
+                <View
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="280dp"
+                    android:layout_height="1px"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:text="Studies"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:id="@+id/userStudies"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:text="Subject"
+                    android:layout_below="@+id/userStudies"
+                    android:id="@+id/userSubject"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_centerHorizontal="true"
+                    android:text="Plan"
+                    android:layout_below="@+id/userSubject"
+                    android:id="@+id/userPlan"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp" />
+            </RelativeLayout>
 
 
-        </LinearLayout>
+            <RelativeLayout
+                android:id="@+id/list_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_below="@+id/details_layout"
+                android:elevation="4dp"
+                android:paddingBottom="5dp">
+
+                <View
+                    android:layout_centerHorizontal="true"
+                    android:background="@android:color/darker_gray"
+                    android:layout_width="280dp"
+                    android:layout_height="1px"
+                    android:layout_marginTop="8dp" />
+
+                <TextView
+                    android:id="@+id/bewertungen"
+                    android:layout_centerHorizontal="true"
+                    android:text="Bewertungen"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="24sp"
+                    android:layout_marginTop="20dp"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp" />
+
+                <Button
+                    android:layout_below="@+id/bewertungen"
+                    android:layout_centerHorizontal="true"
+                    android:id="@+id/open_popup"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Diesen Tutor bewerten"
+                    android:backgroundTint="@color/primary_darker"/>
+
+                <ListView
+                    android:id="@+id/listviewrating"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_below="@+id/open_popup"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginBottom="5dp" />
+
+            </RelativeLayout>
+        </RelativeLayout>
     </ScrollView>
-
-    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view_detail"
