@@ -270,7 +270,10 @@ public class ApiAuthenticationClient {
                     while ((line = br.readLine()) != null) {
                         outputStringBuilder.append(line);
                     }
-                } catch (Exception ex) {}
+                } catch (Exception ex) {
+                    System.out.println(ex.getMessage());
+                    ex.printStackTrace();
+                }
                 connection.disconnect();
             }
             else {

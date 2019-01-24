@@ -52,7 +52,7 @@ public class RatingActivity extends AppCompatActivity {
         actionbar.setDisplayHomeAsUpEnabled(true);
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        mRatingBar = (RatingBar) findViewById(R.id.ratingBar);
+        mRatingBar = (RatingBar) findViewById(R.id.ratingBarup);
         mRatingScale = (TextView) findViewById(R.id.tvRatingScale);
         mFeedback = (EditText) findViewById(R.id.etFeedback);
         mSendFeedback = (Button) findViewById(R.id.btnSubmit);
