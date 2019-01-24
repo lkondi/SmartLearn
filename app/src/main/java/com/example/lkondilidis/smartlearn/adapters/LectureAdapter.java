@@ -8,13 +8,16 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.model.Lecture;
+
+import org.xml.sax.ext.LexicalHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 public class LectureAdapter extends ArrayAdapter {
-    private List<String[]> lectureList = new ArrayList();
+    private List<Lecture> lectureList = new ArrayList();
 
     static class ItemViewHolder {
         TextView id;
@@ -26,9 +29,9 @@ public class LectureAdapter extends ArrayAdapter {
     }
 
     //@Override
-    public void add(String[] object) {
-        lectureList.add(object);
-        super.add(object);
+    public void add(Lecture lecture) {
+        lectureList.add(lecture);
+        super.add(lecture);
     }
 
     @Override
@@ -37,7 +40,7 @@ public class LectureAdapter extends ArrayAdapter {
     }
 
     @Override
-    public String[] getItem(int index) {
+    public Lecture getItem(int index) {
         return this.lectureList.get(index);
     }
 
@@ -56,9 +59,9 @@ public class LectureAdapter extends ArrayAdapter {
         } else {
             viewHolder = (ItemViewHolder)row.getTag();
         }
-        String[] stat = getItem(position);
-        viewHolder.id.setText(stat[0]);
-        viewHolder.lecture.setText(stat[1].substring(1));
+        Lecture lecture = getItem(position);
+        viewHolder.id.setText(""+lecture.getId());
+        viewHolder.lecture.setText(lecture.getName());
         return row;
     }
 }

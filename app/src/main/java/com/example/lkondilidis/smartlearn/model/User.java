@@ -203,6 +203,7 @@ public class User implements Serializable {
             jsonObject.put("studies", getStudies());
             jsonObject.put("subject", getSubject());
             jsonObject.put("plan", getPlan());
+            jsonObject.put("password", getPassword());
 
             JSONArray jsonArray = new JSONArray();
             if(lectures != null) {
@@ -233,6 +234,9 @@ public class User implements Serializable {
             }
 
             jsonObject.put("lectures", jsonArray);
+            jsonObject.put("yourRatings", jsonArray);
+            jsonObject.put("userRatings", jsonArray);
+            jsonObject.put("appointments", jsonArray);
             jsonObject.put("ratingstars", getRatingStars());
             jsonObject.put("ratingdes", getRatingDes());
 

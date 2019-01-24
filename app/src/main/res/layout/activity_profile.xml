@@ -155,7 +155,9 @@
                 android:id="@+id/displayArea"
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:layout_editor_absoluteX="5dp">
 
                 <LinearLayout
                     android:layout_width="fill_parent"
@@ -171,11 +173,11 @@
 
                     <TextView
                         android:id="@+id/studiestext"
-                        android:text="@string/studies"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
-                        android:ems="10" />
+                        android:ems="10"
+                        android:text="@string/studies" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -191,12 +193,12 @@
                         android:text="Fach/Fächer:" />
 
                     <TextView
-                        android:text="@string/subject"
                         android:id="@+id/subjecttext"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
-                        android:ems="10" />
+                        android:ems="10"
+                        android:text="@string/subject" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -215,12 +217,11 @@
 
                     <TextView
                         android:id="@+id/plantext"
-                        android:text="@string/plan"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
                         android:ems="10"
-                        />
+                        android:text="@string/plan" />
                 </LinearLayout>
 
 
@@ -265,12 +266,11 @@
                         android:layout_weight="0.25"
                         android:text="Fach/Fächer" />
 
-                    <EditText
-                        android:id="@+id/subjectedit"
-                        android:textColor="#fff"
+                    <Button
+                        android:id="@+id/btn_pop"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.75"
+                        android:layout_weight="0.55"
                         android:ems="10" />
                 </LinearLayout>
 

@@ -19,6 +19,7 @@ import java.util.List;
 
 import com.example.lkondilidis.smartlearn.adapters.LectureAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.model.Lecture;
 
 
 public class LectureActivity extends AppCompatActivity {
@@ -51,9 +52,9 @@ public class LectureActivity extends AppCompatActivity {
 
         InputStream inputStream = getResources().openRawResource(R.raw.stats);
         CSVReader csvFile = new CSVReader(inputStream);
-        List<String[]> lectureList = csvFile.read();
+        List<Lecture> lectureList = csvFile.read();
 
-        for(String[] lectureData:lectureList ) {
+        for(Lecture lectureData:lectureList ) {
             itemArrayAdapter.add(lectureData);
         }
         itemArrayAdapter.notifyDataSetChanged();
