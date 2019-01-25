@@ -25,7 +25,7 @@ import java.util.List;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
 
-public class AppointmentActivity extends AppCompatActivity {
+public class HomeFragmentActivity extends AppCompatActivity {
 
 
     private TabLayout tabLayout;
@@ -49,8 +49,6 @@ public class AppointmentActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeButtonEnabled(true);
 
-        showSpinner();
-
         selecteduser = (User) getIntent().getSerializableExtra(DetailActivity.SELECTED_USER_DETAIL_KEY);
         currentuser = (User) getIntent().getSerializableExtra(DetailActivity.USER_DETAIL_KEY);
 
@@ -70,8 +68,8 @@ public class AppointmentActivity extends AppCompatActivity {
     // Fragments
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new AppointmentFragment(), "Appointments");
-        adapter.addFragment(new PaymentFragment(), "Home");
+        adapter.addFragment(new AppointmentFragment(), "Termine");
+        adapter.addFragment(new PaymentFragment(), "Zahlungen");
         viewPager.setAdapter(adapter);
     }
 
@@ -136,27 +134,6 @@ public class AppointmentActivity extends AppCompatActivity {
         return true;
     }
 
-
-    //show a loading spinner while the sinch client starts
-    private void showSpinner() {
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please wait...");
-        progressDialog.show();
-
-        receiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                Boolean success = intent.getBooleanExtra("success", false);
-                progressDialog.dismiss();
-                if (!success) {
-                    Toast.makeText(getApplicationContext(), "service failed to start", Toast.LENGTH_LONG).show();
-                }
-            }
-        };
-
-        LocalBroadcastManager.getInstance(this).registerReceiver(receiver, new IntentFilter("com.example.lkondilidis.smartlearn.AppointmentActivity"));
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

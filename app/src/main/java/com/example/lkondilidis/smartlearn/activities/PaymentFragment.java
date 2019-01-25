@@ -13,6 +13,9 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class PaymentFragment extends Fragment{
@@ -21,6 +24,8 @@ public class PaymentFragment extends Fragment{
     public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
     User selecteduser;
     User currentuser;
+
+    EditText card_name, card_number, card_date;
 
     ListView cardlist;
     public PaymentFragment() {
@@ -43,13 +48,15 @@ public class PaymentFragment extends Fragment{
 
         cardlist = (ListView) view.findViewById(R.id.payment_list_view);
 
-        Button btncard = (Button) view.findViewById(R.id.addCard);
-        btncard.setOnClickListener(new View.OnClickListener() {
+        card_name = (EditText) view.findViewById(R.id.name1);
+        card_number = (EditText) view.findViewById(R.id.number1);
+        card_date = (EditText) view.findViewById(R.id.date1);
+        Button btnsave = (Button) view.findViewById(R.id.save);
+
+        btnsave.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-
-
 
 
             }

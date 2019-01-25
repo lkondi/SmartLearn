@@ -9,35 +9,36 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.activities.AppointmentActivity;
-import com.example.lkondilidis.smartlearn.activities.AppointmentFragment;
+import com.example.lkondilidis.smartlearn.activities.HomeFragmentActivity;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
-import com.example.lkondilidis.smartlearn.activities.LoginActivity;
-import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.activities.RatingActivity;
+import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 class SearchViewHolder extends RecyclerView.ViewHolder{
 
     TextView name, subject, plan;
     CardView parentLayout;
-    ImageButton imagerating, imagedate;
+    RatingBar ratingBar;
+    LinearLayout click;
 
     public SearchViewHolder(@NonNull View itemView) {
         super(itemView);
         name = itemView.findViewById(R.id.textView_name);
         subject = itemView.findViewById(R.id.textView_subject);
         plan = itemView.findViewById(R.id.textView_plan);
-        imagerating = itemView.findViewById(R.id.imagerating);
-        imagedate = itemView.findViewById(R.id.imagedate);
+        click = itemView.findViewById(R.id.clickable_layout);
         parentLayout = itemView.findViewById(R.id.parentLayout);
+        ratingBar = itemView.findViewById(R.id.ratingProvider);
     }
 }
 
@@ -65,11 +66,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder searchViewHolder, final int i) {
-
         searchViewHolder.name.setText(users.get(i).getName());
         searchViewHolder.subject.setText(users.get(i).getSubject());
         searchViewHolder.plan.setText(users.get(i).getPlan());
-//        searchViewHolder.descrition.setText(users.get(i).getPrivateInfo());
+        ArrayList ratingarrayList = new ArrayList<>(users.get(i).getUserRatings());
+        searchViewHolder.ratingBar.setNumStars(calculateRatingStars(ratingarrayList));
 
         searchViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,26 +82,34 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
             }
         });
 
-        searchViewHolder.imagerating.setOnClickListener(new View.OnClickListener() {
+        searchViewHolder.click.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent showRating = new Intent(context, RatingActivity.class);
-                showRating.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
-                showRating.putExtra(USER_DETAIL_KEY, currentuser);
-                context.startActivity(showRating);
-            }
-        });
-
-        searchViewHolder.imagedate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent bookApp = new Intent(context, AppointmentActivity.class);
+                Intent bookApp = new Intent(context, HomeFragmentActivity.class);
                 bookApp.putExtra(SELECTED_USER_DETAIL_KEY, users.get(i));
                 bookApp.putExtra(USER_DETAIL_KEY, currentuser);
                 context.startActivity(bookApp);
             }
         });
 
+    }
+
+    public int calculateRatingStars(ArrayList<Rating> ratings) {
+
+        int star = 0;
+        int sum = 0;
+        double median = 0.0;
+        ArrayList<Integer> stars = new ArrayList<>();
+        for (Rating rating : ratings) {
+            stars.add(rating.getStars());
+        }
+        for (int i = 0; i < stars.size(); i++) {
+            sum += stars.get(i);
+        }
+        median = sum / stars.size();
+        star =  (int) median;
+
+        return star;
     }
 
     @Override

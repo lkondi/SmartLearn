@@ -41,16 +41,13 @@
             android:name=".activities.DetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PaymentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.RatingActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Appointment_List_Activity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.AppointmentActivity"
+            android:name=".activities.HomeFragmentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".activities.MainActivity">
