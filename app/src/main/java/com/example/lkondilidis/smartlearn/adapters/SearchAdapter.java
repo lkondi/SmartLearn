@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.AppointmentActivity;
+import com.example.lkondilidis.smartlearn.activities.AppointmentFragment;
 import com.example.lkondilidis.smartlearn.activities.DetailActivity;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;

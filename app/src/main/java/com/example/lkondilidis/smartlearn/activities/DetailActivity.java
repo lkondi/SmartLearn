@@ -103,7 +103,7 @@ public class DetailActivity extends AppCompatActivity {
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
         userName = (TextView) findViewById(R.id.userName);
         userEmail = (TextView) findViewById(R.id.userEmail);
-        userNickname = (TextView) findViewById(R.id.userNickname);
+       // userNickname = (TextView) findViewById(R.id.userNickname);
         userStudies = (TextView) findViewById(R.id.userStudies);
         userSubject = (TextView) findViewById(R.id.userSubject);
         userPlan = (TextView) findViewById(R.id.userPlan);
@@ -222,9 +222,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getEmail())) {
             userEmail.setText(user.getEmail());
-        }
-        if (!STRING_EMPTY.equals(user.getNickname())) {
-            userNickname.setText(user.getNickname());
         }
         if (!STRING_EMPTY.equals(user.getStudies())) {
             userStudies.setText(user.getStudies());

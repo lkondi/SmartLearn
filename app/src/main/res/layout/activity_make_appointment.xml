@@ -90,7 +90,8 @@
                 android:ems="10"
                 />
 
-            <EditText
+            <TextView
+                android:text="Datum"
                 android:id="@+id/date1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -98,7 +99,18 @@
                 android:layout_alignLeft="@+id/subject1"
                 android:layout_alignBottom="@+id/date"
                 android:ems="10"
-                android:inputType="date" />
+                android:textSize="20dp"/>
+
+            <Button
+                android:id="@+id/button1"
+                android:backgroundTint="@color/primary_darker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/subject1"
+                android:layout_alignLeft="@+id/subject1"
+                android:layout_alignBottom="@+id/date"
+                android:layout_marginLeft="100dp"
+                android:text="Datum Wählen" />
 
             <EditText
                 android:id="@+id/time1"
