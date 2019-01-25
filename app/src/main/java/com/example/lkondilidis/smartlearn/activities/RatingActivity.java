@@ -43,7 +43,7 @@ public class RatingActivity extends AppCompatActivity {
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
         //Drawer
-        drawerLayout = findViewById(R.id.drawer_detail);
+        drawerLayout = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.navigation_view_detail);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 

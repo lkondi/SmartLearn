@@ -90,7 +90,7 @@ public class DetailActivity extends AppCompatActivity {
         currentuser = (User) getIntent().getSerializableExtra(DetailActivity.USER_DETAIL_KEY);
 
         //Drawer
-        drawerLayout = findViewById(R.id.drawer_detail);
+        drawerLayout = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.navigation_view_detail);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 
@@ -103,7 +103,7 @@ public class DetailActivity extends AppCompatActivity {
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
         userName = (TextView) findViewById(R.id.userName);
         userEmail = (TextView) findViewById(R.id.userEmail);
-        userNickname = (TextView) findViewById(R.id.userNickname);
+       // userNickname = (TextView) findViewById(R.id.userNickname);
         userStudies = (TextView) findViewById(R.id.userStudies);
         userSubject = (TextView) findViewById(R.id.userSubject);
         userPlan = (TextView) findViewById(R.id.userPlan);
@@ -113,6 +113,7 @@ public class DetailActivity extends AppCompatActivity {
 
         //ratings
         ratingarrayList = new ArrayList<>(selecteduser.getUserRatings());
+        rating.setNumStars(calculateRatingStars(ratingarrayList));
         ratinglistView = (ListView)findViewById(R.id.listviewrating);
         ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList);
         ratinglistView.setAdapter(ratingadapter);
@@ -222,9 +223,6 @@ public class DetailActivity extends AppCompatActivity {
         }
         if (!STRING_EMPTY.equals(user.getEmail())) {
             userEmail.setText(user.getEmail());
-        }
-        if (!STRING_EMPTY.equals(user.getNickname())) {
-            userNickname.setText(user.getNickname());
         }
         if (!STRING_EMPTY.equals(user.getStudies())) {
             userStudies.setText(user.getStudies());
@@ -336,6 +334,24 @@ public class DetailActivity extends AppCompatActivity {
         mSendFeedback = (Button)popupInputDialogView.findViewById(R.id.btnSubmit);
         btnDismisspopup = (Button)popupInputDialogView.findViewById(R.id.dismiss);
 
+    }
+
+    public int calculateRatingStars(ArrayList<Rating> ratings) {
+
+        int star = 0;
+        int sum = 0;
+        double median = 0.0;
+        ArrayList<Integer> stars = new ArrayList<>();
+        for (Rating rating : ratings) {
+            stars.add(rating.getStars());
+        }
+        for (int i = 0; i < stars.size(); i++) {
+            sum += stars.get(i);
+        }
+        median = sum / stars.size();
+        star =  (int) median;
+
+        return star;
     }
 
 }

@@ -43,17 +43,20 @@
             android:name=".activities.DetailActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".activities.PaymentActivity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.RatingActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".activities.AppointmentActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.Appointment_List_Activity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".activities.HomeFragmentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:parentActivityName=".activities.MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="activities.MainActivity" />
+        </activity>
         <activity
             android:name=".activities.LectureActivity"
             android:screenOrientation="portrait"

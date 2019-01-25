@@ -54,13 +54,13 @@ public class Appointment_List_Activity extends AppCompatActivity {
         actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
         //initiate Views
-        appuser = (TextView) findViewById(R.id.app_user);
-        appdate = (TextView) findViewById(R.id.app_date);
-        appsubject = (TextView) findViewById(R.id.app_subject);
+      //  appuser = (TextView) findViewById(R.id.app_user);
+      //  appdate = (TextView) findViewById(R.id.app_date);
+      //  appsubject = (TextView) findViewById(R.id.app_subject);
 
         //appointments
-        imagedelete = (ImageButton) findViewById(R.id.imagedelete);
-        appointmentno = (TextView) findViewById(R.id.appointmentno);
+      //  imagedelete = (ImageButton) findViewById(R.id.imagedelete);
+      //  appointmentno = (TextView) findViewById(R.id.appointmentno);
 
        /** imagedelete.setOnClickListener(new View.OnClickListener() {
 
