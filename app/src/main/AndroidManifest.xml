@@ -59,6 +59,9 @@
             android:name=".activities.LectureActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".activities.PopUpActivity"
+            android:theme="@style/AppTheme.PopUpActivity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET"/>
 

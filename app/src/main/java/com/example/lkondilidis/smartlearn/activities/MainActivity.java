@@ -14,7 +14,6 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.support.v7.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.R;
@@ -23,13 +22,14 @@ import com.example.lkondilidis.smartlearn.fragments.ChatFragment;
 import com.example.lkondilidis.smartlearn.fragments.MainFragment;
 import com.example.lkondilidis.smartlearn.helpers.CSVReader;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements SearchView.OnSuggestionListener {
+public class MainActivity extends AppCompatActivity{
 
     public static final String USER_DETAIL_KEY = "currentuser";
     public static final String SELECTED_USER_DETAIL_KEY = "selecteduser";
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
 
     ArrayList<User> userArrayList;
 
-    List lectures;
+    List<Lecture> lectures;
 
     User currentuser;
     TextView usernameHeader;
@@ -156,32 +156,6 @@ public class MainActivity extends AppCompatActivity implements SearchView.OnSugg
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int i) {
-        return true;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int i) {
-        //myList.setVisibility(View.GONE);
-        String selectedLectureName = (String) lectures.get(i);
-
-        List<User> tutorListSearched = new ArrayList<>();
-
-        for (User user : userArrayList) {
-            if(user.getSubject() == selectedLectureName) {
-                tutorListSearched.add(user);
-            }
-        }
-        
-        searchAdapter = new SearchAdapter(this, tutorListSearched, currentuser);
-        recyclerView.setAdapter(searchAdapter);
-
-        //userArrayList.remove(userArrayList.size()-1);
-        //searchAdapter.notifyDataSetChanged();
-        return true;
     }
 
     public User getCurrentuser(){

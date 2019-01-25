@@ -1,5 +1,7 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -10,8 +12,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RatingBar;
+import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -35,7 +40,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 //TODO: edit profile image
 
-public class ProfileActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity{
     private final AppCompatActivity activity = ProfileActivity.this;
 
     TextView textViewName, textViewEmail, textViewNickname, textViewStudies, textViewSubject, textViewPlan, textViewRating, usernameHeader;
@@ -59,6 +64,8 @@ public class ProfileActivity extends AppCompatActivity {
     private RatingBar rating;
 
     public static final String USER_DETAIL_KEY = "currentuser";
+    private SearchView searchView;
+    private Button btn_pop;
 
 
     @Override
@@ -106,7 +113,22 @@ public class ProfileActivity extends AppCompatActivity {
         editTextStudies = (EditText) findViewById(R.id.studiesedit);
         //subject
         textViewSubject = (TextView) findViewById(R.id.subjecttext);
-        editTextSubject = (EditText) findViewById(R.id.subjectedit);
+        btn_pop = (Button) findViewById(R.id.btn_pop);
+        btn_pop.setText("Add or change your subjects");
+        btn_pop.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, PopUpActivity.class);
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+                startActivity(intent);
+            }
+        });
+
+
+
+
+
+        //editTextSubject = (EditText) findViewById(R.id.subjectedit);
         //plan
         textViewPlan = (TextView) findViewById(R.id.plantext);
 
@@ -146,7 +168,7 @@ public class ProfileActivity extends AppCompatActivity {
             textViewStudies.setText(currentuser.getStudies());
         }
         if (!STRING_EMPTY.equals(currentuser.getSubject())) {
-            textViewSubject.setText(currentuser.getSubject());
+            //textViewSubject.setText(currentuser.getSubject());
         }
         if (!STRING_EMPTY.equals(currentuser.getPlan())) {
             textViewPlan.setText(currentuser.getPlan());
