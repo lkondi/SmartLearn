@@ -9,15 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.model.Chatlist;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import com.example.lkondilidis.smartlearn.serverClient.Token;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -107,7 +104,7 @@ public class ChatFragment extends Fragment {
 /*                            ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                             auth.setHttpMethod("GET");
                             auth.setUrlPath("users/" + user.getEmail());
-                            ServerTask serverTask = new ServerTask(mUsers, activity, auth, currentuser, null, StatusFlag.SERVER_STATUS_ADD_USER);
+                            ServerUserTask serverTask = new ServerUserTask(mUsers, activity, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_ADD_USER);
                             serverTask.setAdapter(userAdapter);
                             serverTask.execute();*/
                             mUsers.add(user);

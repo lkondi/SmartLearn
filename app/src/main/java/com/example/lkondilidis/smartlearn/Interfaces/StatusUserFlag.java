@@ -1,6 +1,6 @@
 package com.example.lkondilidis.smartlearn.Interfaces;
 
-public enum StatusFlag {
+public enum StatusUserFlag {
 
     SERVER_STATUS_UPDATE_USER,
     SERVER_STATUS_ADD_USER,
@@ -10,7 +10,7 @@ public enum StatusFlag {
 
     public final int flag;
 
-    StatusFlag() {
+    StatusUserFlag() {
         this.flag = 1 << this.ordinal();
     }
 }
