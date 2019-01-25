@@ -27,6 +27,7 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
     private StatusUserFlag flag;
     private SearchAdapter searchAdapter;
     private UserAdapter userAdapter;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
     public ServerUserTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
         this.users = users;
@@ -53,6 +54,8 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
                 break;
             case SERVER_STATUS_GET_USERS: addUsers(output, users);
                 break;
+            case SERVER_STATUS_GET_NOTIFICATION_USER: updateUser(output);
+                break;
             case SERVER_STATUS_UPDATE_USER: updateUser(output);
                 break;
             case SERVER_STATUS_REGISTER_USER: updateUser(output);
@@ -72,6 +75,8 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
                 break;
             case SERVER_STATUS_GET_USERS: updateUserList(tempUsers);
                 break;
+            case SERVER_STATUS_GET_NOTIFICATION_USER:
+                break;
             case SERVER_STATUS_UPDATE_USER:
                 break;
             case SERVER_STATUS_REGISTER_USER:
@@ -86,7 +91,7 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
 
     private void saveUser(String output) {
         updateUser(output);
-        //Save User in File
+        //TODO: Save User in File
     }
 
     private void updateUser(String output) {
@@ -140,6 +145,9 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
             userAdapter.notifyDataSetChanged();
         }
         if(intent != null) {
+            if(flag == StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER){
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+            }
             context.startActivity(intent);
         }
     }

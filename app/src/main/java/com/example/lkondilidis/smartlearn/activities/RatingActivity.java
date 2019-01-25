@@ -42,7 +42,7 @@ public class RatingActivity extends AppCompatActivity {
 
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
 
-        //Drawer
+/*        //Drawer
         drawerLayout = findViewById(R.id.drawer);
         NavigationView navigationView = findViewById(R.id.navigation_view_detail);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
@@ -50,7 +50,7 @@ public class RatingActivity extends AppCompatActivity {
         //Toolbar
         ActionBar actionbar = getSupportActionBar();
         actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);*/
 
         mRatingBar = (RatingBar) findViewById(R.id.ratingBarup);
         mRatingScale = (TextView) findViewById(R.id.tvRatingScale);

@@ -14,7 +14,7 @@ import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.model.Chatlist;
 import com.example.lkondilidis.smartlearn.model.User;
-import com.example.lkondilidis.smartlearn.serverClient.Token;
+import com.example.lkondilidis.smartlearn.notification.Token;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;

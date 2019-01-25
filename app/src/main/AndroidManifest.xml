@@ -41,10 +41,11 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.DetailActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activities.RatingActivity"
-            android:screenOrientation="portrait" />
+            android:theme="@style/AppTheme.PopUpActivity" />
         <activity
             android:name=".activities.Appointment_List_Activity"
             android:screenOrientation="portrait" />
@@ -64,6 +65,21 @@
         <activity
             android:name=".activities.PopUpActivity"
             android:theme="@style/AppTheme.PopUpActivity" />
+        <service android:name=".notification.MyFirebaseIdService"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+
+        <service android:name=".notification.MyFirebaseMessaging"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

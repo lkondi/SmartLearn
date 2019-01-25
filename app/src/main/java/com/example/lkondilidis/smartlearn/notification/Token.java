@@ -1,4 +1,4 @@
-package com.example.lkondilidis.smartlearn.serverClient;
+package com.example.lkondilidis.smartlearn.notification;
 
 public class Token {
     private String token;
