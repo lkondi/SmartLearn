@@ -53,21 +53,6 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
 
         //lectures
         lectures = activity.getLectures();
-        List<Lecture> addedLectures = new ArrayList<>();
-        for(Lecture l: lectures){
-            if(lectureNotAdded(addedLectures, l.getId())) {
-                //!!!!!!
-                //connect to server and fetch Users
-                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
-                auth.setHttpMethod("POST");
-                auth.setUrlPath("lecture");
-                auth.setPayload(l.convertToJSON());
-                ServerLectureTask serverLectureTask = new ServerLectureTask(null, currentuser, auth, StatusLectureFlag.SERVER_STATUS_ADD_LECTURE);
-                serverLectureTask.setAdapter(searchAdapter);
-                serverLectureTask.execute();
-                addedLectures.add(l);
-            }
-        }
 
 
         //recyclerView
@@ -109,6 +94,14 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
             @Override
             public boolean onQueryTextChange(String s) {
                 System.out.println("changed");
+                //!!!!!!
+                //connect to server and fetch Lectures
+                /*ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                auth.setHttpMethod("GET");
+                auth.setUrlPath("lectures/" + s);
+                ServerLectureTask serverLectureTask = new ServerLectureTask(lectures, currentuser, auth, StatusLectureFlag.SERVER_STATUS_GET_LECTURE);
+                serverLectureTask.setAdapter(exampleAdapter);
+                serverLectureTask.execute();*/
                 load(s);
                 //searchView.setSuggestionsAdapter(exampleAdapter);
                 return true;
@@ -118,18 +111,9 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         String[] columns=new String[]{"_id","text","number"};
         MatrixCursor cursor=new MatrixCursor(columns);
         exampleAdapter = new ExampleAdapter(activity,cursor);
-        load("");
+        searchView.setSuggestionsAdapter(exampleAdapter);
 
         return view;
-    }
-
-    private boolean lectureNotAdded(List<Lecture> addedLectures, int id) {
-        for(Lecture l: addedLectures){
-            if(l.getId() == id){
-                return false;
-            }
-        }
-        return true;
     }
 
     private void load(String s) {
@@ -153,10 +137,8 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         }
         cursor.moveToFirst();
 
-        //exampleAdapter = new ExampleAdapter(activity,cursor,lectures);
         exampleAdapter.changeCursor(cursor);
-        //searchView.getSuggestionsAdapter().notifyDataSetChanged();
-        searchView.setSuggestionsAdapter(exampleAdapter);
+        exampleAdapter.notifyDataSetChanged();
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.example.lkondilidis.smartlearn.services;
 
 
+import android.database.MatrixCursor;
 import android.os.AsyncTask;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.LectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
@@ -24,6 +26,7 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
     private UserAdapter userAdapter;
     private LectureAdapter itemArrayAdapter;
     private User currentuser;
+    private ExampleAdapter exampleAdapter;
 
     public ServerLectureTask(List<Lecture> lectures, User currentuser, ApiAuthenticationClient auth, StatusLectureFlag flag){
         this.lectures = lectures;
@@ -94,6 +97,9 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
                 itemArrayAdapter.add(lectureData);
             }
         }
+        if(exampleAdapter != null) {
+            load();
+        }
         updateAdapters();
     }
 
@@ -133,6 +139,30 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
         if( itemArrayAdapter != null) {
             itemArrayAdapter.notifyDataSetChanged();
         }
+        if( exampleAdapter != null) {
+            exampleAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void load() {
+
+        String[] columns=new String[]{"_id","text","number"};
+        Object[] temp=new Object[]{"0","default","0"};
+        MatrixCursor cursor=new MatrixCursor(columns);
+        for(int j=0;j<lectures.size();j++)
+        {
+            Lecture lecture = lectures.get(j);
+            String lectureName = lecture.getName();
+            int lectureNumber = lecture.getId();
+            temp[0] = j;
+            temp[1] = lectureName;
+            temp[2] = lectureNumber;
+
+            cursor.addRow(temp);
+        }
+        cursor.moveToFirst();
+
+        exampleAdapter.changeCursor(cursor);
     }
 
     public void setAdapter(SearchAdapter searchAdapter) {
@@ -145,5 +175,9 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
 
     public void setAdapter(LectureAdapter itemArrayAdapter) {
         this.itemArrayAdapter = itemArrayAdapter;
+    }
+
+    public void setAdapter(ExampleAdapter exampleAdapter) {
+        this.exampleAdapter = exampleAdapter;
     }
 }
