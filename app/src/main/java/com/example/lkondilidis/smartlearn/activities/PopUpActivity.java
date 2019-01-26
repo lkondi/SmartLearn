@@ -12,6 +12,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
@@ -51,6 +52,11 @@ public class PopUpActivity extends AppCompatActivity {
         int height = displayMetrics.heightPixels;
 
         getWindow().setLayout((int)(width*.8), (int)(height*.6));
+
+        TextView textView_lecture = findViewById(R.id.lecture_header);
+        TextView textView_lectureId = findViewById(R.id.id_header);
+        textView_lecture.setText("Lectures");
+        textView_lectureId.setText("Ids");
 
         Button btn_add = (Button) findViewById(R.id.button_add);
         btn_add.setText("Add");
@@ -134,8 +140,8 @@ public class PopUpActivity extends AppCompatActivity {
                 //connect to server and fetch Lectures
                 ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                 auth.setHttpMethod("GET");
-                auth.setUrlPath("lectures/" + s);
-                ServerLectureTask serverLectureTask = new ServerLectureTask(lectureList, currentuser, auth, StatusLectureFlag.SERVER_STATUS_GET_LECTURE);
+                auth.setUrlPath("lectures/" + s +","+30);
+                ServerLectureTask serverLectureTask = new ServerLectureTask(lectureList, currentuser, auth, StatusLectureFlag.SERVER_STATUS_FIND_LECTURE);
                 serverLectureTask.setAdapter(itemArrayAdapter);
                 serverLectureTask.execute();
                 return true;

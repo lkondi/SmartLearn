@@ -9,6 +9,7 @@ import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchLectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
+import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 
@@ -21,7 +22,7 @@ import java.util.List;
 
 public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
 {
-    private List<User> users;
+    private ArrayList<User> users;
     private Context context;
     private ApiAuthenticationClient auth;
     private User currentuser;
@@ -32,7 +33,7 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
     public static final String USER_DETAIL_KEY = "currentuser";
     private SearchLectureAdapter searchLectureAdapter;
 
-    public ServerUserTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
+    public ServerUserTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
         this.users = users;
         this.context = context;
         this.auth = auth;
@@ -136,6 +137,22 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
         for (User u : tempUsers) {
             if (!this.users.contains(u)) {
                 this.users.add(u);
+                u.setRatingStars(calculateRatingStars(new ArrayList<>(u.getUserRatings())));
+            }
+        }
+        sortUsers(this.users);
+    }
+
+    public void sortUsers(ArrayList<User> zusortieren) {
+        User temp;
+        for(int i=1; i<zusortieren.size(); i++) {
+            for(int j=0; j<zusortieren.size()-i; j++) {
+                if(zusortieren.get(j).getRatingStars()>zusortieren.get(j+1).getRatingStars()) {
+                    temp=zusortieren.get(j);
+                    zusortieren.set(j,zusortieren.get(j+1));
+                    zusortieren.set(j+1, temp);
+                }
+
             }
         }
     }
@@ -159,6 +176,26 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
             }
             context.startActivity(intent);
         }
+    }
+
+    public int calculateRatingStars(ArrayList<Rating> ratings) {
+
+        int star = 0;
+        int sum = 0;
+        double median = 0.0;
+        ArrayList<Integer> stars = new ArrayList<>();
+        for (Rating rating : ratings) {
+            stars.add(rating.getStars());
+        }
+        for (int i = 0; i < stars.size(); i++) {
+            sum += stars.get(i);
+        }
+        if(stars.size()!= 0) {
+            median = sum / stars.size();
+            star = (int) median;
+        }
+
+        return star;
     }
 
     public void setAdapter(SearchAdapter searchAdapter) {

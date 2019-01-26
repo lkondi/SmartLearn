@@ -1,5 +1,7 @@
 package com.example.lkondilidis.smartlearn.serverClient;
 
+import android.util.Base64;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -27,6 +29,7 @@ public class ApiAuthenticationClient {
     private JSONObject payload;
     private HashMap<String, String> parameters;
     private Map<String, List<String>> headerFields;
+    private JSONArray payloadArray;
 
     /**
      *
@@ -245,7 +248,7 @@ public class ApiAuthenticationClient {
             connection.setRequestMethod(httpMethod);
             if(urlPath != "registration"){
                 String toByte = username + ":" + password;
-                String encoding = new String(android.util.Base64.encode(toByte.getBytes(), android.util.Base64.DEFAULT));
+                String encoding = new String(Base64.encode(toByte.getBytes(), Base64.DEFAULT));
                 connection.setRequestProperty("Authorization", "Basic " + encoding);
             }
             connection.setRequestProperty("Accept", "application/json");
@@ -261,7 +264,9 @@ public class ApiAuthenticationClient {
 
                 try {
                     OutputStream os = connection.getOutputStream();
-                    os.write(payload.toString().getBytes("UTF-8"));
+                        os.write(payload.toString().getBytes("UTF-8"));
+                        //os.write(payloadArray.toString().getBytes("UTF-8"));
+
                     os.close();
 
                     headerFields = connection.getHeaderFields();
@@ -298,5 +303,13 @@ public class ApiAuthenticationClient {
         }
 
         return outputStringBuilder.toString();
+    }
+
+    public void setPayloadArray(JSONArray payloadArray) {
+        this.payloadArray = payloadArray;
+    }
+
+    public JSONArray getPayloadArray() {
+        return payloadArray;
     }
 }

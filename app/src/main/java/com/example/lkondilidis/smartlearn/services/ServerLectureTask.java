@@ -51,6 +51,8 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
                 break;
             case SERVER_STATUS_GET_LECTURE: addLectures(output, lectures);
                 break;
+            case SERVER_STATUS_FIND_LECTURE: addLectures(output, lectures);
+                break;
                 default:
                     break;
         }
@@ -87,6 +89,8 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
                 break;
             case SERVER_STATUS_GET_LECTURE: updateLectureList(tempLectures);
                 break;
+            case SERVER_STATUS_FIND_LECTURE: updateLectureList(tempLectures);
+                break;
             default:
                 break;
         }
@@ -111,13 +115,15 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
             }
         }
 
-        ArrayList<Lecture> removeLectures = new ArrayList<>();
-        for(Lecture lecture: this.lectures){
-            if(currentuser.hasLecture(lecture.getId())){
-                removeLectures.add(lecture);
+        if(flag == StatusLectureFlag.SERVER_STATUS_FIND_LECTURE) {
+            ArrayList<Lecture> removeLectures = new ArrayList<>();
+            for (Lecture lecture : this.lectures) {
+                if (currentuser.hasLecture(lecture.getId())) {
+                    removeLectures.add(lecture);
+                }
             }
+            this.lectures.removeAll(removeLectures);
         }
-        this.lectures.removeAll(removeLectures);
     }
 
     private boolean containsLecture(List<Lecture> copyLectures, Lecture tempLecture) {
