@@ -3,9 +3,11 @@ package com.example.lkondilidis.smartlearn.services;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.view.View;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
+import com.example.lkondilidis.smartlearn.adapters.SearchLectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
@@ -28,6 +30,7 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
     private SearchAdapter searchAdapter;
     private UserAdapter userAdapter;
     public static final String USER_DETAIL_KEY = "currentuser";
+    private SearchLectureAdapter searchLectureAdapter;
 
     public ServerUserTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
         this.users = users;
@@ -144,8 +147,14 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
         if( userAdapter != null) {
             userAdapter.notifyDataSetChanged();
         }
+        if( searchLectureAdapter != null) {
+            searchLectureAdapter.notifyDataSetChanged();
+        }
         if(intent != null) {
             if(flag == StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER){
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+            }
+            if(flag == StatusUserFlag.SERVER_STATUS_UPDATE_USER){
                 intent.putExtra(USER_DETAIL_KEY, currentuser);
             }
             context.startActivity(intent);
@@ -158,5 +167,9 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
 
     public void setAdapter(UserAdapter userAdapter) {
         this.userAdapter = userAdapter;
+    }
+
+    public void setAdapter(SearchLectureAdapter searchLectureAdapter) {
+        this.searchLectureAdapter = searchLectureAdapter;
     }
 }

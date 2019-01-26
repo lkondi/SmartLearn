@@ -55,7 +55,7 @@ public class UserLectureActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setHasFixedSize(true);
-        SearchLectureAdapter searchLectureAdapter = new SearchLectureAdapter(this, lectures);
+        SearchLectureAdapter searchLectureAdapter = new SearchLectureAdapter(this, lectures, currentuser);
         recyclerView.setAdapter(searchLectureAdapter);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -5,13 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primary"
     android:orientation="vertical">
 
     <android.support.v7.widget.SearchView
         android:id="@+id/searchView_popup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/primary_darker"
+        android:background="@color/primary"
         android:outlineAmbientShadowColor="@color/white"
         android:outlineSpotShadowColor="@color/white"
         android:paddingHorizontal="20dp"
@@ -23,15 +24,51 @@
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/primary">
+
+        <TextView
+            android:id="@+id/lecture"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:text="Lectures"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/id"
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="63dp"
+            android:layout_marginRight="63dp"
+            android:text="Lecture Ids"
+            android:textColor="@color/white"
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/lecture"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/primary_darker">
+        android:layout_marginTop="16dp"
+        android:background="@color/primary">
 
 
         <ListView
             android:id="@+id/listView_popup"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintBottom_toTopOf="@+id/linear_layout_buttons"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp">
@@ -43,6 +80,7 @@
             android:id="@+id/linear_layout_buttons"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,11 +93,11 @@
                 android:id="@+id/button_cancel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.5"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:text="Button"
-                 />
+                android:layout_weight="0.5"
+                android:background="@color/primary_dark"
+                android:text="Button" />
 
             <Button
                 android:id="@+id/button_add"
@@ -68,6 +106,7 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_weight="0.5"
+                android:background="@color/primary_dark"
                 android:text="Button" />
         </LinearLayout>
 

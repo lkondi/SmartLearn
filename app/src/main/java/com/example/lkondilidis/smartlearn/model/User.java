@@ -269,6 +269,19 @@ public class User implements Serializable {
         getLectures().add(lecture);
     }
 
+    public void removeLecture(int id) {
+        Lecture removeLecture = null;
+        for(Lecture l: getLectures()){
+            if(l.getId() == id){
+                removeLecture = l;
+                break;
+            }
+        }
+        if(removeLecture!=null) {
+            getLectures().remove(removeLecture);
+        }
+    }
+
     public boolean hasLecture(int id) {
         for(Lecture lecture: getLectures()){
             if(lecture.getId() == id){
@@ -453,6 +466,7 @@ public class User implements Serializable {
     public void setChanged(boolean changed) {
         this.changed = changed;
     }
+
 
 
 }
