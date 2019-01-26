@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ArrayAdapter;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Spinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -22,9 +24,11 @@ import java.util.*;
 import java.text.*;
 
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.model.Appointment;
+import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
 
-public class AppointmentFragment extends Fragment {
+public class AppointmentFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
     EditText startDateText;
     EditText endDateText;
@@ -41,7 +45,9 @@ public class AppointmentFragment extends Fragment {
     User selecteduser;
     User currentuser;
     ListView newlistview;
+    Spinner dropdown;
     ScheduleAdapter scheduleAdapter;
+    String selectedlecture;
 
     public AppointmentFragment() {
         // Required empty public constructor
@@ -66,6 +72,20 @@ public class AppointmentFragment extends Fragment {
         startDateText = (EditText) view.findViewById(R.id.startDateText);
         endDateText = (EditText) view.findViewById(R.id.endDateText);
         newlistview = (ListView) view.findViewById(R.id.newListView);
+
+        //dropdown
+        dropdown = (Spinner) view.findViewById(R.id.spinnerlectures);
+        dropdown.setOnItemSelectedListener(this);
+        List<String> list = new ArrayList<String>();
+
+        for (Lecture lecture : selecteduser.getLectures()) {
+            list.add(lecture.getName());
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dropdown.setAdapter(adapter);
+
 
 
         startDateText.setOnClickListener(new View.OnClickListener() {
@@ -100,6 +120,7 @@ public class AppointmentFragment extends Fragment {
         return view;
 
     }
+
 
     DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
 
@@ -164,6 +185,20 @@ public class AppointmentFragment extends Fragment {
 
     }
 
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position,
+                               long id) {
+        // TODO Auto-generated method stub
+            selectedlecture = (parent.getItemAtPosition(position).toString());
+        //TODO find id based on lecture name
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+        // TODO Auto-generated method stub
+
+    }
+
     class ScheduleAdapter extends ArrayAdapter {
         private ArrayList<String> scheduleList = new ArrayList();
 
@@ -208,8 +243,31 @@ public class AppointmentFragment extends Fragment {
                 viewHolder = (ItemViewHolder)row.getTag();
             }
 
-            String date = getItem(position);
+            final String date = getItem(position);
             viewHolder.date.setText(date);
+            viewHolder.book.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+
+                    Lecture lecture = new Lecture();
+                    lecture.setName(selectedlecture);
+                    Appointment appointment = new Appointment();
+                    appointment.setAppointmentAuthor(currentuser);
+                    appointment.setAppointmentUser(selecteduser);
+                    appointment.setDate(date);
+                    appointment.setSubject(lecture);
+                   // appointment.setTime();
+
+                    //TODO set appointments & update users
+                   // currentuser.setAppointments(appointment);
+                   // selecteduser.setAppointments();
+
+                    Toast.makeText(getActivity(),  "Thank you for schedulling!",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+
             return row;
 
         }
@@ -251,7 +309,7 @@ public class AppointmentFragment extends Fragment {
                         case "Montag":
                             if(day.equalsIgnoreCase("Mon")){
                                 dateList.add(ds);}
-                                break;
+                            break;
                         case "Dienstag":
                             if(day.equalsIgnoreCase("Tue")){
                                 dateList.add(ds);}
@@ -289,5 +347,4 @@ public class AppointmentFragment extends Fragment {
         }
         return dateList;
     }
-
 }

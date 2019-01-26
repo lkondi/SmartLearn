@@ -19,6 +19,13 @@ import android.widget.TextView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.graphics.*;
+import java.io.*;
+import android.net.*;
+import android.database.*;
+import android.provider.MediaStore;
+import android.content.Context;
+import android.provider.MediaStore.Images.Media;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
@@ -48,6 +55,11 @@ public class ProfileActivity extends AppCompatActivity{
     private ImageButton editButton;
 
     private static String STRING_EMPTY = "";
+
+    private static Bitmap Image = null;
+    private static Bitmap rotateImage = null;
+    private ImageView profile;
+    private static final int GALLERY = 1;
 
     private CheckBox tutorcheck, mocheck, dicheck, micheck, docheck, frcheck, sacheck, socheck;
     ArrayList<String> plan;
@@ -101,6 +113,22 @@ public class ProfileActivity extends AppCompatActivity{
 
         LinearLayout editArea = (LinearLayout) findViewById(R.id.editArea);
         editArea.setVisibility(LinearLayout.GONE);
+
+        profile = (ImageView) findViewById(R.id.profile);
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                imageView.setImageBitmap(null);
+                if (Image != null)
+                    Image.recycle();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
+            }
+        });
+
 
         textViewName= (TextView) findViewById(R.id.name);
         textViewEmail = (TextView) findViewById(R.id.email);
@@ -402,6 +430,40 @@ public class ProfileActivity extends AppCompatActivity{
         return plan;
     }
 
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == GALLERY && resultCode != 0) {
+            Uri mImageUri = data.getData();
+            currentuser.setImageURL(mImageUri.toString());
+            try {
+                Image = Media.getBitmap(this.getContentResolver(), mImageUri);
+                if (getOrientation(getApplicationContext(), mImageUri) != 0) {
+                    Matrix matrix = new Matrix();
+                    matrix.postRotate(getOrientation(getApplicationContext(), mImageUri));
+                    if (rotateImage != null)
+                        rotateImage.recycle();
+                    rotateImage = Bitmap.createBitmap(Image, 0, 0, Image.getWidth(), Image.getHeight(), matrix,true);
+                    imageView.setImageBitmap(rotateImage);
+                } else
+                    imageView.setImageBitmap(Image);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static int getOrientation(Context context, Uri photoUri) {
+        Cursor cursor = context.getContentResolver().query(photoUri,
+                new String[] { MediaStore.Images.ImageColumns.ORIENTATION },null, null, null);
+
+        if (cursor.getCount() != 1) {
+            return -1;
+        }
+        cursor.moveToFirst();
+        return cursor.getInt(0);
+    }
+
     private void updateUserOnServer() throws JSONException {
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
@@ -411,6 +473,7 @@ public class ProfileActivity extends AppCompatActivity{
         payload.put("subject", currentuser.getSubject());
         payload.put("studies", currentuser.getStudies());
         payload.put("plan", currentuser.getPlan());
+        payload.put("imageURL", currentuser.getImageURL());
         auth.setPayload(payload);
         Intent mainActivity = null;
         if(intentAction == "register") {
