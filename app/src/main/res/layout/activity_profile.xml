@@ -267,6 +267,7 @@
                         android:text="Fach/Fächer" />
 
                     <Button
+                        android:backgroundTint="@color/primary_darker"
                         android:id="@+id/btn_pop"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"

@@ -13,6 +13,8 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -143,13 +145,13 @@ public class AppointmentFragment extends Fragment {
         List<String> datesList;
 
         String plan = selecteduser.getPlan();
-        String[] datesavailable = plan.split(",");
-
 
         try {
 
 
-            datesList = getAllDatesBetweenTwoDates(start, end, "yyyy-MM-dd", "dd/MM/yyyy", true);
+            datesList = getAllDatesBetweenTwoDates(start, end, "yyyy-MM-dd", "dd/MM/yyyy", plan);
+            Toast.makeText(getActivity(), plan + " is available",
+                    Toast.LENGTH_LONG).show();
 
             for(String date : datesList ) {
                 scheduleAdapter.add(date);
@@ -214,13 +216,17 @@ public class AppointmentFragment extends Fragment {
     }
 
     public static List<String> getAllDatesBetweenTwoDates(String stdate,String enddate,String givenformat
-            ,String resultformat,boolean onlybunessdays) throws ParseException{
+            ,String resultformat,String plan) throws ParseException{
+
+        String[] datesavailable = plan.split(",");
+
         DateFormat sdf;
         DateFormat sdf1;
         List<Date> dates = new ArrayList<Date>();
         List<String> dateList = new ArrayList<String>();
         SimpleDateFormat checkformat = new SimpleDateFormat(resultformat);
         checkformat.applyPattern("EEE");  // to get Day of week
+
         try{
             sdf = new SimpleDateFormat(givenformat);
             sdf1 = new SimpleDateFormat(resultformat);
@@ -240,19 +246,39 @@ public class AppointmentFragment extends Fragment {
                 Date lDate =(Date)dates.get(i);
                 String ds = sdf1.format(lDate);
                 String day= checkformat.format(lDate);
-                if(onlybunessdays){
-                    day= checkformat.format(lDate);
-                    if(!day.equalsIgnoreCase("Sat") && !day.equalsIgnoreCase("Sun")){
-                        dateList.add(ds);
+                for (String adate : datesavailable) {
+                    switch (adate) {
+                        case "Montag":
+                            if(day.equalsIgnoreCase("Mon")){
+                                dateList.add(ds);}
+                                break;
+                        case "Dienstag":
+                            if(day.equalsIgnoreCase("Tue")){
+                                dateList.add(ds);}
+                            break;
+                        case "Mittwoch":
+                            if(day.equalsIgnoreCase("Wed")){
+                                dateList.add(ds);}
+                            break;
+                        case "Donnerstag":
+                            if(day.equalsIgnoreCase("Thu")){
+                                dateList.add(ds);}
+                            break;
+                        case "Freitag":
+                            if(day.equalsIgnoreCase("Fri")){
+                                dateList.add(ds);}
+                            break;
+                        case "Samstag":
+                            if(day.equalsIgnoreCase("Sat")){
+                                dateList.add(ds);}
+                            break;
+                        case "Sonntag":
+                            if(day.equalsIgnoreCase("Sun")){
+                                dateList.add(ds);}
+                            break;
                     }
-                }else{
-                    dateList.add(ds);
                 }
-
-                //System.out.println(" Date is ..." + ds);
-
             }
-
 
         }catch(ParseException e){
             e.printStackTrace();
@@ -263,7 +289,5 @@ public class AppointmentFragment extends Fragment {
         }
         return dateList;
     }
-
-
 
 }
