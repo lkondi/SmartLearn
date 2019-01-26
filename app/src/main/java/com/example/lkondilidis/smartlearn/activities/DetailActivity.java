@@ -8,6 +8,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -89,15 +90,20 @@ public class DetailActivity extends AppCompatActivity {
         selecteduser = (User) getIntent().getSerializableExtra(DetailActivity.SELECTED_USER_DETAIL_KEY);
         currentuser = (User) getIntent().getSerializableExtra(DetailActivity.USER_DETAIL_KEY);
 
-        //Drawer
-        drawerLayout = findViewById(R.id.drawer);
-        NavigationView navigationView = findViewById(R.id.navigation_view_detail);
-        navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 
         //Toolbar
-        ActionBar actionbar = getSupportActionBar();
-        actionbar.setDisplayHomeAsUpEnabled(true);
-        actionbar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        Toolbar actionbar = findViewById(R.id.toolbar_detail);
+        setSupportActionBar(actionbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        actionbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(DetailActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+                startActivity(intent);
+            }
+        });
 
         // Fetch views
         ivUserImage = (ImageView) findViewById(R.id.ivUserImage);
@@ -348,8 +354,10 @@ public class DetailActivity extends AppCompatActivity {
         for (int i = 0; i < stars.size(); i++) {
             sum += stars.get(i);
         }
-        median = sum / stars.size();
-        star =  (int) median;
+        if(stars.size()!= 0) {
+            median = sum / stars.size();
+            star = (int) median;
+        }
 
         return star;
     }

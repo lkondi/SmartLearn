@@ -29,10 +29,12 @@ public class User implements Serializable {
     private Set<Rating> yourRatings;
     private Set<Rating> userRatings;
     private Set<Appointment> appointments;
+    private boolean changed;
 
 
     public User(){
         imageURL ="default";
+        changed = false;
     }
 
     public User(int id, String name, String email, String password, String nickname, String studies, String subject, String plan, int ratingstars, String
@@ -53,6 +55,7 @@ public class User implements Serializable {
         this.apptime = apptime;
         this.firebaseId = firebaseId;
         this.lectures = lectures;
+        changed = false;
     }
 
     public User(JSONObject jsonObject){
@@ -190,6 +193,7 @@ public class User implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        changed = false;
     }
 
     public JSONObject convertToJASON(){
@@ -259,6 +263,19 @@ public class User implements Serializable {
         this.setYourRatings(user.getYourRatings());
         this.setUserRatings(user.getUserRatings());
         this.setAppointments(user.getAppointments());
+    }
+
+    public void addLecture(Lecture lecture) {
+        getLectures().add(lecture);
+    }
+
+    public boolean hasLecture(int id) {
+        for(Lecture lecture: getLectures()){
+            if(lecture.getId() == id){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -428,5 +445,15 @@ public class User implements Serializable {
     public void setAppointments(Set<Appointment> appointments) {
         this.appointments = appointments;
     }
+
+    public boolean isChanged() {
+        return changed;
+    }
+
+    public void setChanged(boolean changed) {
+        this.changed = changed;
+    }
+
+
 }
 

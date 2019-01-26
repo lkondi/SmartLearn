@@ -1,7 +1,5 @@
 package com.example.lkondilidis.smartlearn.activities;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,11 +10,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.RatingBar;
-import android.support.v7.widget.SearchView;
 import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -24,12 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,9 +60,10 @@ public class ProfileActivity extends AppCompatActivity{
     private RatingBar rating;
 
     public static final String USER_DETAIL_KEY = "currentuser";
-    private SearchView searchView;
     private Button btn_pop;
 
+    private Boolean changed;
+    private User userBackUp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +72,8 @@ public class ProfileActivity extends AppCompatActivity{
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        userBackUp = currentuser;
+        changed = false;
 
         intentAction = intent.getAction();
 
@@ -118,8 +117,9 @@ public class ProfileActivity extends AppCompatActivity{
         btn_pop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ProfileActivity.this, PopUpActivity.class);
-                intent.putExtra(USER_DETAIL_KEY, currentuser);
+                Intent intent = new Intent(ProfileActivity.this, UserLectureActivity.class);
+                intent.putExtra(USER_DETAIL_KEY, userBackUp);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
         });
@@ -149,32 +149,32 @@ public class ProfileActivity extends AppCompatActivity{
         socheck = (CheckBox) findViewById(R.id.checkbox_so);
 
         //set Values
-        textViewEmail.setText(currentuser.getEmail());
-        textViewName.setText(currentuser.getName());
+        textViewEmail.setText(userBackUp.getEmail());
+        textViewName.setText(userBackUp.getName());
 
-        rating.setNumStars(currentuser.getRatingStars());
+        rating.setNumStars(userBackUp.getRatingStars());
 
-        if (!STRING_EMPTY.equals(currentuser.getNickname())) {
-            textViewNickname.setText(currentuser.getNickname());
+        if (!STRING_EMPTY.equals(userBackUp.getNickname())) {
+            textViewNickname.setText(userBackUp.getNickname());
 
-            if (currentuser.getNickname() == "Tutor") {
+            if (userBackUp.getNickname() == "Tutor") {
                 tutorcheck.setChecked(true);
             }
             else {
                 tutorcheck.setChecked(false);
             }
         }
-        if (!STRING_EMPTY.equals(currentuser.getStudies())) {
-            textViewStudies.setText(currentuser.getStudies());
+        if (!STRING_EMPTY.equals(userBackUp.getStudies())) {
+            textViewStudies.setText(userBackUp.getStudies());
         }
-        if (!STRING_EMPTY.equals(currentuser.getSubject())) {
-            //textViewSubject.setText(currentuser.getSubject());
+        if (!STRING_EMPTY.equals(userBackUp.getSubject())) {
+            //textViewSubject.setText(userBackUp.getSubject());
         }
-        if (!STRING_EMPTY.equals(currentuser.getPlan())) {
-            textViewPlan.setText(currentuser.getPlan());
+        if (!STRING_EMPTY.equals(userBackUp.getPlan())) {
+            textViewPlan.setText(userBackUp.getPlan());
         }
-        if (!STRING_EMPTY.equals(currentuser.getRatingDes())) {
-            textViewRating.setText(currentuser.getRatingDes());
+        if (!STRING_EMPTY.equals(userBackUp.getRatingDes())) {
+            textViewRating.setText(userBackUp.getRatingDes());
         }
 
         else {
@@ -182,7 +182,7 @@ public class ProfileActivity extends AppCompatActivity{
                     Toast.LENGTH_LONG).show();
         }
 
-        if(currentuser.getNickname() != null && currentuser.getNickname().equals("Tutor")){
+        if(userBackUp.getNickname() != null && userBackUp.getNickname().equals("Tutor")){
             tutorcheck.setChecked(true);
         }
         tutorcheck.setOnClickListener(new View.OnClickListener() {
@@ -256,7 +256,14 @@ public class ProfileActivity extends AppCompatActivity{
         appCompatButtonSubmit = (AppCompatButton) findViewById(R.id.btnSubmit);
         appCompatButtonSubmit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                updateUser();
+                if(userBackUp.isChanged()){
+                    currentuser = userBackUp;
+                    updateUser();
+                }else {
+                    //TODO: print: "you didnt change anything"
+                    System.out.println("nothing changed");
+                }
+
             }
         });
 
@@ -267,18 +274,18 @@ public class ProfileActivity extends AppCompatActivity{
         if (((CheckBox) tutorcheck).isChecked()) {
 
 
-            currentuser.setNickname("Tutor");
-            currentuser.updateUser(currentuser);
-            textViewNickname.setText(currentuser.getNickname());
+            userBackUp.setNickname("Tutor");
+            userBackUp.updateUser(userBackUp);
+            textViewNickname.setText(userBackUp.getNickname());
 
             Toast.makeText(ProfileActivity.this, "You are a tutor!",
                     Toast.LENGTH_LONG).show();
         }
         else {
 
-            currentuser.setNickname("Student");
-            currentuser.updateUser(currentuser);
-            textViewNickname.setText(currentuser.getNickname());
+            userBackUp.setNickname("Student");
+            userBackUp.updateUser(userBackUp);
+            textViewNickname.setText(userBackUp.getNickname());
 
 
             Toast.makeText(ProfileActivity.this, "You are a student!",
@@ -314,9 +321,10 @@ public class ProfileActivity extends AppCompatActivity{
                     && !STRING_EMPTY.equals(planfinal)) {
 
 
-                currentuser.setStudies(editTextStudies.getText().toString());
-                currentuser.setSubject(editTextSubject.getText().toString());
-                currentuser.setPlan(planfinal);
+                userBackUp.setStudies(editTextStudies.getText().toString());
+                userBackUp.setSubject(editTextSubject.getText().toString());
+                userBackUp.setPlan(planfinal);
+                userBackUp.setChanged(true);
 
                 try {
                     updateUserOnServer();
@@ -324,10 +332,10 @@ public class ProfileActivity extends AppCompatActivity{
                     e.printStackTrace();
                 }
 
-                currentuser.updateUser(currentuser);
-                textViewStudies.setText(currentuser.getStudies());
-                textViewSubject.setText(currentuser.getSubject());
-                textViewPlan.setText(currentuser.getPlan());
+                userBackUp.updateUser(userBackUp);
+                textViewStudies.setText(userBackUp.getStudies());
+                textViewSubject.setText(userBackUp.getSubject());
+                textViewPlan.setText(userBackUp.getPlan());
 
 
                 submitClicked();
@@ -346,6 +354,8 @@ public class ProfileActivity extends AppCompatActivity{
      * empty all input edit text
      */
     private void submitClicked() {
+
+
 
         LinearLayout displayArea = (LinearLayout) findViewById(R.id.displayArea);
         displayArea.setVisibility(LinearLayout.VISIBLE);
@@ -408,8 +418,8 @@ public class ProfileActivity extends AppCompatActivity{
             mainActivity.putExtra(USER_DETAIL_KEY, currentuser);
             //startActivity(mainActivity);
         }
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, mainActivity, StatusFlag.SERVER_STATUS_UPDATE_USER);
-        serverTask.execute();
+        ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, mainActivity, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+        serverUserTask.execute();
     }
 
     @Override

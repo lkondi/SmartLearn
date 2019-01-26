@@ -1,6 +1,5 @@
 package com.example.lkondilidis.smartlearn.fragments;
 
-import android.app.IntentService;
 import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -15,7 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
@@ -23,7 +22,7 @@ import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,9 +66,9 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("GET");
         auth.setUrlPath("tutors/" + currentuser.getId());
-        ServerTask serverTask = new ServerTask(userArrayList, activity, auth, currentuser, null, StatusFlag.SERVER_STATUS_GET_USERS);
-        serverTask.setAdapter(searchAdapter);
-        serverTask.execute();
+        ServerUserTask serverUserTask = new ServerUserTask(userArrayList, activity, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_GET_USERS);
+        serverUserTask.setAdapter(searchAdapter);
+        serverUserTask.execute();
 
         //searchView
         SearchManager manager = (SearchManager) activity.getSystemService(Context.SEARCH_SERVICE);

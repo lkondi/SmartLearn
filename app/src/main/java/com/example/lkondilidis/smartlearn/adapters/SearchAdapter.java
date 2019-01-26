@@ -106,8 +106,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
         for (int i = 0; i < stars.size(); i++) {
             sum += stars.get(i);
         }
-        median = sum / stars.size();
-        star =  (int) median;
+        if(stars.size()!= 0) {
+            median = sum / stars.size();
+            star = (int) median;
+        }
 
         return star;
     }

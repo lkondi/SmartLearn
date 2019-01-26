@@ -1,16 +1,10 @@
 package com.example.lkondilidis.smartlearn.services;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
-import android.os.strictmode.NonSdkApiUsedViolation;
-import android.support.annotation.RequiresApi;
-import android.util.Log;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
-import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -19,29 +13,23 @@ import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
-import static android.content.ContentValues.TAG;
-import static com.example.lkondilidis.smartlearn.Interfaces.StatusFlag.SERVER_STATUS_ADD_USER;
-
-public class ServerTask extends AsyncTask<Void, Void, List<User>>
+public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
 {
     private List<User> users;
     private Context context;
     private ApiAuthenticationClient auth;
     private User currentuser;
     private Intent intent;
-    private StatusFlag flag;
+    private StatusUserFlag flag;
     private SearchAdapter searchAdapter;
     private UserAdapter userAdapter;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
-    public ServerTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusFlag flag){
+    public ServerUserTask(List<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
         this.users = users;
         this.context = context;
         this.auth = auth;
@@ -66,6 +54,8 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
                 break;
             case SERVER_STATUS_GET_USERS: addUsers(output, users);
                 break;
+            case SERVER_STATUS_GET_NOTIFICATION_USER: updateUser(output);
+                break;
             case SERVER_STATUS_UPDATE_USER: updateUser(output);
                 break;
             case SERVER_STATUS_REGISTER_USER: updateUser(output);
@@ -85,6 +75,8 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
                 break;
             case SERVER_STATUS_GET_USERS: updateUserList(tempUsers);
                 break;
+            case SERVER_STATUS_GET_NOTIFICATION_USER:
+                break;
             case SERVER_STATUS_UPDATE_USER:
                 break;
             case SERVER_STATUS_REGISTER_USER:
@@ -99,7 +91,7 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
 
     private void saveUser(String output) {
         updateUser(output);
-        //Save User in File
+        //TODO: Save User in File
     }
 
     private void updateUser(String output) {
@@ -153,6 +145,9 @@ public class ServerTask extends AsyncTask<Void, Void, List<User>>
             userAdapter.notifyDataSetChanged();
         }
         if(intent != null) {
+            if(flag == StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER){
+                intent.putExtra(USER_DETAIL_KEY, currentuser);
+            }
             context.startActivity(intent);
         }
     }

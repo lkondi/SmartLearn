@@ -15,16 +15,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.MessageAdapter;
 import com.example.lkondilidis.smartlearn.model.Chat;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.notification.Client;
+import com.example.lkondilidis.smartlearn.notification.MyResponse;
+import com.example.lkondilidis.smartlearn.notification.Sender;
+import com.example.lkondilidis.smartlearn.notification.Token;
+import com.example.lkondilidis.smartlearn.notification.Data;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.APIService;
+
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -32,6 +43,9 @@ import java.util.HashMap;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MessageActivity extends AppCompatActivity {
 
@@ -64,6 +78,7 @@ public class MessageActivity extends AppCompatActivity {
 
 
     boolean notify = false;
+    private APIService apiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +87,11 @@ public class MessageActivity extends AppCompatActivity {
 
         intent = getIntent();
         selectedUser = (User) getIntent().getSerializableExtra(MessageActivity.SELECTED_USER_DETAIL_KEY);
-        userid = selectedUser.getFirebaseId();
+        if(selectedUser == null){
+            userid = (String) getIntent().getStringExtra("userid");
+        }else {
+            userid = selectedUser.getFirebaseId();
+        }
         currentuser = (User) getIntent().getSerializableExtra(MessageActivity.USER_DETAIL_KEY);
         action = intent.getAction();
         fuser = FirebaseAuth.getInstance().getCurrentUser();
@@ -85,21 +104,30 @@ public class MessageActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //FIXME: get selectedUser and currentUser from the server.
                 Intent intent;
                 if (action.equals("DetailActivity")){
                     intent = new Intent(MessageActivity.this, DetailActivity.class);
-                    intent. putExtra(MessageActivity.SELECTED_USER_DETAIL_KEY, selectedUser);
+                    intent.putExtra(MessageActivity.SELECTED_USER_DETAIL_KEY, selectedUser);
                 } else {
                     intent = new Intent(MessageActivity.this, MainActivity.class);
                     intent.setAction(action);
                 }
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra(USER_DETAIL_KEY, currentuser);
-                startActivity(intent);
+                if(currentuser == null){
+                    //!!!!!!
+                    //connect to server and fetch Users
+                    //currentuser = TODO: get user from file
+                    ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                    auth.setHttpMethod("GET");
+                    auth.setUrlPath("users/" + userid);
+                    ServerUserTask serverUserTask = new ServerUserTask(new ArrayList<User>(), MessageActivity.this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER);
+                    serverUserTask.execute();
+                }
             }
         });
 
-        //apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
+        apiService = Client.getClient("https://fcm.googleapis.com/").create(APIService.class);
 
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
@@ -221,7 +249,7 @@ public class MessageActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 User user = dataSnapshot.getValue(User.class);
                 if (notify) {
-                    //sendNotifiaction(receiver, user.getUsername(), msg);
+                    sendNotifiaction(receiver, user.getName(), msg);
                 }
                 notify = false;
             }
@@ -233,7 +261,7 @@ public class MessageActivity extends AppCompatActivity {
         });
     }
 
-    /*private void sendNotifiaction(String receiver, final String username, final String message){
+    private void sendNotifiaction(String receiver, final String username, final String message){
         DatabaseReference tokens = FirebaseDatabase.getInstance().getReference("Tokens");
         Query query = tokens.orderByKey().equalTo(receiver);
         query.addValueEventListener(new ValueEventListener() {
@@ -270,7 +298,7 @@ public class MessageActivity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
 
     private void readMesagges(final String myid, final String userid, final String imageurl){
         mchat = new ArrayList<>();

@@ -13,12 +13,12 @@ import android.support.v7.widget.AppCompatTextView;
 import android.view.View;
 import android.widget.Toast;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -195,8 +195,8 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         auth.setHttpMethod("POST");
         auth.setUrlPath("registration");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(new ArrayList<User>(), this, auth, currentuser, intent, StatusFlag.SERVER_STATUS_REGISTER_USER);
-        serverTask.execute();
+        ServerUserTask serverUserTask = new ServerUserTask(new ArrayList<User>(), this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_REGISTER_USER);
+        serverUserTask.execute();
     }
 
     /**

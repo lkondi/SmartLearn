@@ -64,8 +64,6 @@
         app:menu="@menu/drawer_layout"
         android:background="@color/primary_darker"
         app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white">
-
-    </android.support.design.widget.NavigationView>
+        app:itemTextColor="@color/white"/>
 
 </android.support.v4.widget.DrawerLayout>

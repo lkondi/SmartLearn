@@ -14,12 +14,12 @@ import android.widget.Toast;
 import java.io.*;
 import java.util.ArrayList;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
-import com.example.lkondilidis.smartlearn.services.ServerTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -169,8 +169,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
         auth.setPayload(currentuser.convertToJASON());
-        ServerTask serverTask = new ServerTask(null, this, auth, currentuser, intent, StatusFlag.SERVER_STATUS_LOGIN_USER);
-        serverTask.execute();
+        ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_LOGIN_USER);
+        serverUserTask.execute();
     }
 
     public void saveClicked() {
