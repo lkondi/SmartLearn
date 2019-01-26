@@ -22,6 +22,7 @@
         android:inputType="none" />
 
     <EditText
+        android:textColor="@color/white"
         android:id="@+id/startDateText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -30,12 +31,25 @@
         android:focusable="false" />
 
     <EditText
+        android:textColor="@color/white"
         android:id="@+id/endDateText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="date"
         android:hint="End Datum"
         android:focusable="false" />
+
+    <Spinner
+        android:backgroundTint="@color/primary_darker"
+        android:dropDownSelector="@color/white"
+        android:textColor="#FFFFFF"
+        android:id="@+id/spinnerlectures"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/btn_dropdown"
+        android:popupBackground="@color/primary_darker"
+        android:spinnerMode="dropdown"/>
+
 
     <Button
         android:id="@+id/queryButton"
