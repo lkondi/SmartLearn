@@ -10,9 +10,15 @@
         android:id="@+id/item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="?android:attr/dropDownItemStyle"
+        android:background="@color/primary_dark"
         android:textAlignment="center"
         android:textColor="@color/white"
-        android:background="@color/primary"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 </android.support.constraint.ConstraintLayout>

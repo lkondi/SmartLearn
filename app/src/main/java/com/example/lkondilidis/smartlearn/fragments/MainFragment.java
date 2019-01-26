@@ -29,7 +29,7 @@ import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainFragment extends Fragment implements SearchView.OnSuggestionListener {
+public class MainFragment extends Fragment{
 
     private RecyclerView recyclerView;
     private LinearLayoutManager layoutManager;
@@ -37,7 +37,7 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
     private SearchView searchView;
     private User currentuser;
     private ArrayList<User> userArrayList;
-    private List<Lecture> lectures;
+    private List<Lecture> lectures = new ArrayList<>();
     private MainActivity activity;
     private ExampleAdapter exampleAdapter;
 
@@ -50,10 +50,6 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         assert activity != null;
         currentuser = activity.getCurrentuser();
         userArrayList = new ArrayList<>();
-
-        //lectures
-        lectures = activity.getLectures();
-
 
         //recyclerView
         recyclerView = (RecyclerView) view.findViewById(R.id.recycler_search);
@@ -78,16 +74,19 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         searchView = view.findViewById(R.id.searchView);
         assert manager != null;
         searchView.setSearchableInfo(manager.getSearchableInfo(activity.getComponentName()));
-        searchView.setOnSuggestionListener(this);
         searchView.setSubmitButtonEnabled(true);
 
+        String[] columns=new String[]{"_id","text","number"};
+        MatrixCursor cursor=new MatrixCursor(columns);
 
-        //searchView.setSuggestionsAdapter(exampleAdapter);
+        exampleAdapter = new ExampleAdapter(activity,cursor, userArrayList, searchView, currentuser, recyclerView);
+        searchView.setSuggestionsAdapter(exampleAdapter);
+
+
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
-                //myList.setVisibility(View.GONE);
                 return false;
             }
 
@@ -96,80 +95,17 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
                 System.out.println("changed");
                 //!!!!!!
                 //connect to server and fetch Lectures
-                /*ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                 auth.setHttpMethod("GET");
                 auth.setUrlPath("lectures/" + s);
                 ServerLectureTask serverLectureTask = new ServerLectureTask(lectures, currentuser, auth, StatusLectureFlag.SERVER_STATUS_GET_LECTURE);
                 serverLectureTask.setAdapter(exampleAdapter);
-                serverLectureTask.execute();*/
-                load(s);
-                //searchView.setSuggestionsAdapter(exampleAdapter);
+                serverLectureTask.execute();
                 return true;
             }
         });
 
-        String[] columns=new String[]{"_id","text","number"};
-        MatrixCursor cursor=new MatrixCursor(columns);
-        exampleAdapter = new ExampleAdapter(activity,cursor);
-        searchView.setSuggestionsAdapter(exampleAdapter);
-
+        searchView.clearFocus();
         return view;
-    }
-
-    private void load(String s) {
-
-        String[] columns=new String[]{"_id","text","number"};
-        Object[] temp=new Object[]{"0","default","0"};
-        MatrixCursor cursor=new MatrixCursor(columns);
-        for(int j=0;j<lectures.size();j++)
-        {
-            Lecture lecture = lectures.get(j);
-            String searchQuery = s.toLowerCase();
-            String lectureName = lecture.getName();
-            int lectureNumber = lecture.getId();
-            if (lectureName.toLowerCase().contains(searchQuery)) {
-                temp[0] = j;
-                temp[1] = lectureName;
-                temp[2] = lectureNumber;
-
-                cursor.addRow(temp);
-            }
-        }
-        cursor.moveToFirst();
-
-        exampleAdapter.changeCursor(cursor);
-        exampleAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public boolean onSuggestionSelect(int i) {
-        System.out.println("It works selected");
-        return true;
-    }
-
-    @Override
-    public boolean onSuggestionClick(int i) {
-        CursorAdapter cursorAdapter = searchView.getSuggestionsAdapter();
-        Cursor cursor = cursorAdapter.getCursor();
-        String lectureName = cursor.getString(cursor.getColumnIndexOrThrow("text"));
-        int lectureNumber = Integer.parseInt(cursor.getString(cursor.getColumnIndexOrThrow("number")));
-
-        List<User> tutorListSearched = new ArrayList<>();
-
-        for (User user : userArrayList) {
-            for(Lecture l: user.getLectures()) {
-                if (l.getId() == lectureNumber) {
-                    tutorListSearched.add(user);
-                }
-            }
-        }
-
-        searchAdapter = new SearchAdapter(activity, tutorListSearched, currentuser);
-        recyclerView.setAdapter(searchAdapter);
-
-        //userArrayList.remove(userArrayList.size()-1);
-        //searchAdapter.notifyDataSetChanged();
-        searchView.setQuery(lectureName, false);
-        return true;
     }
 }

@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity{
         action = getIntent().getAction();
 
         //lectures
-        lectures = new ArrayList<>();
+        /*lectures = new ArrayList<>();
         InputStream inputStream = getResources().openRawResource(R.raw.stats);
         CSVReader csvFile = new CSVReader(inputStream);
-        lectures = csvFile.read();
+        lectures = csvFile.read();*/
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer);
