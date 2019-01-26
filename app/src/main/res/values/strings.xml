@@ -39,4 +39,6 @@
     <string name="chat">chat</string>
     <string name="newItem">newItem</string>
     <string name="lecture">Lectures</string>
+    <string name="tutor">Become a tutor</string>
+    <string name="title_activity_user_lecture">Your Lectures</string>
 </resources>
