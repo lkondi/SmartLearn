@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
@@ -22,6 +23,7 @@ import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerLectureTask;
 import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 import java.util.ArrayList;
@@ -51,6 +53,21 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
 
         //lectures
         lectures = activity.getLectures();
+        List<Lecture> addedLectures = new ArrayList<>();
+        for(Lecture l: lectures){
+            if(lectureNotAdded(addedLectures, l.getId())) {
+                //!!!!!!
+                //connect to server and fetch Users
+                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                auth.setHttpMethod("POST");
+                auth.setUrlPath("lecture");
+                auth.setPayload(l.convertToJSON());
+                ServerLectureTask serverLectureTask = new ServerLectureTask(null, currentuser, auth, StatusLectureFlag.SERVER_STATUS_ADD_LECTURE);
+                serverLectureTask.setAdapter(searchAdapter);
+                serverLectureTask.execute();
+                addedLectures.add(l);
+            }
+        }
 
 
         //recyclerView
@@ -104,6 +121,15 @@ public class MainFragment extends Fragment implements SearchView.OnSuggestionLis
         load("");
 
         return view;
+    }
+
+    private boolean lectureNotAdded(List<Lecture> addedLectures, int id) {
+        for(Lecture l: addedLectures){
+            if(l.getId() == id){
+                return false;
+            }
+        }
+        return true;
     }
 
     private void load(String s) {
