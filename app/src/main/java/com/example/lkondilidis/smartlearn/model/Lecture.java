@@ -50,6 +50,12 @@ public class Lecture implements Serializable {
         return  jsonObject;
     }
 
+    @Override
+    public String toString() {
+        String stringLecture = ""+this.getId()+"      "+this.getName();
+        return stringLecture;
+    }
+
 
     //-------------- Getter and Setter -------------------------------
 

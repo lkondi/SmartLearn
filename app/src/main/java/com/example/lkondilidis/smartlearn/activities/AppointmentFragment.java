@@ -55,7 +55,7 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
     ListView newlistview;
     Spinner dropdown;
     ScheduleAdapter scheduleAdapter;
-    String selectedlecture;
+    Lecture selectedlecture;
 
     public AppointmentFragment() {
         // Required empty public constructor
@@ -84,13 +84,13 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
         //dropdown
         dropdown = (Spinner) view.findViewById(R.id.spinnerlectures);
         dropdown.setOnItemSelectedListener(this);
-        List<String> list = new ArrayList<String>();
+        List<String> list = new ArrayList<>();
 
-        for (Lecture lecture : selecteduser.getLectures()) {
-            list.add(lecture.getName());
+        for(Lecture l: selecteduser.getLectures()){
+            list.add(l.toString());
         }
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, list);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dropdown.setAdapter(adapter);
 
@@ -197,7 +197,16 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
     public void onItemSelected(AdapterView<?> parent, View view, int position,
                                long id) {
         // TODO Auto-generated method stub
-            selectedlecture = (parent.getItemAtPosition(position).toString());
+            //selectedlecture = (parent.getItemAtPosition(position).toString());
+            String stringLecture = (parent.getItemAtPosition(position).toString());
+            int iend = stringLecture.indexOf(" ");
+            String subString = "";
+            if (iend != -1)
+            {
+                subString= stringLecture.substring(0 , iend);
+            }
+            int lectureId = Integer.parseInt(subString);
+            selectedlecture = selecteduser.findLecture(lectureId);
         //TODO find id based on lecture name
     }
 
@@ -260,20 +269,18 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
                 @Override
                 public void onClick(View v) {
 
-                    Lecture lecture = new Lecture();
-                    lecture.setName(selectedlecture);
                     Appointment appointment = new Appointment();
+                    appointment.setSubject(selectedlecture);
                     appointment.setAppointmentAuthor(currentuser);
                     appointment.setAppointmentUser(selecteduser);
                     appointment.setDate(date);
-                    appointment.setSubject(lecture);
                    //appointment.setTime();
 
                     //TODO set appointments & update users
                     ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                     auth.setHttpMethod("POST");
                     auth.setUrlPath("appointment/add/"+selecteduser.getId());
-                    auth.setPayload(appointment.convertToJSON());
+                    auth.setPayload(appointment.convertToJSON(null));
                     ServerUserTask serverUserTask = new ServerUserTask(null, context, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
                     serverUserTask.execute();
 

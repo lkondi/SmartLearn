@@ -1,5 +1,6 @@
 package com.example.lkondilidis.smartlearn.model;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
 
 import org.json.JSONArray;
@@ -237,7 +238,8 @@ public class User implements Serializable {
             JSONArray jsonArrayAppointments = new JSONArray();
             if(appointments != null) {
                 for (Appointment a : appointments) {
-                    jsonArrayAppointments.put(a.convertToJSON());
+                    //a.setAppointmentAuthor(this);
+                    jsonArrayAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
                 }
             }
 
@@ -287,12 +289,21 @@ public class User implements Serializable {
     }
 
     public boolean hasLecture(int id) {
-        for(Lecture lecture: getLectures()){
-            if(lecture.getId() == id){
+        for (Lecture lecture : getLectures()) {
+            if (lecture.getId() == id) {
                 return true;
             }
         }
         return false;
+    }
+
+    public Lecture findLecture(int id) {
+        for (Lecture lecture : getLectures()) {
+            if (lecture.getId() == id) {
+                return lecture;
+            }
+        }
+        return null;
     }
 
 
@@ -470,8 +481,5 @@ public class User implements Serializable {
     public void setChanged(boolean changed) {
         this.changed = changed;
     }
-
-
-
 }
 
