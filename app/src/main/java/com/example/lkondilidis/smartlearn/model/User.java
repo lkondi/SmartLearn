@@ -2,6 +2,7 @@ package com.example.lkondilidis.smartlearn.model;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserJSONFlag;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -31,7 +32,8 @@ public class User implements Serializable {
     private Set<Lecture> lectures;
     private Set<Rating> yourRatings;
     private Set<Rating> userRatings;
-    private Set<Appointment> appointments;
+    private Set<Appointment> yourAppointments;
+    private Set<Appointment> userAppointments;
     private boolean changed;
 
 
@@ -168,7 +170,7 @@ public class User implements Serializable {
         }
 
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray("appointments");
+            JSONArray jsonArray = jsonObject.getJSONArray("yourAppointments");
             Set<Appointment> appointments = new HashSet<>();
             for(int i=0; i<jsonArray.length(); i++){
                 try {
@@ -179,7 +181,24 @@ public class User implements Serializable {
                     e.printStackTrace();
                 }
             }
-            this.appointments = appointments;
+            this.yourAppointments = appointments;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("userAppointments");
+            Set<Appointment> appointments = new HashSet<>();
+            for(int i=0; i<jsonArray.length(); i++){
+                try {
+                    JSONObject jsonAppointment = jsonArray.getJSONObject(i);
+                    Appointment appointment = new Appointment(jsonAppointment);
+                    appointments.add(appointment);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            this.userAppointments = appointments;
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -199,7 +218,7 @@ public class User implements Serializable {
         changed = false;
     }
 
-    public JSONObject convertToJASON(){
+    public JSONObject convertToJASON(StatusUserJSONFlag statusUserJSONFlag){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());
@@ -220,33 +239,50 @@ public class User implements Serializable {
             }
 
             JSONArray jsonArrayYourRatings = new JSONArray();
-            if(yourRatings != null) {
-                for (Rating r : yourRatings) {
-                    r.setAuthor(this);
-                    jsonArrayYourRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_YOUR_RATINGS));
+            if(statusUserJSONFlag == null) {
+                if (yourRatings != null) {
+                    for (Rating r : yourRatings) {
+                        r.setAuthor(this);
+                        jsonArrayYourRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_YOUR_RATINGS));
+                    }
                 }
             }
+
 
             JSONArray jsonArrayUserRatings = new JSONArray();
-            if(userRatings != null) {
-                for (Rating r : userRatings) {
-                    r.setUser(this);
-                    jsonArrayUserRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_USER_RATINGS));
+            if(statusUserJSONFlag == null) {
+                if (userRatings != null) {
+                    for (Rating r : userRatings) {
+                        r.setUser(this);
+                        jsonArrayUserRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_USER_RATINGS));
+                    }
                 }
             }
 
-            JSONArray jsonArrayAppointments = new JSONArray();
-            if(appointments != null) {
-                for (Appointment a : appointments) {
-                    //a.setAppointmentAuthor(this);
-                    jsonArrayAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+            JSONArray jsonArrayYourAppointments = new JSONArray();
+            if(statusUserJSONFlag == null) {
+                if (yourAppointments != null) {
+                    for (Appointment a : yourAppointments) {
+                        a.setAppointmentAuthor(this);
+                        jsonArrayYourAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+                    }
+                }
+            }
+
+            JSONArray jsonArrayUserAppointments = new JSONArray();
+            if(statusUserJSONFlag == null) {
+                if (userAppointments != null) {
+                    for (Appointment a : yourAppointments) {
+                        a.setAppointmentUser(this);
+                        jsonArrayUserAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+                    }
                 }
             }
 
             jsonObject.put("lectures", jsonArray);
             jsonObject.put("yourRatings", jsonArray);
             jsonObject.put("userRatings", jsonArray);
-            jsonObject.put("appointments", jsonArray);
+            jsonObject.put("yourAppointments", jsonArray);
             jsonObject.put("ratingstars", getRatingStars());
             jsonObject.put("ratingdes", getRatingDes());
 
@@ -258,6 +294,7 @@ public class User implements Serializable {
 
     public void updateUser(User user) {
         this.setId(user.getId());
+        this.setName(user.getName());
         this.setNickname(user.getNickname());
         this.setSubject(user.getSubject());
         this.setStudies(user.getStudies());
@@ -268,7 +305,8 @@ public class User implements Serializable {
         this.setLectures(user.getLectures());
         this.setYourRatings(user.getYourRatings());
         this.setUserRatings(user.getUserRatings());
-        this.setAppointments(user.getAppointments());
+        this.setYourAppointments(user.getYourAppointments());
+        this.setUserAppointments(user.getUserAppointments());
     }
 
     public void addLecture(Lecture lecture) {
@@ -466,12 +504,12 @@ public class User implements Serializable {
         this.userRatings = userRatings;
     }
 
-    public Set<Appointment> getAppointments() {
-        return appointments;
+    public Set<Appointment> getYourAppointments() {
+        return yourAppointments;
     }
 
-    public void setAppointments(Set<Appointment> appointments) {
-        this.appointments = appointments;
+    public void setYourAppointments(Set<Appointment> yourAppointments) {
+        this.yourAppointments = yourAppointments;
     }
 
     public boolean isChanged() {
@@ -480,6 +518,14 @@ public class User implements Serializable {
 
     public void setChanged(boolean changed) {
         this.changed = changed;
+    }
+
+    public Set<Appointment> getUserAppointments() {
+        return userAppointments;
+    }
+
+    public void setUserAppointments(Set<Appointment> userAppointments) {
+        this.userAppointments = userAppointments;
     }
 }
 

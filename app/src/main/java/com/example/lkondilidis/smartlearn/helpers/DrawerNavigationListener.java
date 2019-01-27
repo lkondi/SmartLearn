@@ -15,6 +15,7 @@ import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
 import com.example.lkondilidis.smartlearn.activities.ProfileActivity;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class DrawerNavigationListener implements NavigationView.OnNavigationItemSelectedListener{
 
@@ -72,6 +73,7 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
             case R.id.logout:
                 Toast.makeText(context, "You are logged out!",
                         Toast.LENGTH_LONG).show();
+                FirebaseAuth.getInstance().signOut();
                 Intent loginactivity = new Intent(context, LoginActivity.class);
                 context.startActivity(loginactivity);
                 break;

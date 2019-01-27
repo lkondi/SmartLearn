@@ -1,4 +1,4 @@
-package com.example.lkondilidis.smartlearn.activities;
+package com.example.lkondilidis.smartlearn.fragments;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
@@ -289,8 +289,8 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
 
 
 
-                   // currentuser.setAppointments(appointment);
-                   // selecteduser.setAppointments();
+                   // currentuser.setYourAppointments(appointment);
+                   // selecteduser.setYourAppointments();
 
                     Toast.makeText(getActivity(),  "Thank you for schedulling!",
                             Toast.LENGTH_LONG).show();

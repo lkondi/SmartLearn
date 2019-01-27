@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activities.AppointmentFragment"
+    tools:context=".fragments.AppointmentFragment"
     tools:showIn="@layout/content_appointments">
 
     <include layout="@layout/content_appointments" />

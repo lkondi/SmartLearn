@@ -17,11 +17,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ListView;
+
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.AppointmentAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.Appointment;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,7 +53,12 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
         Intent intent = getIntent();
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
-        selecteduser = (User) intent.getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
+
+/*        ApiAuthenticationClient authSelectedUser = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+        authSelectedUser.setHttpMethod("GET");
+        authSelectedUser.setUrlPath("update/"+currentuser.getId());
+        ServerUserTask serverUserTaskSelectedUser = new ServerUserTask(null, Appointment_List_Activity.this, authSelectedUser, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+        serverUserTaskSelectedUser.execute();*/
 
         intentAction = intent.getAction();
 
@@ -72,8 +81,18 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
         //listview
         listViewappoint = (ListView) findViewById(R.id.listViewAppointments);
-        appointmentlist = new ArrayList<>(currentuser.getAppointments());
+        for(Appointment a:currentuser.getYourAppointments()){
+            a.setAppointmentAuthor(currentuser);
+        }
+        appointmentlist = new ArrayList<>(currentuser.getYourAppointments());
+        for(Appointment a:currentuser.getUserAppointments()){
+            a.setAppointmentUser(currentuser);
+        }
+        appointmentlist.addAll(currentuser.getUserAppointments());
         appAdapter = new AppointmentAdapter(getApplicationContext(), R.layout.apppointment_list_item);
+        for(Appointment a: appointmentlist){
+            appAdapter.add(a);
+        }
         listViewappoint.setAdapter(appAdapter);
 
     }

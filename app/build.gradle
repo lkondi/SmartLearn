@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
+        vectorDrawables.useSupportLibrary = true
         applicationId "com.example.lkondilidis.smartlearn"
         minSdkVersion 19
         targetSdkVersion 28
@@ -30,7 +31,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
     implementation 'com.loopj.android:android-async-http:1.4.9'
     implementation 'com.squareup.picasso:picasso:2.5.2'
-    implementation 'ca.antonious:materialdaypicker:0.4.0'
+
 
     //libraries we need for now
     implementation 'com.android.support:support-v4:28.0.0'

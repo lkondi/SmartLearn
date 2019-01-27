@@ -1,12 +1,11 @@
 package com.example.lkondilidis.smartlearn.model;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserJSONFlag;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
-
-import static com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag.STATUS_USER_RATINGS;
 
 public class Appointment implements Serializable {
     private int id;
@@ -67,6 +66,12 @@ public class Appointment implements Serializable {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+        try {
+            this.subject = new Lecture(jsonObject.getJSONObject("subject"));
+        } catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
 
@@ -77,19 +82,21 @@ public class Appointment implements Serializable {
             jsonObject.put("time", time);
             jsonObject.put("date", date);
             jsonObject.put("accepted", accepted);
-            jsonObject.put("subject", subject.convertToJSON());
-            if(statusAppointmentflag!= null) {
+            if(statusAppointmentflag != null) {
+
                 switch (statusAppointmentflag) {
-                    case STATUS_YOUR_APPOINTMENT_FLAG:
-                        jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
-                        break;
                     case STATUS_USER_APPOINTMENT_FLAG:
-                        jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+                        jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON(StatusUserJSONFlag.STATUS_USER_USER_FLAG));
+                        break;
+                    case STATUS_YOUR_APPOINTMENT_FLAG:
+                        jsonObject.put("appointmentUser", appointmentUser.convertToJASON(StatusUserJSONFlag.STATUS_YOUR_USER_FLAG));
                         break;
                 }
+
             } else {
-                jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
-                jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+                jsonObject.put("subject", subject.convertToJSON());
+                jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON(null));
+                jsonObject.put("appointmentUser", appointmentUser.convertToJASON(null));
             }
         } catch (JSONException e) {
             e.printStackTrace();
