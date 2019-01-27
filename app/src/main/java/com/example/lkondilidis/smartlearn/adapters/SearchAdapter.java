@@ -71,7 +71,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchViewHolder>{
         searchViewHolder.plan.setText(users.get(i).getPlan());
 /*        ArrayList ratingarrayList = new ArrayList<>(users.get(i).getUserRatings());
         searchViewHolder.ratingBar.setNumStars(calculateRatingStars(ratingarrayList));*/
-        searchViewHolder.ratingBar.setNumStars(users.get(i).getRatingStars());
+        searchViewHolder.ratingBar.setRating(users.get(i).getRatingStars());
 
         searchViewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
             @Override

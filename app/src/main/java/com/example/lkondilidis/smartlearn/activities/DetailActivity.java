@@ -121,7 +121,7 @@ public class DetailActivity extends AppCompatActivity {
         //ratings
         ratingarrayList = new ArrayList<>(selecteduser.getUserRatings());
         //rating.setNumStars(calculateRatingStars(ratingarrayList));
-        rating.setNumStars(selecteduser.getRatingStars());
+        rating.setRating(selecteduser.getRatingStars());
         ratinglistView = (ListView)findViewById(R.id.listviewrating);
         ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList);
         ratinglistView.setAdapter(ratingadapter);
@@ -244,7 +244,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private void loadUser(User user) {
 
-        rating.setNumStars(user.getRatingStars());
+        rating.setRating(user.getRatingStars());
 
         if (!STRING_EMPTY.equals(user.getName())) {
             userName.setText(user.getName());
