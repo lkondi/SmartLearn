@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.R;
-import com.example.lkondilidis.smartlearn.activities.Appointment_List_Activity;
 import com.example.lkondilidis.smartlearn.activities.LectureActivity;
 import com.example.lkondilidis.smartlearn.activities.LoginActivity;
 import com.example.lkondilidis.smartlearn.activities.MainActivity;
@@ -50,15 +49,6 @@ public class DrawerNavigationListener implements NavigationView.OnNavigationItem
                     Intent profileactivity = new Intent(context, ProfileActivity.class);
                     profileactivity.putExtra(USER_DETAIL_KEY, currentuser);
                     context.startActivity(profileactivity);
-                }
-                break;
-            case R.id.appointments:
-                if ( context instanceof Appointment_List_Activity ) {
-
-                } else {
-                    Intent appactivity = new Intent(context, Appointment_List_Activity.class);
-                    appactivity.putExtra(USER_DETAIL_KEY, currentuser);
-                    context.startActivity(appactivity);
                 }
                 break;
             case R.id.lecture:

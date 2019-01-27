@@ -20,6 +20,7 @@ import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.fragments.ChatFragment;
 import com.example.lkondilidis.smartlearn.fragments.MainFragment;
+import com.example.lkondilidis.smartlearn.fragments.AppointmentFragment;
 import com.example.lkondilidis.smartlearn.helpers.CSVReader;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.Lecture;
@@ -31,6 +32,7 @@ import org.json.JSONArray;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import  com.example.lkondilidis.smartlearn.fragments.Appointment_List_Fragment;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
@@ -47,6 +49,7 @@ public class MainActivity extends AppCompatActivity{
     BottomNavigationView bottomNavigationView;
     ChatFragment chatFragment;
     MainFragment mainFragment;
+    Appointment_List_Fragment appointmentFragment;
 
     String action;
 
@@ -101,6 +104,7 @@ public class MainActivity extends AppCompatActivity{
 
         chatFragment = new ChatFragment();
         mainFragment = new MainFragment();
+        appointmentFragment = new Appointment_List_Fragment();
 
         if(action != null && action.equals("ChatFragment")){
             setFragment(chatFragment);
@@ -119,6 +123,9 @@ public class MainActivity extends AppCompatActivity{
                         return true;
                     case R.id.bottom_drawer_home:
                         setFragment(mainFragment);
+                        return true;
+                    case R.id.bottom_appointment:
+                        setFragment(appointmentFragment);
                         return true;
                     case 2:
                         return true;

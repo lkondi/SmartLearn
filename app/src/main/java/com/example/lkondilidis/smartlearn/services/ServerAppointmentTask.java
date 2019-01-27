@@ -95,10 +95,10 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
                 break;
         }
 
-        updateAdapters();
+        //updateAdapters();
     }
 
-    private void updateLectureList(List<Lecture> tempLectures) {
+    /**private void updateLectureList(List<Lecture> tempLectures) {
         this.lectures.retainAll(tempLectures);
         for(Lecture tempLecture: tempLectures) {
             if(!containsLecture(this.lectures, tempLecture)){
@@ -203,6 +203,6 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
 
     private CharSequence getQuerry() {
         return this.querry;
-    }
+    }**/
 }
 
