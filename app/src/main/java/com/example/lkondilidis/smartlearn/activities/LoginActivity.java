@@ -60,7 +60,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //check if user is null
-        if (firebaseUser != null){
+        if (true){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             currentuser = readFileInEditor();
 

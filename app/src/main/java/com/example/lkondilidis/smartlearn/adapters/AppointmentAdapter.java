@@ -1,80 +1,85 @@
 package com.example.lkondilidis.smartlearn.adapters;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.Appointment;
 
 public class AppointmentAdapter extends ArrayAdapter {
+    private List<Appointment> appointmentList = new ArrayList<>();
 
-    private AppCompatActivity activity;
-    private List<Appointment> arrayList;
+    public void clearLists() {
+        appointmentList.clear();
+    }
 
-    public AppointmentAdapter(AppCompatActivity context, int resource, List<Appointment> objects) {
-        super(context, resource, objects);
-        this.activity = context;
-        this.arrayList = objects;
+
+    static class ItemViewHolder {
+        TextView author_name, app_subject, app_date;
+        ImageView confirmed, pending;
+    }
+
+    public AppointmentAdapter(Context context, int textViewResourceId) {
+        super(context, textViewResourceId);
+    }
+
+
+    //@Override
+    public void add(Appointment appointment) {
+        appointmentList.add(appointment);
+        super.add(appointment);
     }
 
     @Override
-    public Appointment getItem(int position) {
-        return arrayList.get(position);
+    public int getCount() {
+        return this.appointmentList.size();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
-        LayoutInflater inflater = (LayoutInflater) activity.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.apppointment_list_item, parent, false);
-            holder = new ViewHolder(convertView);
-            convertView.setTag(holder);
-
-        } else {
-            holder = (ViewHolder) convertView.getTag();
-        }
-
-        holder.author_name.setText(getItem(position).getAppointmentAuthor().getName());
-        //holder.app_subject.setText(getItem(position).getSubject().getName());
-        holder.app_date.setText(getItem(position).getDate());
-
-        if(getItem(position).getAccepted()) {
-            holder.confirmed.setVisibility(View.VISIBLE);
-            holder.pending.setVisibility(View.GONE);
-        } else {
-            holder.confirmed.setVisibility(View.GONE);
-            holder.pending.setVisibility(View.VISIBLE);
-        }
-
-        return convertView;
+    public Appointment getItem(int index) {
+        return this.appointmentList.get(index);
     }
 
-    private static class ViewHolder {
-        private ImageView confirmed, pending;
-        private TextView author_name, app_subject, app_date;
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View row = convertView;
+        ItemViewHolder viewHolder;
+        if (row == null) {
+            LayoutInflater inflater = (LayoutInflater) this.getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            row = inflater.inflate(R.layout.apppointment_list_item, parent, false);
 
-        public ViewHolder(View view) {
-            confirmed = (ImageView) view.findViewById(R.id.image_accepted);
-            pending = (ImageView) view.findViewById(R.id.image_pending);
-            author_name = (TextView) view.findViewById(R.id.author_name);
-            app_date = (TextView) view.findViewById(R.id.app_subject);
-            app_subject = (TextView) view.findViewById(R.id.app_date);
+            viewHolder = new ItemViewHolder();
+            viewHolder.author_name = (TextView) row.findViewById(R.id.author_name);
+            viewHolder.app_subject = (TextView) row.findViewById(R.id.app_subject);
+            viewHolder.app_date = (TextView) row.findViewById(R.id.app_date);
+            viewHolder.pending = (ImageView) row.findViewById(R.id.image_pending);
+            viewHolder.confirmed = (ImageView) row.findViewById(R.id.image_accepted);
+
+            row.setTag(viewHolder);
+        } else {
+            viewHolder = (ItemViewHolder)row.getTag();
         }
+        Appointment appointment = getItem(position);
+        viewHolder.author_name.setText(appointment.getAppointmentAuthor().getName());
+        viewHolder.app_subject.setText(appointment.getSubject().getName());
+        viewHolder.app_date.setText(appointment.getDate());
+
+        if(appointment.getAccepted()){
+            viewHolder.confirmed.setVisibility(View.VISIBLE);
+            viewHolder.pending.setVisibility(View.GONE);
+        }else {
+            viewHolder.confirmed.setVisibility(View.GONE);
+            viewHolder.pending.setVisibility(View.VISIBLE);
+        }
+        return row;
     }
+
 }

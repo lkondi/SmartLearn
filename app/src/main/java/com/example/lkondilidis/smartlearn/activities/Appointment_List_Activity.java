@@ -1,6 +1,7 @@
 package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -44,9 +45,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
         selecteduser = (User) intent.getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
 
-
         intentAction = intent.getAction();
-
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer_appointment);
