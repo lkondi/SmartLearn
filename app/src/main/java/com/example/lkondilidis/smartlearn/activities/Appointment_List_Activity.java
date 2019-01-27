@@ -37,7 +37,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
     AppointmentAdapter appAdapter;
     ListView listViewappoint;
     ImageView imageconfirmed, imagepending;
-    ArrayList<Appointment> appointmentlist = new ArrayList<>();
+    ArrayList<Appointment> appointmentlist;
     TextView appuser, appsubject, appdate, usernameHeader;
 
     public static final String USER_DETAIL_KEY = "currentuser";
@@ -55,9 +55,10 @@ public class Appointment_List_Activity extends AppCompatActivity {
 
         intentAction = intent.getAction();
 
+
         //Drawer
-        drawerLayout = findViewById(R.id.drawer_profile);
-        NavigationView navigationView = findViewById(R.id.navigation_view_profile);
+        drawerLayout = findViewById(R.id.drawer_appointment);
+        NavigationView navigationView = findViewById(R.id.navigation_view_appointment);
         navigationView.setNavigationItemSelectedListener(new DrawerNavigationListener(this));
 
         //Toolbar
@@ -73,7 +74,8 @@ public class Appointment_List_Activity extends AppCompatActivity {
         imagepending = (ImageView) findViewById(R.id.image_pending);
         listViewappoint = (ListView) findViewById(R.id.listViewAppointments);
 
-        appointmentlist = (ArrayList)currentuser.getAppointments();
+        appointmentlist = new ArrayList<>(currentuser.getAppointments());
+        listViewappoint = (ListView)findViewById(R.id.listviewrating);
         appAdapter = new AppointmentAdapter(this, R.layout.apppointment_list_item, appointmentlist);
         listViewappoint.setAdapter(appAdapter);
 

@@ -19,8 +19,6 @@ import java.util.Set;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.Appointment;
-import com.example.lkondilidis.smartlearn.model.Rating;
-
 
 public class AppointmentAdapter extends ArrayAdapter {
 
@@ -50,7 +48,6 @@ public class AppointmentAdapter extends ArrayAdapter {
 
         } else {
             holder = (ViewHolder) convertView.getTag();
-            //holder.ratingBar.getTag(position);
         }
 
         holder.author_name.setText(getItem(position).getAppointmentAuthor().getName());
@@ -66,24 +63,6 @@ public class AppointmentAdapter extends ArrayAdapter {
         }
 
         return convertView;
-    }
-
-    public void setDataSet(Set<Appointment> userAppointments) {
-        for(Appointment a: userAppointments){
-            if(appointmentsDoNotContain(a)){
-                arrayList.add(a);
-            }
-        }
-        this.notifyDataSetChanged();
-    }
-
-    private boolean appointmentsDoNotContain(Appointment a) {
-        for(Appointment appointment: this.arrayList){
-            if(a.getId() == appointment.getId()){
-                return false;
-            }
-        }
-        return true;
     }
 
     private static class ViewHolder {
