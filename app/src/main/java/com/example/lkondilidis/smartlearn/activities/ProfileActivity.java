@@ -149,8 +149,8 @@ public class ProfileActivity extends AppCompatActivity{
             linearLayoutTutor.setVisibility(View.VISIBLE);
             textView_userrole.setText("Tutor");
             ratingProvider.setNumStars(userBackUp.getRatingStars());
-            textstudies.setText(currentuser.getSubject());
-            textplan.setText(currentuser.getPlan());
+           // textstudies.setText(currentuser.getSubject());
+           // textplan.setText(currentuser.getPlan());
 
         }else{
             linearLayoutTutor.setVisibility(View.GONE);
