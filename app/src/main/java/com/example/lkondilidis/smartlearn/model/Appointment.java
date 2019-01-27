@@ -1,8 +1,12 @@
 package com.example.lkondilidis.smartlearn.model;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.Serializable;
+
+import static com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag.STATUS_USER_RATINGS;
 
 public class Appointment implements Serializable {
     private int id;
@@ -66,15 +70,27 @@ public class Appointment implements Serializable {
     }
 
 
-    public JSONObject convertToJSON(){
+    public JSONObject convertToJSON(StatusAppointmentFlag statusAppointmentflag){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
             jsonObject.put("time", time);
             jsonObject.put("date", date);
             jsonObject.put("accepted", accepted);
-            jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
-            jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+            jsonObject.put("subject", subject.convertToJSON());
+            if(statusAppointmentflag!= null) {
+                switch (statusAppointmentflag) {
+                    case STATUS_YOUR_APPOINTMENT_FLAG:
+                        jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
+                        break;
+                    case STATUS_USER_APPOINTMENT_FLAG:
+                        jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+                        break;
+                }
+            } else {
+                jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
+                jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

@@ -18,6 +18,7 @@ import java.util.List;
 public class LectureAdapter extends ArrayAdapter {
     private List<Lecture> lectureList = new ArrayList<>();
     private List<Boolean> checkboxes = new ArrayList<>();
+    private boolean checkboxesGone;
 
     public void clearLists() {
         lectureList.clear();
@@ -89,10 +90,18 @@ public class LectureAdapter extends ArrayAdapter {
                 System.out.println("checked");
             }
         });
+
+        if(checkboxesGone){
+            viewHolder.checkBox.setVisibility(View.GONE);
+        }
         return row;
     }
 
     public List<Boolean> getCheckboxes(){
         return this.checkboxes;
+    }
+
+    public void setCheckboxGone(){
+        this.checkboxesGone = true;
     }
 }

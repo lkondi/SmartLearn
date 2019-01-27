@@ -31,7 +31,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -123,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
         //rating.setNumStars(calculateRatingStars(ratingarrayList));
         rating.setRating(selecteduser.getRatingStars());
         ratinglistView = (ListView)findViewById(R.id.listviewrating);
-        ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList);
+        ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList, rating);
         ratinglistView.setAdapter(ratingadapter);
 
 
