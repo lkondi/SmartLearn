@@ -1,11 +1,15 @@
 package com.example.lkondilidis.smartlearn.services;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.AsyncTask;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.activities.PopUpAppointmentActivity;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.LectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
@@ -31,11 +35,16 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
     private UserAdapter userAdapter;
     private LectureAdapter itemArrayAdapter;
     private User currentuser;
+    private Intent intent;
+    private Context context;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
-    public ServerAppointmentTask(List<Appointment> appointments, User currentuser, ApiAuthenticationClient auth, StatusAppointmentFlag flag){
+    public ServerAppointmentTask(List<Appointment> appointments, User currentuser, Context context, Intent intent, ApiAuthenticationClient auth, StatusAppointmentFlag flag){
         this.appointments = appointments;
         this.auth = auth;
         this.flag = flag;
+        this.intent = intent;
+        this.context = context;
         this.currentuser = currentuser;
     }
 
@@ -50,17 +59,25 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
         ArrayList<Appointment> appointments = new ArrayList<>();
         String output = auth.execute();
 
-        switch (flag){
-            case STATUS_APPOINTMENT_UPDATE_FLAG: updateAppointment(output);
+        switch (flag) {
+            case STATUS_APPOINTMENT_UPDATE_FLAG:
+                updateUser(output);
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
         return appointments;
     }
 
-    private void updateAppointment(String output) {
 
+    private void updateUser(String output) {
+        try {
+            JSONObject jsonUser = new JSONObject(output);
+            User tempUser = new User((jsonUser));
+            currentuser.updateUser(tempUser);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addLectures(String output, ArrayList<Lecture> lectures) {
@@ -95,10 +112,17 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
                 break;
         }
 
+        if(intent != null) {
+
+            intent.putExtra(USER_DETAIL_KEY, currentuser);
+
+            context.startActivity(intent);
+        }
+
         //updateAdapters();
     }
 
-    /**private void updateLectureList(List<Lecture> tempLectures) {
+    /*private void updateLectureList(List<Lecture> tempLectures) {
         this.lectures.retainAll(tempLectures);
         for(Lecture tempLecture: tempLectures) {
             if(!containsLecture(this.lectures, tempLecture)){
@@ -203,6 +227,6 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
 
     private CharSequence getQuerry() {
         return this.querry;
-    }**/
+    }*/
 }
 

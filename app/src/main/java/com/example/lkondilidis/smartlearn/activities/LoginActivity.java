@@ -64,8 +64,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if (firebaseUser != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             currentuser = readFileInEditor();
-
+            intent.putExtra(USER_DETAIL_KEY, currentuser);
             loginUser(intent);
+            startActivity(intent);
             finish();
         }
     }
@@ -166,13 +167,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             currentuser.setEmail(textInputEditTextEmail.getText().toString());
             currentuser.setPassword(textInputEditTextPassword.getText().toString());
         }
-        intent.putExtra(USER_DETAIL_KEY, currentuser);
+
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
         auth.setPayload(currentuser.convertToJASON(StatusUserJSONFlag.STATUS_YOUR_USER_FLAG));
-        ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_LOGIN_USER);
+        ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_LOGIN_USER);
         serverUserTask.execute();
+        intent.putExtra(USER_DETAIL_KEY, currentuser);
+        startActivity(intent);
     }
 
     public void saveClicked() {

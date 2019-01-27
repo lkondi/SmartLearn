@@ -42,6 +42,9 @@ public class MainFragment extends Fragment{
 
         assert activity != null;
         currentuser = activity.getCurrentuser();
+
+
+
         final ArrayList<User> userArrayList = new ArrayList<>();
 
         //recyclerView
@@ -56,7 +59,7 @@ public class MainFragment extends Fragment{
         //connect to server and fetch Users
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("GET");
-        auth.setUrlPath("tutors/" + currentuser.getId());
+        auth.setUrlPath("tutors/" + currentuser.getEmail());
         ServerUserTask serverUserTask = new ServerUserTask(userArrayList, activity, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_GET_USERS);
         serverUserTask.setAdapter(searchAdapter);
         serverUserTask.execute();

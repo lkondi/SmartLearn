@@ -79,7 +79,6 @@ public class ProfileActivityTutor extends AppCompatActivity{
         studiesedit = (EditText) findViewById(R.id.studiesedit);
 
         textViewLinkLectures = (AppCompatTextView) findViewById(R.id.textViewLinkLectures);
-        textViewLinkAppointments = (AppCompatTextView) findViewById(R.id.textViewLinkAppointments);
 
 
         btn_pop = (Button) findViewById(R.id.btn_pop);
