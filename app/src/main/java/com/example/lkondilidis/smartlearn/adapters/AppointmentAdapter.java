@@ -81,7 +81,7 @@ public class AppointmentAdapter extends ArrayAdapter {
         final Appointment appointment = getItem(position);
         viewHolder.author_name.setText(appointment.getAppointmentAuthor().getName());
         viewHolder.author_name.setTextColor(getContext().getResources().getColor(R.color.white));
-        viewHolder.app_subject.setText(appointment.getSubject().getName());
+//        viewHolder.app_subject.setText(appointment.getSubject().getName());
         viewHolder.app_date.setText(appointment.getDate());
 
         if(appointment.isAccepted()){

@@ -47,9 +47,6 @@
             android:name=".activities.RatingActivity"
             android:theme="@style/AppTheme.PopUpActivity" />
         <activity
-            android:name=".activities.Appointment_List_Activity"
-            android:screenOrientation="portrait" />
-        <activity
             android:name=".activities.HomeFragmentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
