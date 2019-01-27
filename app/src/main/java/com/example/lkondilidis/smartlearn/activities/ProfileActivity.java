@@ -18,7 +18,7 @@ import android.widget.Toast;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.*;
 import android.widget.LinearLayout;
 import android.graphics.*;
 import java.io.*;
@@ -30,6 +30,8 @@ import android.provider.MediaStore.Images.Media;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
+import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -40,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -48,12 +51,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class ProfileActivity extends AppCompatActivity{
     private final AppCompatActivity activity = ProfileActivity.this;
 
-    TextView textView_username, textView_useremail, textView_userrole, usernameHeader, textstudies, textlectures, textplan;
+    TextView textView_username, textView_useremail, textView_userrole, usernameHeader, linklectures, linkappointments, textplan;
     RatingBar ratingProvider;
     Button btnTutor;
     ImageView profile;
     ImageView imageView;
     LinearLayout linearLayoutTutor;
+    ListView linkratings;
 
     private static String STRING_EMPTY = "";
 
@@ -67,11 +71,13 @@ public class ProfileActivity extends AppCompatActivity{
 
     private String intentAction;
     private User currentuser;
+    RatingAdapter ratingadapter;
 
     public static final String USER_DETAIL_KEY = "currentuser";
 
     private Boolean changed;
     private User userBackUp;
+    ArrayList<Rating> ratingarrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,12 +129,33 @@ public class ProfileActivity extends AppCompatActivity{
         textView_username= (TextView) findViewById(R.id.textView_username);
         textView_useremail = (TextView) findViewById(R.id.textView_useremail);
         textView_userrole = (TextView) findViewById(R.id.textView_userrole);
-        textstudies = (TextView) findViewById(R.id.textstudies);
-        textlectures = (EditText) findViewById(R.id.studiesedit);
+        linklectures = (TextView) findViewById(R.id.textViewLinkLectures);
+        linkappointments = (TextView) findViewById(R.id.textViewLinkAppointments);
         textplan = (TextView) findViewById(R.id.subjecttext);
         ratingProvider = (RatingBar) findViewById(R.id.ratingProvider);
         btnTutor = (Button) findViewById(R.id.btnTutor);
         imageView = (CircleImageView) findViewById(R.id.profile);
+
+        //ratings
+        ratingarrayList = new ArrayList<>(currentuser.getUserRatings());
+        linkratings = (ListView) findViewById(R.id.listViewLinkRatings);
+        ratingProvider.setRating(currentuser.getRatingStars());
+        ratingadapter = new RatingAdapter(this, R.layout.rating_item_layout, ratingarrayList, ratingProvider);
+        linkratings.setAdapter(ratingadapter);
+
+
+        linklectures.setText("Add or change your subjects");
+        linklectures.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProfileActivity.this, UserLectureActivity.class);
+                intent.putExtra(USER_DETAIL_KEY, userBackUp);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setAction("profile");
+                startActivity(intent);
+            }
+        });
+
 
         btnTutor.setOnClickListener(new View.OnClickListener() {
             @Override

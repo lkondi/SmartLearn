@@ -80,7 +80,7 @@ public class ProfileActivityTutor extends AppCompatActivity{
 
         textViewLinkLectures = (AppCompatTextView) findViewById(R.id.textViewLinkLectures);
         textViewLinkAppointments = (AppCompatTextView) findViewById(R.id.textViewLinkAppointments);
-        textViewLinkRatings = (AppCompatTextView) findViewById(R.id.textViewLinkRatings);
+
 
         btn_pop = (Button) findViewById(R.id.btn_pop);
         btn_pop.setText("Add or change your subjects");
