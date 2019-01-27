@@ -50,17 +50,25 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
         ArrayList<Appointment> appointments = new ArrayList<>();
         String output = auth.execute();
 
-        switch (flag){
-            case STATUS_APPOINTMENT_UPDATE_FLAG: updateAppointment(output);
+        switch (flag) {
+            case STATUS_APPOINTMENT_UPDATE_FLAG:
+                updateUser(output);
                 break;
-                default:
-                    break;
+            default:
+                break;
         }
         return appointments;
     }
 
-    private void updateAppointment(String output) {
 
+    private void updateUser(String output) {
+        try {
+            JSONObject jsonUser = new JSONObject(output);
+            User tempUser = new User((jsonUser));
+            currentuser.updateUser(tempUser);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     private void addLectures(String output, ArrayList<Lecture> lectures) {
@@ -95,10 +103,10 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
                 break;
         }
 
-        updateAdapters();
+        //updateAdapters();
     }
 
-    private void updateLectureList(List<Lecture> tempLectures) {
+    /*private void updateLectureList(List<Lecture> tempLectures) {
         this.lectures.retainAll(tempLectures);
         for(Lecture tempLecture: tempLectures) {
             if(!containsLecture(this.lectures, tempLecture)){
@@ -203,6 +211,6 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
 
     private CharSequence getQuerry() {
         return this.querry;
-    }
+    }*/
 }
 

@@ -69,7 +69,8 @@ public class PopUpAppointmentActivity extends AppCompatActivity {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                 auth.setHttpMethod("POST");
-                auth.setUrlPath("appointment/update/"+appointment.getId());
+                auth.setUrlPath("appointment/update/"+currentuser.getId());
+                appointment.setAccepted(true);
                 auth.setPayload(appointment.convertToJSON(null));
                 ServerAppointmentTask serverAppointmentTask = new ServerAppointmentTask(null, currentuser, auth, StatusAppointmentFlag.STATUS_APPOINTMENT_UPDATE_FLAG);
                 serverAppointmentTask.execute();
