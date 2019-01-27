@@ -1,5 +1,7 @@
 package com.example.lkondilidis.smartlearn.model;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONException;
@@ -219,14 +221,16 @@ public class User implements Serializable {
             JSONArray jsonArrayYourRatings = new JSONArray();
             if(yourRatings != null) {
                 for (Rating r : yourRatings) {
-                    jsonArrayYourRatings.put(r.convertToJSON());
+                    r.setAuthor(this);
+                    jsonArrayYourRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_YOUR_RATINGS));
                 }
             }
 
             JSONArray jsonArrayUserRatings = new JSONArray();
             if(userRatings != null) {
                 for (Rating r : userRatings) {
-                    jsonArrayUserRatings.put(r.convertToJSON());
+                    r.setUser(this);
+                    jsonArrayUserRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_USER_RATINGS));
                 }
             }
 

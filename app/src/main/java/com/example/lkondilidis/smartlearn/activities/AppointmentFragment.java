@@ -23,10 +23,18 @@ import java.util.Calendar;
 import java.util.*;
 import java.text.*;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.Appointment;
 import com.example.lkondilidis.smartlearn.model.Lecture;
 import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerLectureTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 public class AppointmentFragment extends Fragment implements AdapterView.OnItemSelectedListener {
 
@@ -201,6 +209,7 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
 
     class ScheduleAdapter extends ArrayAdapter {
         private ArrayList<String> scheduleList = new ArrayList();
+        private Context context;
 
         class ItemViewHolder {
             TextView date;
@@ -209,6 +218,7 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
 
         public ScheduleAdapter(Context context, int textViewResourceId) {
             super(context, textViewResourceId);
+            this.context = context;
         }
 
         //@Override
@@ -257,9 +267,20 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
                     appointment.setAppointmentUser(selecteduser);
                     appointment.setDate(date);
                     appointment.setSubject(lecture);
-                   // appointment.setTime();
+                   //appointment.setTime();
 
                     //TODO set appointments & update users
+                    ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                    auth.setHttpMethod("POST");
+                    auth.setUrlPath("appointment/add/"+selecteduser.getId());
+                    auth.setPayload(appointment.convertToJSON());
+                    ServerUserTask serverUserTask = new ServerUserTask(null, context, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+                    serverUserTask.execute();
+
+
+
+
+
                    // currentuser.setAppointments(appointment);
                    // selecteduser.setAppointments();
 

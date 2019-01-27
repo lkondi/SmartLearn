@@ -51,6 +51,10 @@ public class ExampleAdapter extends CursorAdapter {
                 String lectureName = item;
                 int lectureNumber = itemId;
 
+                String userName = item;
+                int userNumber = itemId;
+
+
                 List<User> tutorListSearched = new ArrayList<>();
 
                 for (User user : users) {
@@ -58,6 +62,12 @@ public class ExampleAdapter extends CursorAdapter {
                         if (l.getId() == lectureNumber) {
                             tutorListSearched.add(user);
                         }
+                    }
+                }
+
+                for (User user : users) {
+                    if (user.getId() == itemId && !tutorListSearched.contains(user)) {
+                        tutorListSearched.add(user);
                     }
                 }
 

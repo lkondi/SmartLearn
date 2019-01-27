@@ -42,7 +42,7 @@ public class MainFragment extends Fragment{
 
         assert activity != null;
         currentuser = activity.getCurrentuser();
-        ArrayList<User> userArrayList = new ArrayList<>();
+        final ArrayList<User> userArrayList = new ArrayList<>();
 
         //recyclerView
         RecyclerView recyclerView = view.findViewById(R.id.recycler_search);
@@ -91,6 +91,8 @@ public class MainFragment extends Fragment{
                 auth.setHttpMethod("GET");
                 auth.setUrlPath("lectures/" + s+","+30);
                 ServerLectureTask serverLectureTask = new ServerLectureTask(lectures, currentuser, auth, StatusLectureFlag.SERVER_STATUS_GET_LECTURE);
+                serverLectureTask.setUsers(userArrayList);
+                serverLectureTask.setQuerry(s);
                 serverLectureTask.setAdapter(exampleAdapter);
                 serverLectureTask.execute();
                 return true;

@@ -11,18 +11,20 @@ public class Appointment implements Serializable {
     private Lecture subject;
     private String date;
     private String time;
+    private boolean accepted;
 
     public Appointment(){
 
     }
 
-    public Appointment(int id, User user, User appointmentAuthor, Lecture subject, String date, String time){
+    public Appointment(int id, User user, User appointmentAuthor, Lecture subject, String date, String time, boolean accepted){
         this.id = id;
         this.appointmentUser = user;
         this.appointmentAuthor = appointmentAuthor;
         this.subject = subject;
         this.date = date;
         this.time = time;
+        this.accepted = accepted;
     }
 
     public Appointment(JSONObject jsonObject){
@@ -40,6 +42,12 @@ public class Appointment implements Serializable {
 
         try {
             this.time = jsonObject.getString("time");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            this.accepted = jsonObject.getBoolean("accepted");
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -64,6 +72,7 @@ public class Appointment implements Serializable {
             jsonObject.put("id", id);
             jsonObject.put("time", time);
             jsonObject.put("date", date);
+            jsonObject.put("accepted", accepted);
             jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
             jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
         } catch (JSONException e) {
@@ -120,5 +129,13 @@ public class Appointment implements Serializable {
 
     public void setAppointmentAuthor(User appointmentAuthor) {
         this.appointmentAuthor = appointmentAuthor;
+    }
+
+    public boolean getAccepted() {
+        return accepted;
+    }
+
+    public void setAccepted(boolean accepted) {
+        this.accepted = accepted;
     }
 }

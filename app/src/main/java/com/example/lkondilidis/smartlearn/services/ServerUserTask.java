@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.view.View;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchLectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.UserAdapter;
@@ -32,6 +33,7 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
     private UserAdapter userAdapter;
     public static final String USER_DETAIL_KEY = "currentuser";
     private SearchLectureAdapter searchLectureAdapter;
+    private RatingAdapter ratingadapter;
 
     public ServerUserTask(ArrayList<User> users, Context context, ApiAuthenticationClient auth, User currentuser, Intent intent, StatusUserFlag flag){
         this.users = users;
@@ -167,6 +169,9 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
         if( searchLectureAdapter != null) {
             searchLectureAdapter.notifyDataSetChanged();
         }
+        if( ratingadapter != null) {
+            ratingadapter.setDataSet(currentuser.getUserRatings());
+        }
         if(intent != null) {
             if(flag == StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER){
                 intent.putExtra(USER_DETAIL_KEY, currentuser);
@@ -208,5 +213,9 @@ public class ServerUserTask extends AsyncTask<Void, Void, List<User>>
 
     public void setAdapter(SearchLectureAdapter searchLectureAdapter) {
         this.searchLectureAdapter = searchLectureAdapter;
+    }
+
+    public void setAdapter(RatingAdapter ratingadapter) {
+        this.ratingadapter = ratingadapter;
     }
 }

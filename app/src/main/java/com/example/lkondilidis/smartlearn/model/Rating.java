@@ -1,5 +1,7 @@
 package com.example.lkondilidis.smartlearn.model;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -57,14 +59,25 @@ public class Rating implements Serializable {
         }
     }
 
-    public JSONObject convertToJSON(){
+    public JSONObject convertToJSON(StatusRatingFlag statusRatingFlag){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", id);
             jsonObject.put("stars", stars);
             jsonObject.put("description", description);
-            jsonObject.put("user", user.convertToJASON());
-            jsonObject.put("author", author.convertToJASON());
+            if(statusRatingFlag!= null) {
+                switch (statusRatingFlag) {
+                    case STATUS_USER_RATINGS:
+                        jsonObject.put("author", author.convertToJASON());
+                        break;
+                    case STATUS_YOUR_RATINGS:
+                        jsonObject.put("user", user.convertToJASON());
+                        break;
+                }
+            }else {
+                jsonObject.put("author", author.convertToJASON());
+                jsonObject.put("user", user.convertToJASON());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }

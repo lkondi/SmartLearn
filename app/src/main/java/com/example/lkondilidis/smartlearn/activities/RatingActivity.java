@@ -14,9 +14,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 public class RatingActivity extends AppCompatActivity {
     private final AppCompatActivity activity = RatingActivity.this;
@@ -94,10 +98,15 @@ public class RatingActivity extends AppCompatActivity {
                 if (mFeedback.getText().toString().isEmpty()) {
                     Toast.makeText(RatingActivity.this, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
                 } else {
+                    //TODO set appointments & update users
                     selecteduser.setRatingStars(ratingStars);
                     selecteduser.setRatingDes(mFeedback.getText().toString());
                     mFeedback.setText("");
                     mRatingBar.setRating(0);
+
+
+
+
                     Toast.makeText(RatingActivity.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
                 }
             }

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.Rating;
@@ -55,6 +56,24 @@ public class RatingAdapter extends ArrayAdapter {
         holder.description.setText(getItem(position).getDescription());
 
         return convertView;
+    }
+
+    public void setDataSet(Set<Rating> userRatings) {
+        for(Rating r: userRatings){
+            if(ratingsDoNotContain(r)){
+                arrayList.add(r);
+            }
+        }
+        this.notifyDataSetChanged();
+    }
+
+    private boolean ratingsDoNotContain(Rating r) {
+        for(Rating rating: this.arrayList){
+            if(r.getId() == rating.getId()){
+                return false;
+            }
+        }
+        return true;
     }
 
     private static class ViewHolder {

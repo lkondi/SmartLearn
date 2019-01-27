@@ -27,6 +27,8 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
     private LectureAdapter itemArrayAdapter;
     private User currentuser;
     private ExampleAdapter exampleAdapter;
+    private List<User> users;
+    private String querry;
 
     public ServerLectureTask(List<Lecture> lectures, User currentuser, ApiAuthenticationClient auth, StatusLectureFlag flag){
         this.lectures = lectures;
@@ -166,10 +168,25 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
 
             cursor.addRow(temp);
         }
+        for(int j=0;j<users.size();j++)
+        {
+            User user = users.get(j);
+            String userName = user.getName();
+            int userNumber = user.getId();
+            if(userName.contains(getQuerry())) {
+                temp[0] = j + lectures.size();
+                temp[1] = userName;
+                temp[2] = userNumber;
+
+                cursor.addRow(temp);
+            }
+        }
         cursor.moveToFirst();
 
         exampleAdapter.changeCursor(cursor);
     }
+
+
 
     public void setAdapter(SearchAdapter searchAdapter) {
         this.searchAdapter = searchAdapter;
@@ -186,4 +203,17 @@ public class ServerLectureTask extends AsyncTask<Void, Void, List<Lecture>>
     public void setAdapter(ExampleAdapter exampleAdapter) {
         this.exampleAdapter = exampleAdapter;
     }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
+    }
+
+    public void setQuerry(String querry) {
+        this.querry = querry;
+    }
+
+    private CharSequence getQuerry() {
+        return this.querry;
+    }
 }
+

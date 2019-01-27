@@ -3,10 +3,8 @@ package com.example.lkondilidis.smartlearn.activities;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -33,11 +31,14 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
 
 public class DetailActivity extends AppCompatActivity {
     private final AppCompatActivity activity = DetailActivity.this;
@@ -188,12 +189,32 @@ public class DetailActivity extends AppCompatActivity {
                             //Toast.makeText(DetailActivity.this, "Please fill in feedback text box", Toast.LENGTH_LONG).show();
                         } else {
                             // TODO save user ratings
+                            Rating rating = new Rating();
+                            rating.setAuthor(currentuser);
+                            rating.setUser(selecteduser);
+                            rating.setDescription(mFeedback.getText().toString());
+                            rating.setStars(ratingStars);
+
+                            ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                            auth.setHttpMethod("POST");
+                            auth.setUrlPath("rating/add/"+selecteduser.getId());
+                            auth.setPayload(rating.convertToJSON(null));
+                            ServerUserTask serverUserTask = new ServerUserTask(null, DetailActivity.this, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+                            serverUserTask.execute();
+
+
                             mFeedback.setText("");
                             mRatingBar.setRating(0);
                             Toast.makeText(DetailActivity.this, "Thank you for sharing your feedback", Toast.LENGTH_SHORT).show();
                         }
 
                         alertDialog.cancel();
+                        ApiAuthenticationClient authSelectedUser = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                        authSelectedUser.setHttpMethod("GET");
+                        authSelectedUser.setUrlPath("update/"+selecteduser.getId());
+                        ServerUserTask serverUserTaskSelectedUser = new ServerUserTask(null, DetailActivity.this, authSelectedUser, selecteduser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+                        serverUserTaskSelectedUser.setAdapter(ratingadapter);
+                        serverUserTaskSelectedUser.execute();
                     }
                 });
                 btnDismisspopup.setOnClickListener(new View.OnClickListener() {
