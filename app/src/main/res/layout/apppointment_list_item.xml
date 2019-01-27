@@ -23,7 +23,6 @@
             android:layout_weight="9"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/imageButton_trash"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -39,7 +38,7 @@
             android:layout_weight="9"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp">>
+            android:layout_marginTop="15dp">
 
 
             <TextView
@@ -70,32 +69,31 @@
         </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/image_accepted"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/primary_darker"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_weight="9"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_tick"
-        android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/image_pending"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/primary_darker"
             android:layout_marginEnd="8dp"
             android:layout_marginRight="8dp"
             android:layout_weight="9"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_pending"
-            />
-</android.support.constraint.ConstraintLayout>
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/check_image"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_check_black_24dp"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/pending_image"
+                android:layout_gravity="center"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_pending"
+                android:visibility="gone"/>
+        </LinearLayout>
+    </android.support.constraint.ConstraintLayout>
 </android.support.v7.widget.CardView>

@@ -154,7 +154,7 @@ public class Appointment implements Serializable {
         this.appointmentAuthor = appointmentAuthor;
     }
 
-    public boolean getAccepted() {
+    public boolean isAccepted() {
         return accepted;
     }
 

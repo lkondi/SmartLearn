@@ -41,4 +41,5 @@
     <string name="lecture">Lectures</string>
     <string name="tutor">Become a tutor</string>
     <string name="title_activity_user_lecture">Your Lectures</string>
+    <string name="appointment_flag">selectedAppointment</string>
 </resources>

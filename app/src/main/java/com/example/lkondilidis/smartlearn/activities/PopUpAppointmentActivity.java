@@ -1,0 +1,87 @@
+package com.example.lkondilidis.smartlearn.activities;
+
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.util.DisplayMetrics;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.R;
+import com.example.lkondilidis.smartlearn.adapters.LectureAdapter;
+import com.example.lkondilidis.smartlearn.model.Appointment;
+import com.example.lkondilidis.smartlearn.model.Lecture;
+import com.example.lkondilidis.smartlearn.model.User;
+import com.example.lkondilidis.smartlearn.serverClient.ApiAuthenticationClient;
+import com.example.lkondilidis.smartlearn.services.ServerAppointmentTask;
+import com.example.lkondilidis.smartlearn.services.ServerLectureTask;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+
+public class PopUpAppointmentActivity extends AppCompatActivity {
+
+    private LectureAdapter itemArrayAdapter;
+    private User currentuser;
+    private ArrayList<Lecture> lectureList = new ArrayList<>();
+    public static final String USER_DETAIL_KEY = "currentuser";
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_popup_appointment);
+
+        currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
+        final Appointment appointment = (Appointment) getIntent().getSerializableExtra(getString(R.string.appointment_flag));
+
+        /*DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+        int width = displayMetrics.widthPixels;
+        int height = displayMetrics.heightPixels;
+
+        getWindow().setLayout((int)(width*.8), (int)(height*.6));*/
+
+        Button btn_add = (Button) findViewById(R.id.button_accept);
+        btn_add.setText("Accept");
+        btn_add.setTextColor(Color.WHITE);
+        Button btn_cancel = (Button) findViewById(R.id.button_decline);
+        btn_cancel.setText("Decline");
+        btn_cancel.setTextColor(Color.WHITE);
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(PopUpAppointmentActivity.this, Appointment_List_Activity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                auth.setHttpMethod("POST");
+                auth.setUrlPath("appointment/update/"+appointment.getId());
+                auth.setPayload(appointment.convertToJSON(null));
+                ServerAppointmentTask serverAppointmentTask = new ServerAppointmentTask(null, currentuser, auth, StatusAppointmentFlag.STATUS_APPOINTMENT_UPDATE_FLAG);
+                serverAppointmentTask.execute();
+                finish();
+            }
+        });
+
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+    }
+}

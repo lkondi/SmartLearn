@@ -66,6 +66,10 @@
             android:name=".activities.PopUpActivity"
             android:theme="@style/NoActionBar" />
 
+        <activity
+            android:name=".activities.PopUpAppointmentActivity"
+            android:theme="@style/NoActionBar" />
+
         <service android:name=".notification.MyFirebaseIdService"
             android:enabled="true"
             android:exported="true">
