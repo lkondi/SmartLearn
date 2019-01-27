@@ -60,12 +60,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //check if user is null
-        if (false){
+        if (firebaseUser != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            String email = firebaseUser.getEmail();
             currentuser = readFileInEditor();
-            intent.putExtra(USER_DETAIL_KEY, currentuser);
-            startActivity(intent);
+
+            loginUser(intent);
             finish();
         }
     }
@@ -161,9 +160,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void loginUser(Intent intent) {
         //currentuser = readFileInEditor();
-        currentuser = new User();
-        currentuser.setEmail(textInputEditTextEmail.getText().toString());
-        currentuser.setPassword(textInputEditTextPassword.getText().toString());
+        if(currentuser == null) {
+            currentuser = new User();
+            currentuser.setEmail(textInputEditTextEmail.getText().toString());
+            currentuser.setPassword(textInputEditTextPassword.getText().toString());
+        }
         intent.putExtra(USER_DETAIL_KEY, currentuser);
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
@@ -176,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void saveClicked() {
         try {
             OutputStreamWriter out= new OutputStreamWriter(openFileOutput("storetext.txt", 0));
-            out.write(textInputEditTextEmail.getText().toString());
+            out.write(textInputEditTextEmail.getText().toString()+"\n");
             out.write(textInputEditTextPassword.getText().toString());
             out.close();
             Toast.makeText(this, "The contents are saved in the file.", Toast.LENGTH_LONG).show();
@@ -190,15 +191,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         User user = new User();
         ArrayList<String> lines = new ArrayList<>();
         try {
-            InputStream in = getResources().openRawResource(R.raw.storetext);
+            InputStream in = openFileInput("storetext.txt");
             if (in != null) {
                 InputStreamReader tmp=new InputStreamReader(in);
                 BufferedReader reader=new BufferedReader(tmp);
                 String str;
                 StringBuilder buf=new StringBuilder();
                 while ((str = reader.readLine()) != null) {
-                    buf.append(str+"\n");
-                    lines.add(str+"\n");
+                    buf.append(str);
+                    lines.add(str);
                 }
                 in.close();
                 for(int i=0; i<lines.size(); i++){
