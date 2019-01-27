@@ -51,7 +51,7 @@ public class AppointmentAdapter extends ArrayAdapter {
         }
 
         holder.author_name.setText(getItem(position).getAppointmentAuthor().getName());
-        holder.app_subject.setText(getItem(position).getSubject().getName());
+        //holder.app_subject.setText(getItem(position).getSubject().getName());
         holder.app_date.setText(getItem(position).getDate());
 
         if(getItem(position).getAccepted()) {

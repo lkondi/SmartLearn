@@ -1,6 +1,5 @@
 package com.example.lkondilidis.smartlearn.activities;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -8,24 +7,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ListView;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.AppointmentAdapter;
-import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.Appointment;
-import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Appointment_List_Activity extends AppCompatActivity {
     private final AppCompatActivity activity = Appointment_List_Activity.this;
@@ -74,8 +66,8 @@ public class Appointment_List_Activity extends AppCompatActivity {
         imagepending = (ImageView) findViewById(R.id.image_pending);
         listViewappoint = (ListView) findViewById(R.id.listViewAppointments);
 
-        appointmentlist = new ArrayList<>(currentuser.getAppointments());
-        listViewappoint = (ListView)findViewById(R.id.listviewrating);
+        appointmentlist = new ArrayList<>(currentuser.getYourAppointments());
+        listViewappoint = (ListView)findViewById(R.id.listViewAppointments);
         appAdapter = new AppointmentAdapter(this, R.layout.apppointment_list_item, appointmentlist);
         listViewappoint.setAdapter(appAdapter);
 

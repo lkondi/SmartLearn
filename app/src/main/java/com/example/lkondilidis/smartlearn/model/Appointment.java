@@ -77,19 +77,21 @@ public class Appointment implements Serializable {
             jsonObject.put("time", time);
             jsonObject.put("date", date);
             jsonObject.put("accepted", accepted);
-            jsonObject.put("subject", subject.convertToJSON());
-            if(statusAppointmentflag!= null) {
+            if(statusAppointmentflag != null) {
+
                 switch (statusAppointmentflag) {
-                    case STATUS_YOUR_APPOINTMENT_FLAG:
-                        jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
-                        break;
                     case STATUS_USER_APPOINTMENT_FLAG:
                         jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
                         break;
+                    case STATUS_YOUR_APPOINTMENT_FLAG:
+                        jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
+                        break;
                 }
+
             } else {
-                jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
+                jsonObject.put("subject", subject.convertToJSON());
                 jsonObject.put("appointmentAuthor", appointmentAuthor.convertToJASON());
+                jsonObject.put("appointmentUser", appointmentUser.convertToJASON());
             }
         } catch (JSONException e) {
             e.printStackTrace();
