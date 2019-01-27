@@ -2,6 +2,7 @@ package com.example.lkondilidis.smartlearn.activities;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcelable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -18,10 +19,8 @@ import android.widget.TextView;
 import android.widget.ListView;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.AppointmentAdapter;
-import com.example.lkondilidis.smartlearn.adapters.RatingAdapter;
 import com.example.lkondilidis.smartlearn.helpers.DrawerNavigationListener;
 import com.example.lkondilidis.smartlearn.model.Appointment;
-import com.example.lkondilidis.smartlearn.model.Rating;
 import com.example.lkondilidis.smartlearn.model.User;
 
 import java.util.ArrayList;
@@ -52,9 +51,7 @@ public class Appointment_List_Activity extends AppCompatActivity {
         currentuser = (User) intent.getSerializableExtra(MainActivity.USER_DETAIL_KEY);
         selecteduser = (User) intent.getSerializableExtra(MainActivity.SELECTED_USER_DETAIL_KEY);
 
-
         intentAction = intent.getAction();
-
 
         //Drawer
         drawerLayout = findViewById(R.id.drawer_appointment);
@@ -72,11 +69,11 @@ public class Appointment_List_Activity extends AppCompatActivity {
         appsubject = (TextView) findViewById(R.id.app_subject);
         imageconfirmed = (ImageView) findViewById(R.id.image_accepted);
         imagepending = (ImageView) findViewById(R.id.image_pending);
-        listViewappoint = (ListView) findViewById(R.id.listViewAppointments);
 
+        //listview
+        listViewappoint = (ListView) findViewById(R.id.listViewAppointments);
         appointmentlist = new ArrayList<>(currentuser.getAppointments());
-        listViewappoint = (ListView)findViewById(R.id.listviewrating);
-        appAdapter = new AppointmentAdapter(this, R.layout.apppointment_list_item, appointmentlist);
+        appAdapter = new AppointmentAdapter(getApplicationContext(), R.layout.apppointment_list_item);
         listViewappoint.setAdapter(appAdapter);
 
     }
