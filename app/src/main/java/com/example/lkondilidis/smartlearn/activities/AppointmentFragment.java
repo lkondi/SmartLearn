@@ -1,6 +1,8 @@
 package com.example.lkondilidis.smartlearn.activities;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.Color;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -99,14 +101,14 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
         startDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getContext(), startListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
+              new DatePickerDialog (getContext(), AlertDialog.THEME_HOLO_DARK, startListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
         endDateText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new DatePickerDialog(getContext(), endListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
+                new DatePickerDialog(getContext(), AlertDialog.THEME_HOLO_DARK, endListener, cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH)).show();
             }
         });
 
@@ -128,7 +130,6 @@ public class AppointmentFragment extends Fragment implements AdapterView.OnItemS
         return view;
 
     }
-
 
     DatePickerDialog.OnDateSetListener startListener = new DatePickerDialog.OnDateSetListener() {
 
