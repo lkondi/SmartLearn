@@ -38,6 +38,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -109,8 +112,12 @@ public class MessageActivity extends AppCompatActivity {
                 if (action.equals("DetailActivity")){
                     intent = new Intent(MessageActivity.this, DetailActivity.class);
                     intent.putExtra(MessageActivity.SELECTED_USER_DETAIL_KEY, selectedUser);
+                    intent.putExtra(MainActivity.USER_DETAIL_KEY, currentuser);
                 } else {
                     intent = new Intent(MessageActivity.this, MainActivity.class);
+                    if(currentuser!=null) {
+                        intent.putExtra(MainActivity.USER_DETAIL_KEY, currentuser);
+                    }
                     intent.setAction(action);
                 }
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -118,12 +125,22 @@ public class MessageActivity extends AppCompatActivity {
                     //!!!!!!
                     //connect to server and fetch Users
                     //currentuser = TODO: get user from file
-                    ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                    currentuser = readFileInEditor();
+
+                    ApiAuthenticationClient authSelectedUser = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                    authSelectedUser.setHttpMethod("GET");
+                    authSelectedUser.setUrlPath("updateEmail/"+currentuser.getEmail());
+                    ServerUserTask serverUserTaskSelectedUser = new ServerUserTask(null, getApplicationContext(), authSelectedUser, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+                    serverUserTaskSelectedUser.execute();
+                    intent.putExtra(MessageActivity.USER_DETAIL_KEY, currentuser);
+
+                   /* ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
                     auth.setHttpMethod("GET");
                     auth.setUrlPath("users/" + userid);
                     ServerUserTask serverUserTask = new ServerUserTask(new ArrayList<User>(), MessageActivity.this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_GET_NOTIFICATION_USER);
-                    serverUserTask.execute();
+                    serverUserTask.execute();*/
                 }
+                startActivity(intent);
             }
         });
 
@@ -340,6 +357,34 @@ public class MessageActivity extends AppCompatActivity {
         hashMap.put("status", status);
 
         reference.updateChildren(hashMap);
+    }
+
+    public User readFileInEditor() {
+        User user = new User();
+        ArrayList<String> lines = new ArrayList<>();
+        try {
+            InputStream in = openFileInput("storetext.txt");
+            if (in != null) {
+                InputStreamReader tmp=new InputStreamReader(in);
+                BufferedReader reader=new BufferedReader(tmp);
+                String str;
+                StringBuilder buf=new StringBuilder();
+                while ((str = reader.readLine()) != null) {
+                    buf.append(str);
+                    lines.add(str);
+                }
+                in.close();
+                for(int i=0; i<lines.size(); i++){
+                    user.setEmail(lines.get(0));
+                    user.setPassword(lines.get(1));
+                }
+            }
+        }catch (java.io.FileNotFoundException e) {
+        }
+        catch (Throwable t) {
+            Toast.makeText(this, "Exception: "+t.toString(), Toast.LENGTH_LONG).show();
+        }
+        return user;
     }
 
     @Override

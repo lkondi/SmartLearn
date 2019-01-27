@@ -157,16 +157,6 @@
                 android:textColor="@color/iron"
                 android:textSize="16dp" />
 
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textViewLinkAppointments"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:gravity="center"
-                android:text="@string/text_not_member"
-                android:textColor="@color/iron"
-                android:textSize="16dp" />
             <ListView
                 android:id="@+id/listViewLinkRatings"
                 android:layout_width="match_parent"

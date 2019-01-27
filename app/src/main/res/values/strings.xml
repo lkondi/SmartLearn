@@ -23,7 +23,7 @@
     <string name="open">open</string>
     <string name="close">close</string>
     <string name="profile">My Profile</string>
-    <string name="path">http:/10.5.50.117:8080</string>
+    <string name="path">http:/10.5.50.118:8080</string>
     <string name="search_hint">Search for a lecture</string>
     <string name="logout">Log out</string>
     <string name="submit">Submit</string>
@@ -42,4 +42,5 @@
     <string name="tutor">Become a tutor</string>
     <string name="title_activity_user_lecture">Your Lectures</string>
     <string name="appointment_flag">selectedAppointment</string>
+    <string name="appointment_fragment">appointmentFragment</string>
 </resources>

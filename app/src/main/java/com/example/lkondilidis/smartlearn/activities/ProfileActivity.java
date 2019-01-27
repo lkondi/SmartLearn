@@ -130,10 +130,15 @@ public class ProfileActivity extends AppCompatActivity{
         textView_useremail = (TextView) findViewById(R.id.textView_useremail);
         textView_userrole = (TextView) findViewById(R.id.textView_userrole);
         linklectures = (TextView) findViewById(R.id.textViewLinkLectures);
-        linkappointments = (TextView) findViewById(R.id.textViewLinkAppointments);
         textplan = (TextView) findViewById(R.id.subjecttext);
         ratingProvider = (RatingBar) findViewById(R.id.ratingProvider);
         btnTutor = (Button) findViewById(R.id.btnTutor);
+
+        if(currentuser.getNickname().equals("Tutor")){
+            btnTutor.setText("Bearbeite deine Einstellungen");
+        }
+
+
         imageView = (CircleImageView) findViewById(R.id.profile);
 
         //ratings

@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
 import com.example.lkondilidis.smartlearn.fragments.ChatFragment;
@@ -33,6 +34,8 @@ import org.json.JSONArray;
 import java.io.InputStream;
 import java.util.ArrayList;
 import  com.example.lkondilidis.smartlearn.fragments.Appointment_List_Fragment;
+import com.example.lkondilidis.smartlearn.services.ServerUserTask;
+
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity{
@@ -64,6 +67,11 @@ public class MainActivity extends AppCompatActivity{
         setContentView(R.layout.activity_main);
         currentuser = (User) getIntent().getSerializableExtra(MainActivity.USER_DETAIL_KEY);
         action = getIntent().getAction();
+        ApiAuthenticationClient authSelectedUser = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+        authSelectedUser.setHttpMethod("GET");
+        authSelectedUser.setUrlPath("updateEmail/"+currentuser.getEmail());
+        ServerUserTask serverUserTaskSelectedUser = new ServerUserTask(null, this, authSelectedUser, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+        serverUserTaskSelectedUser.execute();
 
         //lectures
      /*   List<Lecture>  lectures = new ArrayList<>();
@@ -79,6 +87,8 @@ public class MainActivity extends AppCompatActivity{
                 jsonArray.put(l.convertToJSON());
             }
         }
+
+
 
         //!!!!!!
         //connect to server and fetch Lectures
@@ -109,7 +119,11 @@ public class MainActivity extends AppCompatActivity{
         if(action != null && action.equals("ChatFragment")){
             setFragment(chatFragment);
         } else {
-            setFragment(mainFragment);
+            if(action != null && action.equals(getString(R.string.appointment_fragment))){
+                setFragment(appointmentFragment);
+            }else {
+                setFragment(mainFragment);
+            }
         }
 
         bottomNavigationView =  findViewById(R.id.bottomDrawer);

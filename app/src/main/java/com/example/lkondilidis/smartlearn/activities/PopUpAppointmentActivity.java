@@ -20,9 +20,7 @@ import java.util.ArrayList;
 
 public class PopUpAppointmentActivity extends AppCompatActivity {
 
-    private LectureAdapter itemArrayAdapter;
     private User currentuser;
-    private ArrayList<Lecture> lectureList = new ArrayList<>();
     public static final String USER_DETAIL_KEY = "currentuser";
 
     @Override
@@ -51,22 +49,35 @@ public class PopUpAppointmentActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PopUpAppointmentActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
-                auth.setHttpMethod("POST");
-                auth.setUrlPath("appointment/update/"+currentuser.getId());
-                appointment.setAccepted(true);
-                auth.setPayload(appointment.convertToJSON(null));
-                ServerAppointmentTask serverAppointmentTask = new ServerAppointmentTask(null, currentuser, auth, StatusAppointmentFlag.STATUS_APPOINTMENT_UPDATE_FLAG);
-                serverAppointmentTask.execute();
-                finish();
+                if(!appointment.isAccepted()) {
+                    Intent intent = new Intent(PopUpAppointmentActivity.this, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.setAction(getString(R.string.appointment_fragment));
+                    ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                    auth.setHttpMethod("POST");
+                    auth.setUrlPath("appointment/update/" + currentuser.getId());
+                    appointment.setAccepted(true);
+                    auth.setPayload(appointment.convertToJSON(null));
+                    ServerAppointmentTask serverAppointmentTask = new ServerAppointmentTask(null, currentuser, PopUpAppointmentActivity.this, intent, auth, StatusAppointmentFlag.STATUS_APPOINTMENT_UPDATE_FLAG);
+                    serverAppointmentTask.execute();
+                } else {
+                    finish();
+                }
             }
         });
 
         btn_cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(PopUpAppointmentActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setAction(getString(R.string.appointment_fragment));
+                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                auth.setHttpMethod("POST");
+                auth.setUrlPath("appointment/remove/"+currentuser.getId());
+                auth.setPayload(appointment.convertToJSON(null));
+                ServerAppointmentTask serverAppointmentTask = new ServerAppointmentTask(null, currentuser, PopUpAppointmentActivity.this, intent, auth, StatusAppointmentFlag.STATUS_APPOINTMENT_UPDATE_FLAG);
+                serverAppointmentTask.execute();
                 finish();
             }
         });

@@ -1,11 +1,15 @@
 package com.example.lkondilidis.smartlearn.services;
 
 
+import android.content.Context;
+import android.content.Intent;
 import android.database.MatrixCursor;
 import android.os.AsyncTask;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusLectureFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.activities.PopUpAppointmentActivity;
 import com.example.lkondilidis.smartlearn.adapters.ExampleAdapter;
 import com.example.lkondilidis.smartlearn.adapters.LectureAdapter;
 import com.example.lkondilidis.smartlearn.adapters.SearchAdapter;
@@ -31,11 +35,16 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
     private UserAdapter userAdapter;
     private LectureAdapter itemArrayAdapter;
     private User currentuser;
+    private Intent intent;
+    private Context context;
+    public static final String USER_DETAIL_KEY = "currentuser";
 
-    public ServerAppointmentTask(List<Appointment> appointments, User currentuser, ApiAuthenticationClient auth, StatusAppointmentFlag flag){
+    public ServerAppointmentTask(List<Appointment> appointments, User currentuser, Context context, Intent intent, ApiAuthenticationClient auth, StatusAppointmentFlag flag){
         this.appointments = appointments;
         this.auth = auth;
         this.flag = flag;
+        this.intent = intent;
+        this.context = context;
         this.currentuser = currentuser;
     }
 
@@ -101,6 +110,13 @@ public class ServerAppointmentTask extends AsyncTask<Void, Void, List<Appointmen
                 break;
             default:
                 break;
+        }
+
+        if(intent != null) {
+
+            intent.putExtra(USER_DETAIL_KEY, currentuser);
+
+            context.startActivity(intent);
         }
 
         //updateAdapters();
