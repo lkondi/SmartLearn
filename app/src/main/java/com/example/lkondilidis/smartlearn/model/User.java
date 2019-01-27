@@ -2,6 +2,7 @@ package com.example.lkondilidis.smartlearn.model;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusAppointmentFlag;
 import com.example.lkondilidis.smartlearn.Interfaces.StatusRatingFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserJSONFlag;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -217,7 +218,7 @@ public class User implements Serializable {
         changed = false;
     }
 
-    public JSONObject convertToJASON(){
+    public JSONObject convertToJASON(StatusUserJSONFlag statusUserJSONFlag){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("id", getId());
@@ -238,34 +239,43 @@ public class User implements Serializable {
             }
 
             JSONArray jsonArrayYourRatings = new JSONArray();
-            if(yourRatings != null) {
-                for (Rating r : yourRatings) {
-                    r.setAuthor(this);
-                    jsonArrayYourRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_YOUR_RATINGS));
+            if(statusUserJSONFlag == null) {
+                if (yourRatings != null) {
+                    for (Rating r : yourRatings) {
+                        r.setAuthor(this);
+                        jsonArrayYourRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_YOUR_RATINGS));
+                    }
                 }
             }
 
+
             JSONArray jsonArrayUserRatings = new JSONArray();
-            if(userRatings != null) {
-                for (Rating r : userRatings) {
-                    r.setUser(this);
-                    jsonArrayUserRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_USER_RATINGS));
+            if(statusUserJSONFlag == null) {
+                if (userRatings != null) {
+                    for (Rating r : userRatings) {
+                        r.setUser(this);
+                        jsonArrayUserRatings.put(r.convertToJSON(StatusRatingFlag.STATUS_USER_RATINGS));
+                    }
                 }
             }
 
             JSONArray jsonArrayYourAppointments = new JSONArray();
-            if(yourAppointments != null) {
-                for (Appointment a : yourAppointments) {
-                    a.setAppointmentAuthor(this);
-                    jsonArrayYourAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+            if(statusUserJSONFlag == null) {
+                if (yourAppointments != null) {
+                    for (Appointment a : yourAppointments) {
+                        a.setAppointmentAuthor(this);
+                        jsonArrayYourAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+                    }
                 }
             }
 
             JSONArray jsonArrayUserAppointments = new JSONArray();
-            if(userAppointments != null) {
-                for (Appointment a : yourAppointments) {
-                    a.setAppointmentUser(this);
-                    jsonArrayUserAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+            if(statusUserJSONFlag == null) {
+                if (userAppointments != null) {
+                    for (Appointment a : yourAppointments) {
+                        a.setAppointmentUser(this);
+                        jsonArrayUserAppointments.put(a.convertToJSON(StatusAppointmentFlag.STATUS_YOUR_APPOINTMENT_FLAG));
+                    }
                 }
             }
 
@@ -284,6 +294,7 @@ public class User implements Serializable {
 
     public void updateUser(User user) {
         this.setId(user.getId());
+        this.setName(user.getName());
         this.setNickname(user.getNickname());
         this.setSubject(user.getSubject());
         this.setStudies(user.getStudies());

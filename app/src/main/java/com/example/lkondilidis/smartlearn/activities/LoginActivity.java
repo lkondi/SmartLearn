@@ -15,6 +15,7 @@ import java.io.*;
 import java.util.ArrayList;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserJSONFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.model.User;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
@@ -60,7 +61,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         //check if user is null
-        if (true){
+        if (firebaseUser != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             currentuser = readFileInEditor();
 
@@ -169,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("loginUser");
-        auth.setPayload(currentuser.convertToJASON());
+        auth.setPayload(currentuser.convertToJASON(StatusUserJSONFlag.STATUS_YOUR_USER_FLAG));
         ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_LOGIN_USER);
         serverUserTask.execute();
     }

@@ -14,6 +14,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.lkondilidis.smartlearn.Interfaces.StatusUserFlag;
+import com.example.lkondilidis.smartlearn.Interfaces.StatusUserJSONFlag;
 import com.example.lkondilidis.smartlearn.R;
 import com.example.lkondilidis.smartlearn.helpers.InputValidation;
 import com.example.lkondilidis.smartlearn.model.User;
@@ -194,7 +195,7 @@ public class RegisterActivity extends AppCompatActivity implements View.OnClickL
         ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
         auth.setHttpMethod("POST");
         auth.setUrlPath("registration");
-        auth.setPayload(currentuser.convertToJASON());
+        auth.setPayload(currentuser.convertToJASON(StatusUserJSONFlag.STATUS_YOUR_USER_FLAG));
         ServerUserTask serverUserTask = new ServerUserTask(new ArrayList<User>(), this, auth, currentuser, intent, StatusUserFlag.SERVER_STATUS_REGISTER_USER);
         serverUserTask.execute();
     }
