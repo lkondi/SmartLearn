@@ -63,29 +63,39 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
-                android:id="@+id/textView_username"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView" />
+            android:id="@+id/textView_username"
+            android:layout_centerHorizontal="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:text="TextView" />
 
             <TextView
                 android:id="@+id/textView_useremail"
+                android:layout_below="@+id/textView_username"
+                android:textColor="#fff"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
             <TextView
                 android:id="@+id/textView_userrole"
+                android:layout_below="@+id/textView_useremail"
+                android:textColor="#fff"
+                android:textSize="16sp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="TextView" />
 
             <RatingBar
                 android:id="@+id/ratingProvider"
+                android:layout_below="@+id/textView_userrole"
                 style="?attr/ratingBarStyleSmall"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
                 android:layout_marginTop="5sp"
                 android:isIndicator="true"
                 android:numStars="5"
@@ -93,34 +103,48 @@
                 android:rating="5" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/textView_description_head"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header_cover_image" />
-
-        <TextView
-            android:id="@+id/textView_description"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="TextView"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_description_head" />
 
         <LinearLayout
-            android:id="@+id/linearLayout"
-            android:layout_width="match_parent"
-            android:layout_height="115dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginRight="8dp"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="@+id/header_cover_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/profile"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btnTutor"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="0.20"
+            android:background="@color/primary_darker"
+            android:text="@string/tutor"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/header_cover_image"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+        <LinearLayout
+            android:id="@+id/linearLayoutTutor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:orientation="vertical"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView_description">
+            app:layout_constraintTop_toBottomOf="@+id/btnTutor">
 
             <android.support.v7.widget.AppCompatTextView
                 android:id="@+id/textViewLinkLectures"
@@ -143,9 +167,8 @@
                 android:text="@string/text_not_member"
                 android:textColor="@color/iron"
                 android:textSize="16dp" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/textViewLinkRatings"
+            <ListView
+                android:id="@+id/listViewLinkRatings"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -155,22 +178,6 @@
                 android:textColor="@color/iron"
                 android:textSize="16dp" />
         </LinearLayout>
-
-
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btnTutor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"
-            android:layout_weight="0.20"
-            android:background="@color/primary_darker"
-            android:text="@string/tutor"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-            app:layout_constraintVertical_bias="0.0" />
 
     </android.support.constraint.ConstraintLayout>
 

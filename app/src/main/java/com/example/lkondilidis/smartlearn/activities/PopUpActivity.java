@@ -39,7 +39,7 @@ public class PopUpActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_popup);
+        setContentView(R.layout.lecture_popup);
         //getSupportActionBar().hide();
 
 

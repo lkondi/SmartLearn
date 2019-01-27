@@ -40,10 +40,17 @@ public class UserLectureActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(UserLectureActivity.this, ProfileActivity.class);
+                if (getIntent().getAction() == "profile") {
+                    Intent intent = new Intent(UserLectureActivity.this, ProfileActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra(USER_DETAIL_KEY, currentuser);
+                    startActivity(intent);
+                }else {
+                Intent intent = new Intent(UserLectureActivity.this, ProfileActivityTutor.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra(USER_DETAIL_KEY, currentuser);
                 startActivity(intent);
+                }
             }
         });
 
