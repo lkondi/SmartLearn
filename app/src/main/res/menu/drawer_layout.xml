@@ -10,10 +10,6 @@
             android:id="@+id/profile"
             android:icon="@drawable/ic_verified_user_black_24dp"
             android:title="@string/profile" />
-        <item
-            android:id="@+id/appointments"
-            android:icon="@drawable/ic_date"
-            android:title="@string/appointment" />
     </group>
 
     <item android:title="@string/actions">

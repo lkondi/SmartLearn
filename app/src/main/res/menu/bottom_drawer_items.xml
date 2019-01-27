@@ -12,6 +12,6 @@
         android:title="@string/home" />
     <item
         android:id="@+id/bottom_appointment"
-        android:icon="@drawable/ic_menu"
+        android:icon="@drawable/ic_date"
         android:title="Termine" />
 </menu>

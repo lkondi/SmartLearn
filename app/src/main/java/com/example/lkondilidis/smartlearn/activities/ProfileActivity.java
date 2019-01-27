@@ -7,7 +7,30 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatTextView;
+import android.app.ProgressDialog;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
+import android.util.Base64;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import java.io.ByteArrayOutputStream;
+import java.util.HashMap;
+import java.util.Map;;
 import android.view.MenuItem;
 import android.support.v7.widget.AppCompatButton;
 import android.view.View;
@@ -45,6 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.http.Url;
 
 //TODO: edit profile image
 
@@ -54,10 +78,16 @@ public class ProfileActivity extends AppCompatActivity{
     TextView textView_username, textView_useremail, textView_userrole, usernameHeader, linklectures, linkappointments, textplan;
     RatingBar ratingProvider;
     Button btnTutor;
-    ImageView profile;
+    ImageView image;
     ImageView imageView;
     LinearLayout linearLayoutTutor;
     ListView linkratings;
+
+
+    int PICK_IMAGE_REQUEST = 111;
+    Bitmap bitmap;
+    ProgressDialog progressDialog;
+    Button upload;
 
     private static String STRING_EMPTY = "";
 
@@ -110,20 +140,45 @@ public class ProfileActivity extends AppCompatActivity{
 
     private void initViews() {
 
-        profile = (ImageView) findViewById(R.id.profile);
+        image = (ImageView) findViewById(R.id.profile);
 
-        profile.setOnClickListener(new View.OnClickListener() {
+        image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imageView.setImageBitmap(null);
-                if (Image != null)
-                    Image.recycle();
                 Intent intent = new Intent();
                 intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY);
+                intent.setAction(Intent.ACTION_PICK);
+                startActivityForResult(Intent.createChooser(intent, "Select Image"), PICK_IMAGE_REQUEST);
+
             }
         });
+
+        upload = (Button) findViewById(R.id.upload);
+        upload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //converting image to base64 string
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageBytes = baos.toByteArray();
+                final String imageString = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+
+                ApiAuthenticationClient auth = new ApiAuthenticationClient(getString(R.string.path), currentuser.getEmail(), currentuser.getPassword());
+                auth.setHttpMethod("POST");
+                auth.setUrlPath("update/"+currentuser.getId());
+                JSONObject payload = new JSONObject();
+                try {
+                    payload.put("image", imageString);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                auth.setPayload(payload);
+                ServerUserTask serverUserTask = new ServerUserTask(null, getApplicationContext(), auth, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
+                serverUserTask.execute();
+            }
+        });
+
 
         linearLayoutTutor = (LinearLayout) findViewById(R.id.linearLayoutTutor);
         textView_username= (TextView) findViewById(R.id.textView_username);
@@ -192,27 +247,20 @@ public class ProfileActivity extends AppCompatActivity{
 
 
 
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == GALLERY && resultCode != 0) {
-            Uri mImageUri = data.getData();
-            currentuser.setImageURL(mImageUri.toString());
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+            Uri filePath = data.getData();
+
             try {
-                Image = Media.getBitmap(this.getContentResolver(), mImageUri);
-                updateUserPictureOnServer(Image);
-                if (getOrientation(getApplicationContext(), mImageUri) != 0) {
-                    Matrix matrix = new Matrix();
-                    matrix.postRotate(getOrientation(getApplicationContext(), mImageUri));
-                    if (rotateImage != null)
-                        rotateImage.recycle();
-                    rotateImage = Bitmap.createBitmap(Image, 0, 0, Image.getWidth(), Image.getHeight(), matrix,true);
-                    imageView.setImageBitmap(rotateImage);
-                } else
-                    imageView.setImageBitmap(Image);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
+                //getting image from gallery
+                bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
+
+                //Setting image to ImageView
+                image.setImageBitmap(bitmap);
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -236,7 +284,7 @@ public class ProfileActivity extends AppCompatActivity{
         auth.setHttpMethod("POST");
         auth.setUrlPath("update/"+currentuser.getId());
         JSONObject payload = new JSONObject();
-        payload.put("imageBitmap", image);
+        payload.put("image", image);
         auth.setPayload(payload);
         ServerUserTask serverUserTask = new ServerUserTask(null, this, auth, currentuser, null, StatusUserFlag.SERVER_STATUS_UPDATE_USER);
         serverUserTask.execute();
